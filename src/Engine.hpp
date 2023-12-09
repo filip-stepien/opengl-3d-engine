@@ -1,6 +1,10 @@
+#pragma once
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include "callbacks.hpp"
+#include "Shader.hpp"
 
 class Engine {
 public:
@@ -24,5 +28,7 @@ public:
 	Engine& setWindowTitle(const char* title);
 	Engine& setWindowMode(WindowMode mode);
 	bool buildWindow();
+
 	void clearWindow(GLfloat r = 0.0f, GLfloat g = 0.0f, GLfloat b = 0.0f, GLfloat a = 1.0f);
+	void onResize(GLFWwindow* window, int width, int height);
 };
