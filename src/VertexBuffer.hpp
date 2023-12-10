@@ -4,7 +4,7 @@
 #include <glfw/glfw3.h>
 
 class VertexBuffer {
-	public :
+private:
 	GLuint id;
 
 public:

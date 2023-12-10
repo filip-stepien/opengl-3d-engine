@@ -5,7 +5,7 @@
 #include "VertexBuffer.hpp"
 
 class VertexArray {
-public:
+private:
 	GLuint id;
 
 public:
