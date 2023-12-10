@@ -10,6 +10,8 @@ VertexBuffer.cpp
 VertexBuffer.hpp
 VertexArray.cpp
 VertexArray.hpp
+ElementBuffer.cpp
+ElementBuffer.hpp
 )
 
 target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm)

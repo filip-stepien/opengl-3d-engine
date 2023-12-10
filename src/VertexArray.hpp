@@ -15,5 +15,6 @@ public:
 	void setAttribPointer(GLuint layout, GLuint numOfValues, GLuint numOfStride, GLuint pointerVal);
 	void bind();
 	void unbind();
-	void draw(GLuint numOfVertices, GLenum primitive = GL_TRIANGLES);
+	void drawVertices(GLuint numOfVertices, GLenum primitive = GL_TRIANGLES);
+	void drawIndices(GLuint numOfIndices, GLenum primitive = GL_TRIANGLES);
 };

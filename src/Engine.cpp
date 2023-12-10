@@ -1,12 +1,10 @@
 #include "Engine.hpp"
-#include "VertexArray.hpp"
-#include "VertexBuffer.hpp"
 
 Engine::Engine() {
 	windowWidth = 0;
 	windowHeight = 0;
 	windowTitle = nullptr;
-	windowMode = WINDOW_MODE::DEFAULT;
+	windowMode = WindowMode::DEFAULT;
 	window = nullptr;
 }
 
@@ -108,19 +106,27 @@ bool Engine::build() {
 	Shader shader("../resources/shaders/vertex.glsl", "../resources/shaders/fragment.glsl");
 
 	float vertices[] = {
-		// positions         // colors
-		 0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,
-		 0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f
+		 0.5f,  0.5f, 0.0f, 1.0f,  0.0f, 0.0f,  // top right
+		 0.5f, -0.5f, 0.0f, 0.0f,  1.0f, 0.0f,  // bottom right
+		-0.5f, -0.5f, 0.0f, 0.0f,  0.0f, 1.0f, // bottom left
+		-0.5f,  0.5f, 0.0f, 1.0f,  0.0f, 1.0f   // top left 
+	};
+	unsigned int indices[] = {  // note that we start from 0!
+		0, 1, 3,  // first Triangle
+		1, 2, 3   // second Triangle
 	};
 
 	VertexArray vao;
 	VertexBuffer vbo;
+	ElementBuffer ebo;
 
 	vao.bind();
 	vbo.bind();
+	ebo.bind();
 
 	vbo.setData(vertices, sizeof(vertices));
+	ebo.setData(indices, sizeof(indices));
+
 	vao.setAttribPointer(0, 3, 6, 0);
 	vao.setAttribPointer(1, 3, 6, 3);
 
@@ -128,7 +134,7 @@ bool Engine::build() {
 		clearWindow(0.2f, 0.3f, 0.3f, 1.0f);
 
 		shader.use();
-		vao.draw(3);
+		vao.drawIndices(6);
 
 		endFrame();
 	}

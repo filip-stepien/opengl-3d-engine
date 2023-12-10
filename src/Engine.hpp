@@ -6,6 +6,10 @@
 #include "callbacks.hpp"
 #include "Shader.hpp"
 
+#include "VertexArray.hpp"
+#include "VertexBuffer.hpp"
+#include "ElementBuffer.hpp"
+
 class Engine {
 public:
 	using WindowMode = enum WINDOW_MODE { DEFAULT, FULLSCREEN };
