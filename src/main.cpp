@@ -10,7 +10,7 @@ int main() {
 	engine
 	.setWindowDimensions(800, 800)
 	.setWindowTitle("Title")
-	.buildWindow();
+	.build();
 
 	return 0;
 }
