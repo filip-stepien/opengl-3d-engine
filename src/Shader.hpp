@@ -10,14 +10,14 @@ class Shader {
 private:
     using ShaderType = enum SHADER_TYPE { VERTEX, FRAGMENT };
     using Exception = enum EXCEPTION { COMPILE, LINK };
-    unsigned int fragmentShader;
-    unsigned int vertexShader;
-    unsigned int programId;
+    GLuint fragmentShader;
+    GLuint vertexShader;
+    GLuint id;
 
-    const char* loadShaderFromFile(const char* path);
-    unsigned int createShader(const char* path, ShaderType type);
-    unsigned int createProgram();
-    void checkForException(unsigned int program, Exception exceptionType);
+    std::string loadShaderFromFile(const char* path);
+    GLuint createShader(const char* path, ShaderType type);
+    GLuint createProgram();
+    void checkForException(GLuint program, Exception exceptionType);
 
 public:
     Shader(const char* vertexPath, const char* fragmentPath);

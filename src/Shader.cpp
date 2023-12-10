@@ -1,6 +1,6 @@
 #include "Shader.hpp"
 
-const char* Shader::loadShaderFromFile(const char* path) {
+std::string Shader::loadShaderFromFile(const char* path) {
     std::string shaderCode;
     std::ifstream shaderFile;
     std::stringstream fileStream;
@@ -16,13 +16,14 @@ const char* Shader::loadShaderFromFile(const char* path) {
         return nullptr;
     }
 
-    return shaderCode.c_str();
+    return shaderCode;
 }
 
 unsigned int Shader::createShader(const char* path, ShaderType type) {
-    unsigned int shader;
+    GLuint shader;
 
-    const char* code = loadShaderFromFile(path);
+    std::string file = loadShaderFromFile(path);
+    const char* code = file.c_str();
 
     if (code == nullptr) return false;
     
@@ -39,8 +40,8 @@ unsigned int Shader::createShader(const char* path, ShaderType type) {
     return shader;
 }
 
-unsigned int Shader::createProgram() {
-    unsigned int program = glCreateProgram();
+GLuint Shader::createProgram() {
+    GLuint program = glCreateProgram();
     glAttachShader(program, vertexShader);
     glAttachShader(program, fragmentShader);
 
@@ -53,7 +54,7 @@ unsigned int Shader::createProgram() {
     return program;
 }
 
-void Shader::checkForException(unsigned int program, Exception exceptionType) {
+void Shader::checkForException(GLuint program, Exception exceptionType) {
     int success;
     std::string type;
     char infoLog[1024];
@@ -75,21 +76,21 @@ void Shader::checkForException(unsigned int program, Exception exceptionType) {
 Shader::Shader(const char* vertexPath, const char* fragmentPath) {
     vertexShader = createShader(vertexPath, VERTEX);
     fragmentShader = createShader(fragmentPath, FRAGMENT);
-    programId = createProgram();
+    id = createProgram();
 }
 
 void Shader::use() {
-    glUseProgram(programId);
+    glUseProgram(id);
 }
 
 void Shader::setBool(const char* name, bool value) {
-    glUniform1i(glGetUniformLocation(programId, name), (int)value);
+    glUniform1i(glGetUniformLocation(id, name), (int)value);
 }
 
 void Shader::setInt(const char* name, int value) {
-    glUniform1i(glGetUniformLocation(programId, name), value);
+    glUniform1i(glGetUniformLocation(id, name), value);
 }
 
 void Shader::setFloat(const char* name, float value) {
-    glUniform1f(glGetUniformLocation(programId, name), value);
+    glUniform1f(glGetUniformLocation(id, name), value);
 }
