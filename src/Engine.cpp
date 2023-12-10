@@ -1,5 +1,8 @@
 #include "Engine.hpp"
 
+#include "VertexArray.hpp"
+#include "VertexBuffer.hpp"
+
 Engine::Engine() {
 	windowWidth = 0;
 	windowHeight = 0;
@@ -84,28 +87,22 @@ bool Engine::buildWindow() {
 		 0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // top 
 	};
 
-	unsigned int VBO, VAO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glBindVertexArray(VAO);
+	VertexArray vao;
+	VertexBuffer vbo;
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	vao.bind();
+	vbo.bind();
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-
+	vbo.setData(vertices, sizeof(vertices));
+	vao.setAttribPointer(0, 3, 6, 0);
+	vao.setAttribPointer(1, 3, 6, 3);
 
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		shader.use();
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		vao.draw(3);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

@@ -6,6 +6,10 @@ callbacks.cpp
 callbacks.hpp
 Shader.cpp
 Shader.hpp
+VertexBuffer.cpp
+VertexBuffer.hpp
+VertexArray.cpp
+VertexArray.hpp
 )
 
 target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm)
