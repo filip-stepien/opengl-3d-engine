@@ -14,4 +14,4 @@ ElementBuffer.cpp
 ElementBuffer.hpp
 )
 
-target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm)
+target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm stb_image)
