@@ -3,12 +3,13 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+
 #include "callbacks.hpp"
 #include "Shader.hpp"
-
 #include "VertexArray.hpp"
 #include "VertexBuffer.hpp"
 #include "ElementBuffer.hpp"
+#include "Texture.hpp"
 
 class Engine {
 public:

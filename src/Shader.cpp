@@ -4,7 +4,7 @@ std::string Shader::loadShaderFromFile(const char* path) {
     std::string shaderCode;
     std::ifstream shaderFile;
     std::stringstream fileStream;
-    
+
     shaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     try {
         shaderFile.open(path);

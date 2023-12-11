@@ -12,6 +12,8 @@ VertexArray.cpp
 VertexArray.hpp
 ElementBuffer.cpp
 ElementBuffer.hpp
+Texture.cpp
+Texture.hpp
 )
 
 target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm stb_image)
