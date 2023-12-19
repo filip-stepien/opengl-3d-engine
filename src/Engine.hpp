@@ -29,13 +29,13 @@ private:
 	const char* windowTitle;
 	WindowMode windowMode;
 	GLFWwindow* window;
-	float deltaTime;
 
 	void setWindowHints();
 	void createWindow();
 	void initGlfw();
 	void initGlad();
 	void setViewport();
+	void setupGl();
 	void endFrame();
 	void updateDeltaTime();
 
@@ -46,7 +46,6 @@ public:
 	Engine& setWindowMode(WindowMode mode);
 	bool build();
 
-	float getDeltaTime();
 	float getAspectRatio();
 
 	bool isRunning();
