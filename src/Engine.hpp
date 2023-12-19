@@ -2,6 +2,9 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
 #include "callbacks.hpp"
@@ -26,6 +29,7 @@ private:
 	const char* windowTitle;
 	WindowMode windowMode;
 	GLFWwindow* window;
+	float deltaTime;
 
 	void setWindowHints();
 	void createWindow();
@@ -33,6 +37,7 @@ private:
 	void initGlad();
 	void setViewport();
 	void endFrame();
+	void updateDeltaTime();
 
 public:
 	static Engine& get();
@@ -40,6 +45,9 @@ public:
 	Engine& setWindowTitle(const char* title);
 	Engine& setWindowMode(WindowMode mode);
 	bool build();
+
+	float getDeltaTime();
+	float getAspectRatio();
 
 	bool isRunning();
 	void clearWindow(GLfloat r = 0.0f, GLfloat g = 0.0f, GLfloat b = 0.0f, GLfloat a = 1.0f);

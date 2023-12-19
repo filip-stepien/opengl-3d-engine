@@ -6,6 +6,7 @@ Engine::Engine() {
 	windowTitle = nullptr;
 	windowMode = WindowMode::DEFAULT;
 	window = nullptr;
+	deltaTime = glfwGetTime();
 }
 
 Engine::~Engine() {
@@ -32,6 +33,14 @@ Engine& Engine::setWindowTitle(const char* title) {
 Engine& Engine::setWindowMode(WindowMode mode) {
 	windowMode = mode;
 	return *this;
+}
+
+float Engine::getDeltaTime() {
+	return deltaTime;
+}
+
+float Engine::getAspectRatio() {
+	return static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
 }
 
 void Engine::onResize(GLFWwindow* window, int width, int height) {
@@ -80,6 +89,11 @@ void Engine::setViewport() {
 	glfwSetFramebufferSizeCallback(window, cb::onResize);
 }
 
+void Engine::updateDeltaTime() {
+	deltaTime = glfwGetTime();
+	glfwSetTime(0);
+}
+
 bool Engine::isRunning() {
 	return !glfwWindowShouldClose(window);
 }
@@ -102,11 +116,11 @@ bool Engine::build() {
 
 	// DEBUG ///////////////////////////////////////////////////////////////////
 	float vertices[] = {
-		// positions          // colors           // texture coords
-		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
-		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
-		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
+		// positions         // texture coords
+		 0.5f,  0.5f, 0.0f,  1.0f, 1.0f, // top right
+		 0.5f, -0.5f, 0.0f,  1.0f, 0.0f, // bottom right
+		-0.5f, -0.5f, 0.0f,  0.0f, 0.0f, // bottom left
+		-0.5f,  0.5f, 0.0f,  0.0f, 1.0f  // top left 
 	};
 
 	unsigned int indices[] = {
@@ -114,8 +128,8 @@ bool Engine::build() {
 		1, 2, 3  // second triangle
 	};
 
-	Shader shader("shaders/vertex.glsl", "shaders/fragment.glsl");
-	Texture texture("textures/wall.jpg");
+	Shader shader("../resources/shaders/vertex.glsl", "../resources/shaders/fragment.glsl");
+	Texture texture("../resources/textures/wall.jpg");
 	VertexArray vao;
 	VertexBuffer vbo;
 	ElementBuffer ebo;
@@ -129,14 +143,27 @@ bool Engine::build() {
 	vbo.setData(vertices, sizeof(vertices));
 	ebo.setData(indices, sizeof(indices));
 
-	vao.setAttribPointer(0, 3, 8, 0);
-	vao.setAttribPointer(1, 3, 8, 3);
-	vao.setAttribPointer(2, 2, 8, 6);
+	vao.setAttribPointer(0, 3, 5, 0);
+	vao.setAttribPointer(1, 2, 5, 3);
+
+	glm::mat4 model = glm::mat4(1.0f);
+	glm::mat4 view = glm::mat4(1.0f);
+	glm::mat4 projection = glm::mat4(1.0f);
+
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -1.0f));
+	projection = glm::perspective(glm::radians(60.0f), getAspectRatio(), 0.1f, 100.0f);
+
+	shader.setMat4("model", model);
+	shader.setMat4("view", view);
+	shader.setMat4("projection", projection);
 
 	while (isRunning()) {
+		updateDeltaTime();
 		clearWindow(0.2f, 0.3f, 0.3f, 1.0f);
-		
-		// make sure the vao and texture are bound and shader is used
+
+		model = glm::rotate(model, glm::radians(90.0f * getDeltaTime()), glm::vec3(0.0f, 1.0f, 1.0f));
+		shader.setMat4("model", model);
+
 		vao.drawIndices(6);
 
 		endFrame();

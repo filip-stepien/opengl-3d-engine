@@ -40,10 +40,24 @@ if(NOT stb_image_POPULATED)
   target_include_directories(stb_image INTERFACE ${stb_image_SOURCE_DIR})
 endif()
 
-set(RESOURCES_SOURCE_DIR ${CMAKE_SOURCE_DIR}/resources)
-set(RESOURCES_DEST_DIR ${CMAKE_BINARY_DIR}/src)
+add_executable(opengl-3d-engine
+src/main.cpp
+src/Engine.cpp
+src/Engine.hpp
+src/callbacks.cpp
+src/callbacks.hpp
+src/Shader.cpp
+src/Shader.hpp
+src/VertexBuffer.cpp
+src/VertexBuffer.hpp
+src/VertexArray.cpp
+src/VertexArray.hpp
+src/ElementBuffer.cpp
+src/ElementBuffer.hpp
+src/Texture.cpp
+src/Texture.hpp
+resources/shaders/vertex.glsl
+resources/shaders/fragment.glsl
+)
 
-file(GLOB RESOURCE_FILES LIST_DIRECTORIES true ${RESOURCES_SOURCE_DIR}/*)
-file(COPY ${RESOURCE_FILES} DESTINATION ${RESOURCES_DEST_DIR})
-
-add_subdirectory(src)
+target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm stb_image)
