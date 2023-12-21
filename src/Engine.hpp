@@ -13,6 +13,7 @@
 #include "VertexBuffer.hpp"
 #include "ElementBuffer.hpp"
 #include "Texture.hpp"
+#include "Camera.hpp"
 
 class Engine {
 public:
@@ -37,7 +38,6 @@ private:
 	void setViewport();
 	void setupGl();
 	void endFrame();
-	void updateDeltaTime();
 
 public:
 	static Engine& get();
@@ -47,6 +47,8 @@ public:
 	bool build();
 
 	float getAspectRatio();
+	GLuint getWindowWidth();
+	GLuint getWindowHeight();
 
 	bool isRunning();
 	void clearWindow(GLfloat r = 0.0f, GLfloat g = 0.0f, GLfloat b = 0.0f, GLfloat a = 1.0f);

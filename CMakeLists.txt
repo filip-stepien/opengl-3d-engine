@@ -56,6 +56,8 @@ src/ElementBuffer.cpp
 src/ElementBuffer.hpp
 src/Texture.cpp
 src/Texture.hpp
+src/Camera.cpp
+src/Camera.hpp
 resources/shaders/vertex.glsl
 resources/shaders/fragment.glsl
 )
