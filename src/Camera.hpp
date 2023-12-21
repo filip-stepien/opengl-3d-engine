@@ -11,14 +11,13 @@ private:
 	glm::mat4 projectionMatrix;
 	glm::vec3 position;
 	glm::vec3 looksAt;
-	Shader* viewShader;
 
 public:
 	using Projection = enum PROJECTION { PERSPECTIVE, ORTHO };
 
-	Camera(Shader* viewShader);
-	Camera(glm::vec3 position, Shader* viewShader);
-	Camera(float posX, float posY, float posZ, Shader* viewShader);
+	Camera();
+	Camera(glm::vec3 position);
+	Camera(float posX, float posY, float posZ);
 
 	void setPosition(glm::vec3 position);
 	void setPosition(float posX, float posY, float posZ);
@@ -26,5 +25,5 @@ public:
 	void lookAt(glm::vec3 position);
 	void lookAt(float posX, float posY, float posZ);
 	void setProjection(Projection projection, float near, float far, float fovDegrees = 45.0f);
-	void update();
+	void update(Shader* shader);
 };

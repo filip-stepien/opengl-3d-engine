@@ -1,30 +1,24 @@
 #include "Camera.hpp"
 
-Camera::Camera(Shader* viewShader) {
+Camera::Camera() {
 	this->viewMatrix = glm::mat4(1.0f);
 	this->looksAt = glm::vec3(0.0f);
 	this->position = glm::vec3(0.0f);
-	this->viewShader = viewShader;
 	this->projectionMatrix = glm::perspective(45.0f, Engine::get().getAspectRatio(), 0.1f, 100.0f);
-	viewShader->setMat4("projection", projectionMatrix);
 }
 
-Camera::Camera(glm::vec3 position, Shader* viewShader) {
+Camera::Camera(glm::vec3 position) {
 	this->viewMatrix = glm::mat4(1.0f);
 	this->looksAt = glm::vec3(0.0f);
 	this->position = position;
-	this->viewShader = viewShader;
 	this->projectionMatrix = glm::perspective(45.0f, Engine::get().getAspectRatio(), 0.1f, 100.0f);
-	viewShader->setMat4("projection", projectionMatrix);
 }
 
-Camera::Camera(float posX, float posY, float posZ, Shader* viewShader) {
+Camera::Camera(float posX, float posY, float posZ) {
 	this->viewMatrix = glm::mat4(1.0f);
 	this->looksAt = glm::vec3(0.0f);
 	this->position = glm::vec3(posX, posY, posZ);
-	this->viewShader = viewShader;
 	this->projectionMatrix = glm::perspective(45.0f, Engine::get().getAspectRatio(), 0.1f, 100.0f);
-	viewShader->setMat4("projection", projectionMatrix);
 }
 
 void Camera::setPosition(glm::vec3 position) {
@@ -53,8 +47,6 @@ void Camera::setProjection(Projection projection, float near, float far, float f
 			far
 		);
 	}
-
-	viewShader->setMat4("projection", projectionMatrix);
 }
 
 void Camera::lookAt(glm::vec3 position) {
@@ -65,7 +57,8 @@ void Camera::lookAt(float posX, float posY, float posZ) {
 	looksAt = glm::vec3(posX, posY, posZ);
 }
 
-void Camera::update() {
+void Camera::update(Shader* shader) {
 	viewMatrix = glm::lookAt(position, looksAt, glm::vec3(0.0f, 1.0f, 0.0f));
-	viewShader->setMat4("view", viewMatrix);
+	shader->setMat4("projection", projectionMatrix);
+	shader->setMat4("view", viewMatrix);
 }

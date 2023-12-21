@@ -185,20 +185,19 @@ bool Engine::build() {
 	vao.setAttribPointer(0, 3, 5, 0);
 	vao.setAttribPointer(1, 2, 5, 3);
 
-	Camera camera(0.0f, 0.0f, 0.0f, &shader);
+	Camera camera;
 	camera.setProjection(Camera::PERSPECTIVE, 0.1f, 100.0f);
-	camera.lookAt(0.0f, 0.0f, -3.0f);
+	camera.lookAt(0.0f, 0.0f, 0.0f);
 
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -3.0f));
-	while (isRunning()) {
-		clearWindow(0.2f, 0.3f, 0.3f, 1.0f);
-		camera.update();
+	shader.setMat4("model", model);
 
-		model = glm::rotate(model, glm::radians(1.0f) , glm::vec3(1.0f, 1.0f, 1.0f));
-		shader.setMat4("model", model);
+	while (isRunning()) {
+		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
+		camera.setPosition(cos(glfwGetTime()) * 5.0f, 2.0f, sin(glfwGetTime()) * 5.0f);
 
 		vao.drawVertices(36);
+		camera.update(&shader);
 		endFrame();
 	}
 
