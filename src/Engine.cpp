@@ -185,16 +185,50 @@ bool Engine::build() {
 	vao.setAttribPointer(0, 3, 5, 0);
 	vao.setAttribPointer(1, 2, 5, 3);
 
-	Camera camera;
-	camera.setProjection(Camera::PERSPECTIVE, 0.1f, 100.0f);
-	camera.lookAt(0.0f, 0.0f, 0.0f);
+	glm::vec3 pos[] = {
+		glm::vec3(0.5f,  0.5f,  -4.0f),
+		glm::vec3(2.0f,  5.0f, -15.0f),
+		glm::vec3(-1.5f, -2.2f, -2.5f),
+		glm::vec3(-3.8f, -2.0f, -12.3f),
+		glm::vec3(2.4f, -0.4f, -3.5f),
+		glm::vec3(-1.7f,  3.0f, -7.5f),
+		glm::vec3(1.3f, -2.0f, -2.5f),
+		glm::vec3(1.5f,  2.0f, -2.5f),
+		glm::vec3(1.5f,  0.2f, -1.5f),
+		glm::vec3(-1.3f,  1.0f, -1.5f)
+	};
 
-	glm::mat4 model = glm::mat4(1.0f);
-	shader.setMat4("model", model);
+	glm::vec3 rot[] = {
+		glm::vec3(0.5f,  0.5f,  -4.0f),
+		glm::vec3(1.0f,  1.0f, -1.0f),
+		glm::vec3(-0.5f, -0.2f, -0.5f),
+		glm::vec3(0.8f, 0.0f, -0.3f),
+		glm::vec3(0.4f, -0.4f, -0.5f),
+		glm::vec3(-0.7f,  1.0f, -0.5f),
+		glm::vec3(0.3f, -1.0f, -0.5f),
+		glm::vec3(0.5f,  0.0f, -0.5f),
+		glm::vec3(0.5f,  0.2f, -0.5f),
+		glm::vec3(-0.3f,  1.0f, -0.5f)
+	};
+
+	Camera camera(1.3f, -2.0f, -2.5f);
+	camera.setProjection(Camera::PERSPECTIVE, 0.1f, 100.0f);
+	camera.lookAt(0.5f, 0.5f, -4.0f);
 
 	while (isRunning()) {
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
-		camera.setPosition(cos(glfwGetTime()) * 5.0f, 2.0f, sin(glfwGetTime()) * 5.0f);
+		camera.setPosition(cos(glfwGetTime()) * 10.0f, 2.0f, sin(glfwGetTime()) * 10.0f);
+
+		for (int i = 1; i <= 10; i++) {
+			glm::mat4 model = glm::mat4(1.0f);
+			float angle = glfwGetTime() * 20.0f * i;
+
+			model = glm::translate(model, pos[i - 1]);
+			model = glm::rotate(model, glm::radians(angle), rot[i - 1]);
+			shader.setMat4("model", model);
+
+			vao.drawVertices(36);
+		}
 
 		vao.drawVertices(36);
 		camera.update(&shader);
