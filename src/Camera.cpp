@@ -49,6 +49,10 @@ void Camera::setProjection(Projection projection, float near, float far, float f
 	}
 }
 
+glm::vec3 Camera::getPosition() {
+	return position;
+}
+
 void Camera::lookAt(glm::vec3 position) {
 	looksAt = position;
 }

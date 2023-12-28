@@ -119,119 +119,103 @@ bool Engine::build() {
 
 	// DEBUG ///////////////////////////////////////////////////////////////////
 	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
 
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 	};
 
-	unsigned int indices[] = {
-		0, 1, 3, // first triangle
-		1, 2, 3  // second triangle
-	};
-
-	Shader shader("../resources/shaders/vertex.glsl", "../resources/shaders/fragment.glsl");
-	Texture texture("../resources/textures/wall.jpg");
+	Shader lightingShader(
+		"../resources/shaders/basic_vertex.glsl", 
+		"../resources/shaders/basic_fragment.glsl"
+	);
+	Shader lightCubeShader(
+		"../resources/shaders/light_vertex.glsl",
+		"../resources/shaders/light_fragment.glsl"
+	);
 	VertexArray vao;
 	VertexBuffer vbo;
-	ElementBuffer ebo;
 	
 	vao.bind();
 	vbo.bind();
-	ebo.bind();
-	texture.bind();
-	shader.use();
 
 	vbo.setData(vertices, sizeof(vertices));
-	//ebo.setData(indices, sizeof(indices));
+	vao.setAttribPointer(0, 3, 6, 0);
+	vao.setAttribPointer(1, 3, 6, 3);
 
-	vao.setAttribPointer(0, 3, 5, 0);
-	vao.setAttribPointer(1, 2, 5, 3);
+	VertexArray lightVao;
+	lightVao.bind();
+	lightVao.setAttribPointer(0, 3, 6, 0);
 
-	glm::vec3 pos[] = {
-		glm::vec3(0.5f,  0.5f,  -4.0f),
-		glm::vec3(2.0f,  5.0f, -15.0f),
-		glm::vec3(-1.5f, -2.2f, -2.5f),
-		glm::vec3(-3.8f, -2.0f, -12.3f),
-		glm::vec3(2.4f, -0.4f, -3.5f),
-		glm::vec3(-1.7f,  3.0f, -7.5f),
-		glm::vec3(1.3f, -2.0f, -2.5f),
-		glm::vec3(1.5f,  2.0f, -2.5f),
-		glm::vec3(1.5f,  0.2f, -1.5f),
-		glm::vec3(-1.3f,  1.0f, -1.5f)
-	};
-
-	glm::vec3 rot[] = {
-		glm::vec3(0.5f,  0.5f,  -4.0f),
-		glm::vec3(1.0f,  1.0f, -1.0f),
-		glm::vec3(-0.5f, -0.2f, -0.5f),
-		glm::vec3(0.8f, 0.0f, -0.3f),
-		glm::vec3(0.4f, -0.4f, -0.5f),
-		glm::vec3(-0.7f,  1.0f, -0.5f),
-		glm::vec3(0.3f, -1.0f, -0.5f),
-		glm::vec3(0.5f,  0.0f, -0.5f),
-		glm::vec3(0.5f,  0.2f, -0.5f),
-		glm::vec3(-0.3f,  1.0f, -0.5f)
-	};
-
-	Camera camera(1.3f, -2.0f, -2.5f);
+	Camera camera(3.0f, 3.0f, 3.0f);
 	camera.setProjection(Camera::PERSPECTIVE, 0.1f, 100.0f);
-	camera.lookAt(0.5f, 0.5f, -4.0f);
+	camera.lookAt(0.0f, 0.0f, 0.0f);
 
+	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 	while (isRunning()) {
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
-		camera.setPosition(cos(glfwGetTime()) * 10.0f, 2.0f, sin(glfwGetTime()) * 10.0f);
 
-		for (int i = 1; i <= 10; i++) {
-			glm::mat4 model = glm::mat4(1.0f);
-			float angle = glfwGetTime() * 20.0f * i;
+		lightingShader.use();
+		lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+		lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+		lightingShader.setVec3("lightPos", lightPos);
+		lightingShader.setVec3("viewPos", camera.getPosition());
 
-			model = glm::translate(model, pos[i - 1]);
-			model = glm::rotate(model, glm::radians(angle), rot[i - 1]);
-			shader.setMat4("model", model);
+		camera.update(&lightingShader);
+		glm::mat4 model = glm::mat4(1.0f);
+		lightingShader.setMat4("model", model);
 
-			vao.drawVertices(36);
-		}
-
+		vao.bind();
 		vao.drawVertices(36);
-		camera.update(&shader);
+
+		lightCubeShader.use();
+		camera.update(&lightCubeShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, lightPos);
+		model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
+		lightCubeShader.setMat4("model", model);
+
+		lightVao.bind();
+		lightVao.drawVertices(36);
+
 		endFrame();
 	}
 

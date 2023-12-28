@@ -58,8 +58,10 @@ src/Texture.cpp
 src/Texture.hpp
 src/Camera.cpp
 src/Camera.hpp
-resources/shaders/vertex.glsl
-resources/shaders/fragment.glsl
+resources/shaders/basic_vertex.glsl
+resources/shaders/basic_fragment.glsl
+resources/shaders/light_vertex.glsl
+resources/shaders/light_fragment.glsl
 )
 
 target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm stb_image)

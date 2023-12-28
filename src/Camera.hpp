@@ -21,6 +21,7 @@ public:
 
 	void setPosition(glm::vec3 position);
 	void setPosition(float posX, float posY, float posZ);
+	glm::vec3 getPosition();
 
 	void lookAt(glm::vec3 position);
 	void lookAt(float posX, float posY, float posZ);
