@@ -3,30 +3,7 @@
 Camera::Camera() {
 	this->viewMatrix = glm::mat4(1.0f);
 	this->looksAt = glm::vec3(0.0f);
-	this->position = glm::vec3(0.0f);
 	this->projectionMatrix = glm::perspective(45.0f, Engine::get().getAspectRatio(), 0.1f, 100.0f);
-}
-
-Camera::Camera(glm::vec3 position) {
-	this->viewMatrix = glm::mat4(1.0f);
-	this->looksAt = glm::vec3(0.0f);
-	this->position = position;
-	this->projectionMatrix = glm::perspective(45.0f, Engine::get().getAspectRatio(), 0.1f, 100.0f);
-}
-
-Camera::Camera(float posX, float posY, float posZ) {
-	this->viewMatrix = glm::mat4(1.0f);
-	this->looksAt = glm::vec3(0.0f);
-	this->position = glm::vec3(posX, posY, posZ);
-	this->projectionMatrix = glm::perspective(45.0f, Engine::get().getAspectRatio(), 0.1f, 100.0f);
-}
-
-void Camera::setPosition(glm::vec3 position) {
-	this->position = position;
-}
-
-void Camera::setPosition(float posX, float posY, float posZ) {
-	this->position = glm::vec3(posX, posY, posZ);
 }
 
 void Camera::setProjection(Projection projection, float near, float far, float fovDegrees) {
@@ -47,10 +24,6 @@ void Camera::setProjection(Projection projection, float near, float far, float f
 			far
 		);
 	}
-}
-
-glm::vec3 Camera::getPosition() {
-	return position;
 }
 
 void Camera::lookAt(glm::vec3 position) {

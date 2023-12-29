@@ -168,8 +168,9 @@ bool Engine::build() {
 	Mesh cube1(vertices, indices);
 	Mesh cube2(vertices, indices, "../resources/textures/wall.jpg");
 
-	Camera camera(6.0f, 6.0f, 6.0f);
+	Camera camera;
 	camera.setProjection(Camera::PERSPECTIVE, 0.1f, 100.0f);
+	camera.move(6.0f, 6.0f, 6.0f);
 	camera.lookAt(0.0f, 0.0f, 0.0f);
 
 	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
