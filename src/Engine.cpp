@@ -174,7 +174,7 @@ bool Engine::build() {
 
 	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
-	cube2.translate(2.5f, 0.0f, 0.0f);
+	cube2.move(2.5f, 0.0f, 0.0f);
 	while (isRunning()) {
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
 

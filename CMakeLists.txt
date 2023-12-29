@@ -62,6 +62,12 @@ src/Mesh.cpp
 src/Mesh.hpp
 src/Transformable.cpp
 src/Transformable.hpp
+src/Movable.cpp
+src/Movable.hpp
+src/Scalable.cpp
+src/Scalable.hpp
+src/Rotatable.cpp
+src/Rotatable.hpp
 src/Drawable.hpp
 resources/shaders/basic_vertex.glsl
 resources/shaders/basic_fragment.glsl
