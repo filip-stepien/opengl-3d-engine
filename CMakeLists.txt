@@ -58,6 +58,8 @@ src/Texture.cpp
 src/Texture.hpp
 src/Camera.cpp
 src/Camera.hpp
+src/Mesh.cpp
+src/Mesh.hpp
 resources/shaders/basic_vertex.glsl
 resources/shaders/basic_fragment.glsl
 resources/shaders/light_vertex.glsl

@@ -11,6 +11,7 @@ private:
 	void loadImage(const char* path);
 
 public:
+	Texture();
 	Texture(const char* path, GLenum wrapping = GL_REPEAT);
 	~Texture();
 
