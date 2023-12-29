@@ -1,12 +1,14 @@
 #pragma once
 
+#include "Drawable.hpp"
+#include "Transformable.hpp"
 #include "VertexBuffer.hpp"
 #include "VertexArray.hpp"
 #include "ElementBuffer.hpp"
 #include "Texture.hpp"
 #include "Shader.hpp"
 
-class Mesh {
+class Mesh : public Drawable, public Transformable {
 private:
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;

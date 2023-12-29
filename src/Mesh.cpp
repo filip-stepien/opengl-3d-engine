@@ -30,6 +30,8 @@ Mesh::~Mesh() {
 
 void Mesh::draw(Shader& shader) {
 	shader.use();
+	shader.setMat4("model", model);
+
 	vao.bind();
 	texture->bind();
 	vao.drawIndices(indices.size());

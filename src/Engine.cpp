@@ -173,6 +173,8 @@ bool Engine::build() {
 	camera.lookAt(0.0f, 0.0f, 0.0f);
 
 	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+
+	cube2.translate(2.5f, 0.0f, 0.0f);
 	while (isRunning()) {
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
 
@@ -184,12 +186,7 @@ bool Engine::build() {
 
 		camera.update(&shader);
 
-		glm::mat4 model = glm::mat4(1.0f);
-		shader.setMat4("model", model);
 		cube1.draw(shader);
-
-		model = glm::translate(model, glm::vec3(2.5f, 0.0f, 0.0f));
-		shader.setMat4("model", model);
 		cube2.draw(shader);
 
 		endFrame();
