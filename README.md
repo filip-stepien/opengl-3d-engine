@@ -16,3 +16,5 @@ This will configure the CMake and will generate platform-specific build files. T
 ```bash
 cmake --build .
 ```
+
+Make sure you have Python installed so GLAD can compile successfully.
