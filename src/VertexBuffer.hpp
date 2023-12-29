@@ -2,6 +2,13 @@
 
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
+#include <glm/glm.hpp>
+#include <vector>
+
+struct Vertex {
+	glm::vec3 position;
+	glm::vec3 normal;
+};
 
 class VertexBuffer {
 private:
@@ -11,7 +18,7 @@ public:
 	VertexBuffer();
 	~VertexBuffer();
 
-	void setData(GLfloat* vertices, GLsizei size, GLenum usage = GL_STATIC_DRAW);
+	void setData(std::vector<Vertex>& vertices, GLenum usage = GL_STATIC_DRAW);
 	void bind();
 	void unbind();
 };

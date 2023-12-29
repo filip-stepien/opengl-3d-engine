@@ -16,14 +16,14 @@ void VertexArray::unbind() {
 	glBindVertexArray(0);
 }
 
-void VertexArray::setAttribPointer(GLuint layout, GLuint numOfValues, GLuint strideVal, GLuint pointerVal) {
+void VertexArray::setAttribPointer(GLuint layout, GLuint numOfValues, GLuint pointerVal) {
 	glVertexAttribPointer(
 		layout, 
 		numOfValues, 
 		GL_FLOAT, 
 		GL_FALSE, 
-		strideVal * sizeof(GLfloat), 
-		(void*)(pointerVal * sizeof(GLfloat))
+		sizeof(Vertex),
+		(void*)pointerVal
 	);
 	glEnableVertexAttribArray(layout);
 }

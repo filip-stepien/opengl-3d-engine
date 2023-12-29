@@ -4,8 +4,8 @@ VertexBuffer::VertexBuffer() {
 	glGenBuffers(1, &id);
 }
 
-void VertexBuffer::setData(GLfloat* vertices, GLsizei size, GLenum usage) {
-	glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+void VertexBuffer::setData(std::vector<Vertex>& vertices, GLenum usage) {
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), usage);
 }
 
 VertexBuffer::~VertexBuffer() {

@@ -12,7 +12,7 @@ public:
 	VertexArray();
 	~VertexArray();
 
-	void setAttribPointer(GLuint layout, GLuint numOfValues, GLuint numOfStride, GLuint pointerVal);
+	void setAttribPointer(GLuint layout, GLuint numOfValues, GLuint pointerVal);
 	void bind();
 	void unbind();
 	void drawVertices(GLuint numOfVertices, GLenum primitive = GL_TRIANGLES);
