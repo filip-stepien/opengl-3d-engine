@@ -19,5 +19,5 @@ public:
 	void lookAt(glm::vec3 position);
 	void lookAt(float posX, float posY, float posZ);
 	void setProjection(Projection projection, float near, float far, float fovDegrees = 45.0f);
-	void update(Shader* shader);
+	void update(Shader& shader);
 };

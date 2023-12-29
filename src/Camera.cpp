@@ -34,8 +34,9 @@ void Camera::lookAt(float posX, float posY, float posZ) {
 	looksAt = glm::vec3(posX, posY, posZ);
 }
 
-void Camera::update(Shader* shader) {
+void Camera::update(Shader& shader) {
 	viewMatrix = glm::lookAt(position, looksAt, glm::vec3(0.0f, 1.0f, 0.0f));
-	shader->setMat4("projection", projectionMatrix);
-	shader->setMat4("view", viewMatrix);
+	shader.setMat4("projection", projectionMatrix);
+	shader.setMat4("view", viewMatrix);
+	shader.setVec3("viewPos", position);
 }

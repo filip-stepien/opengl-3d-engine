@@ -183,9 +183,8 @@ bool Engine::build() {
 		shader.setVec3("objectColor", 1.0f, 1.0f, 1.0f);
 		shader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 		shader.setVec3("lightPos", lightPos);
-		shader.setVec3("viewPos", camera.getPosition());
 
-		camera.update(&shader);
+		camera.update(shader);
 
 		cube1.draw(shader);
 		cube2.draw(shader);
