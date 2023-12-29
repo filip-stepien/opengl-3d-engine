@@ -8,8 +8,8 @@ ElementBuffer::~ElementBuffer() {
 	glDeleteBuffers(1, &id);
 }
 
-void ElementBuffer::setData(GLuint* vertices, GLsizei size, GLenum usage) {
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, vertices, usage);
+void ElementBuffer::setData(std::vector<GLuint>& indices, GLenum usage) {
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), usage);
 }
 
 void ElementBuffer::bind() {
