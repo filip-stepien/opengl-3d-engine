@@ -28,6 +28,7 @@ int main() {
 	Camera cam;
 	cam.setProjection(Camera::PERSPECTIVE, 0.1f, 100.0f);
 	cam.move(0.0f, 0.0f, 6.0f);
+	cam.setMovementEnabled(true);
 
 	Engine& engine = Engine::get();
 

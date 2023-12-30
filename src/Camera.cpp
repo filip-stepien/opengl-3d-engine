@@ -13,6 +13,7 @@ Camera::Camera() {
 	lastX = 0.0f;
 	lastY = 0.0f;
 
+	movementEnabled = true;
 	yaw = -90.0f;
 	pitch = 0.0f;
 	speed = 2.5f;
@@ -80,6 +81,10 @@ void Camera::setZoom(GLfloat zoom) {
 	this->zoom = zoom;
 }
 
+void Camera::setMovementEnabled(bool movementEnabled) {
+	this->movementEnabled = movementEnabled;
+}
+
 GLfloat Camera::getYaw() {
 	return yaw;
 }
@@ -98,6 +103,10 @@ GLfloat Camera::getSensitivity() {
 
 GLfloat Camera::getZoom() {
 	return zoom;
+}
+
+bool Camera::isMovementEnabled() {
+	return movementEnabled;
 }
 
 void Camera::processKeyboard(Direction direction) {
@@ -173,5 +182,7 @@ void Camera::update(Shader& shader) {
 	shader.setMat4("projection", projectionMatrix);
 	shader.setMat4("view", viewMatrix);
 	shader.setVec3("viewPos", position);
-	processMovement();
+
+	if(movementEnabled)
+		processMovement();
 }

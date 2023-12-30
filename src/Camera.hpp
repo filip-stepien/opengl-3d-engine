@@ -20,6 +20,7 @@ private:
 	GLfloat lastX;
 	GLfloat lastY;
 
+	bool movementEnabled;
 	GLfloat yaw;
 	GLfloat pitch;
 	GLfloat speed;
@@ -49,12 +50,14 @@ public:
 	void setSpeed(GLfloat speed);
 	void setSensitivity(GLfloat sensitivity);
 	void setZoom(GLfloat zoom);
+	void setMovementEnabled(bool enabled);
 
 	GLfloat getYaw();
 	GLfloat getPitch();
 	GLfloat getSpeed();
 	GLfloat getSensitivity();
 	GLfloat getZoom();
+	bool isMovementEnabled();
 
 	void processKeyboard(Direction direction);
 	void processMouse(GLfloat offsetX, GLfloat offsetY);
