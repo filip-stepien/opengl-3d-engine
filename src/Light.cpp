@@ -33,3 +33,18 @@ GLfloat Light::getAmbientStrength() {
 GLfloat Light::getSpecularStength() {
 	return specularStrength;
 }
+
+void Light::update(Shader& shader, int index) {
+	if (index >= 64) {
+		std::cout << "SHADER ERROR" << std::endl;
+		std::cout << "Light index out of range. Maximum number of lights is 64." << std::endl;
+		return;
+	}
+
+	std::string lightName = "light[" + std::to_string(index) + "]";
+
+	shader.setVec3(lightName + ".color", color);
+	shader.setVec3(lightName + ".position", position);
+	shader.setFloat(lightName + ".ambientStrength", ambientStrength);
+	shader.setFloat(lightName + ".specularStrength", specularStrength);
+}

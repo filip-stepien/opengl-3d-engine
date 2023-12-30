@@ -16,6 +16,7 @@
 #include "Texture.hpp"
 #include "Camera.hpp"
 #include "Mesh.hpp"
+#include "Light.hpp"
 
 class Engine {
 public:

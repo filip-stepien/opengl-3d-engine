@@ -3,10 +3,13 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <string>
 
 #include "Movable.hpp"
+#include "Updatable.hpp"
+#include "Shader.hpp"
 
-class Light : public Movable {
+class Light : public Updatable, public Movable {
 private:
 	glm::vec3 color;
 	GLfloat ambientStrength;
@@ -22,4 +25,6 @@ public:
 	glm::vec3 getColor();
 	GLfloat getAmbientStrength();
 	GLfloat getSpecularStength();
+
+	void update(Shader& shader, int index);
 };

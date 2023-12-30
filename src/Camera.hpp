@@ -5,8 +5,9 @@
 #include "Shader.hpp"
 #include "Engine.hpp"
 #include "Movable.hpp"
+#include "Updatable.hpp"
 
-class Camera : public Movable {
+class Camera : public Updatable, public Movable {
 private:
 	glm::mat4 viewMatrix;
 	glm::mat4 projectionMatrix;
