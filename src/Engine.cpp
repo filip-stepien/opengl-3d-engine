@@ -174,6 +174,7 @@ bool Engine::build() {
 	camera.lookAt(0.0f, 0.0f, 0.0f);
 
 	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+	glm::vec3 lightPos2(2.0f, 2.0f, 2.0f);
 
 	cube2.move(2.5f, 0.0f, 0.0f);
 	while (isRunning()) {
@@ -181,8 +182,16 @@ bool Engine::build() {
 
 		shader.use();
 		shader.setVec3("objectColor", 1.0f, 1.0f, 1.0f);
-		shader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
-		shader.setVec3("lightPos", lightPos);
+
+		shader.setVec3("light[0].color", 0.1f, 1.0f, 0.1f);
+		shader.setVec3("light[0].position", lightPos);
+		shader.setFloat("light[0].ambientStrength", 0.1f);
+		shader.setFloat("light[0].specularStrength", 0.5f);
+
+		shader.setVec3("light[1].color", 0.8f, 0.0f, 0.0f);
+		shader.setVec3("light[1].position", lightPos2);
+		shader.setFloat("light[1].ambientStrength", 0.1f);
+		shader.setFloat("light[1].specularStrength", 0.5f);
 
 		camera.update(shader);
 
