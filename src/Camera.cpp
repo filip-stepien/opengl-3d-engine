@@ -142,9 +142,23 @@ void Camera::updateVectors() {
 	up = glm::normalize(glm::cross(right, front));
 }
 
+void Camera::processMovement() {
+	GLFWwindow* window = Engine::get().getWindow();
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		processKeyboard(Camera::FORWARD);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		processKeyboard(Camera::BACKWARD);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		processKeyboard(Camera::LEFT);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		processKeyboard(Camera::RIGHT);
+}
+
 void Camera::update(Shader& shader) {
 	viewMatrix = glm::lookAt(position, position + front, glm::vec3(0.0f, 1.0f, 0.0f));
 	shader.setMat4("projection", projectionMatrix);
 	shader.setMat4("view", viewMatrix);
 	shader.setVec3("viewPos", position);
+	processMovement();
 }

@@ -31,6 +31,7 @@ private:
 	glm::vec3 looksAt;
 
 	void updateVectors();
+	void processMovement();
 
 public:
 	static Camera& get();

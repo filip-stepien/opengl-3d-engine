@@ -290,15 +290,6 @@ bool Engine::build() {
 		shader.use();
 		shader.setVec3("objectColor", 1.0f, 1.0f, 1.0f);
 
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-			camera->processKeyboard(Camera::FORWARD);
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-			camera->processKeyboard(Camera::BACKWARD);
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-			camera->processKeyboard(Camera::LEFT);
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-			camera->processKeyboard(Camera::RIGHT);
-
 		light1.update(shader, 0);
 		light2.update(shader, 1);
 		camera->update(shader);

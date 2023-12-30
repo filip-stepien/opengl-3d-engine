@@ -3,6 +3,7 @@
 namespace cb {
 	void onResize(GLFWwindow* window, int width, int height) {
 		Engine::get().onResize(window, width, height);
+		Engine::get().getCamera()->updateProjection();
 	}
 
 	void onKeyAction(GLFWwindow* window, int key, int scancode, int action, int mods) {
