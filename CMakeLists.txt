@@ -60,6 +60,8 @@ src/Camera.cpp
 src/Camera.hpp
 src/Mesh.cpp
 src/Mesh.hpp
+src/Light.cpp
+src/Light.hpp
 src/Transformable.cpp
 src/Transformable.hpp
 src/Movable.cpp
