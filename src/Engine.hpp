@@ -32,6 +32,7 @@ private:
 	void operator=(const Engine&);
 
 	App* app;
+	Camera* camera;
 	GLuint windowWidth;
 	GLuint windowHeight;
 	const char* windowTitle;
@@ -68,6 +69,7 @@ public:
 	Engine& setWindowTitle(const char* title);
 	Engine& setWindowMode(WindowMode mode);
 	Engine& setApp(App* app);
+	Engine& setCamera(Camera* camera);
 	bool build();
 
 	float getAspectRatio();
@@ -77,6 +79,7 @@ public:
 	WindowMode getWindowMode();
 	GLFWwindow* getWindow();
 	App* getApp();
+	Camera* getCamera();
 	GLdouble getDeltaTime();
 
 	void handleKeyAction(int action);

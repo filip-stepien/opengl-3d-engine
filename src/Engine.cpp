@@ -12,6 +12,7 @@ Engine::Engine() :
 	windowMode = WindowMode::DEFAULT;
 	window = nullptr;
 	app = nullptr;
+	camera = nullptr;
 	mouseMoveHandler = nullptr;
 
 	currentFrame = 0;
@@ -50,6 +51,11 @@ Engine& Engine::setApp(App* app) {
 	return *this;
 }
 
+Engine& Engine::setCamera(Camera* camera) {
+	this->camera = camera;
+	return *this;
+}
+
 float Engine::getAspectRatio() {
 	return static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
 }
@@ -76,6 +82,10 @@ GLFWwindow* Engine::getWindow() {
 
 App* Engine::getApp() {
 	return app;
+}
+
+Camera* Engine::getCamera() {
+	return camera;
 }
 
 GLdouble Engine::getDeltaTime() {
@@ -252,10 +262,6 @@ bool Engine::build() {
 	Mesh cube1(vertices, indices);
 	Mesh cube2(vertices, indices, "../resources/textures/wall.jpg");
 
-	Camera camera;
-	camera.setProjection(Camera::PERSPECTIVE, 0.1f, 100.0f);
-	camera.move(0.0f, 0.0f, 6.0f);
-
 	Light light1;
 	Light light2;
 
@@ -275,6 +281,7 @@ bool Engine::build() {
 	glfwSetMouseButtonCallback(window, cb::onButtonAction);
 	glfwSetCursorPosCallback(window, cb::onMouseMove);
 
+	camera->updateProjection();
 	app->setup();
 	while (isRunning()) {
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
@@ -284,17 +291,17 @@ bool Engine::build() {
 		shader.setVec3("objectColor", 1.0f, 1.0f, 1.0f);
 
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-			camera.processKeyboard(Camera::FORWARD);
+			camera->processKeyboard(Camera::FORWARD);
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-			camera.processKeyboard(Camera::BACKWARD);
+			camera->processKeyboard(Camera::BACKWARD);
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-			camera.processKeyboard(Camera::LEFT);
+			camera->processKeyboard(Camera::LEFT);
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-			camera.processKeyboard(Camera::RIGHT);
+			camera->processKeyboard(Camera::RIGHT);
 
 		light1.update(shader, 0);
 		light2.update(shader, 1);
-		camera.update(shader);
+		camera->update(shader);
 
 		cube1.draw(shader);
 		cube2.draw(shader);

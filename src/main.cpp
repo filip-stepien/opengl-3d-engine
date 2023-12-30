@@ -25,12 +25,17 @@ class DebugApp : public App {
 
 int main() {
 	DebugApp app;
+	Camera cam;
+	cam.setProjection(Camera::PERSPECTIVE, 0.1f, 100.0f);
+	cam.move(0.0f, 0.0f, 6.0f);
+
 	Engine& engine = Engine::get();
 
 	engine
 	.setWindowDimensions(800, 800)
 	.setWindowTitle("Title")
 	.setApp(&app)
+	.setCamera(&cam)
 	.build();
 
 	return 0;

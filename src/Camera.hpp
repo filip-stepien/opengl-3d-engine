@@ -7,7 +7,15 @@
 #include "Updatable.hpp"
 
 class Camera : public Updatable, public Movable {
+public:
+	using Projection = enum PROJECTION { PERSPECTIVE, ORTHO };
+
 private:
+	Projection projection;
+	GLfloat near;
+	GLfloat far;
+	GLfloat fov;
+
 	GLfloat yaw;
 	GLfloat pitch;
 	GLfloat speed;
@@ -25,13 +33,13 @@ private:
 	void updateVectors();
 
 public:
-	using Projection = enum PROJECTION { PERSPECTIVE, ORTHO };
+	static Camera& get();
 	using Direction = enum DIRECTION { FORWARD, BACKWARD, LEFT, RIGHT };
 
 	Camera();
 	void lookAt(glm::vec3 position);
-	void lookAt(float posX, float posY, float posZ);
-	void setProjection(Projection projection, float near, float far, float fovDegrees = 45.0f);
+	void lookAt(GLfloat posX, GLfloat posY, GLfloat posZ);
+	void setProjection(Projection projection, GLfloat near, GLfloat far, GLfloat fovDegrees = 45.0f);
 	void update(Shader& shader);
 
 	void setYaw(GLfloat yaw);
@@ -48,4 +56,5 @@ public:
 
 	void processKeyboard(Direction direction);
 	void processMouse(GLfloat offsetX, GLfloat offsetY);
+	void updateProjection();
 };

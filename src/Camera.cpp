@@ -6,6 +6,10 @@ Camera::Camera() {
 	looksAt = glm::vec3(0.0f);
 	projectionMatrix = glm::perspective(45.0f, Engine::get().getAspectRatio(), 0.1f, 100.0f);
 
+	near = 0.1f;
+	far = 100.0f;
+	fov = 45.0f;
+
 	yaw = -90.0f;
 	pitch = 0.0f;
 	speed = 2.5f;
@@ -18,10 +22,24 @@ Camera::Camera() {
 	updateVectors();
 }
 
-void Camera::setProjection(Projection projection, float near, float far, float fovDegrees) {
+Camera& Camera::get() {
+	static Camera engine;
+	return engine;
+}
+
+void Camera::setProjection(Projection projection, GLfloat near, GLfloat far, GLfloat fovDegrees) {
+	this->projection = projection;
+	this->near = near;
+	this->far = far;
+	this->fov = fovDegrees;
+
+	updateProjection();
+}
+
+void Camera::updateProjection() {
 	if (projection == PERSPECTIVE) {
 		projectionMatrix = glm::perspective(
-			glm::radians(fovDegrees),
+			glm::radians(fov),
 			Engine::get().getAspectRatio(),
 			near,
 			far
@@ -43,7 +61,7 @@ void Camera::lookAt(glm::vec3 position) {
 	looksAt = position;
 }
 
-void Camera::lookAt(float posX, float posY, float posZ) {
+void Camera::lookAt(GLfloat posX, GLfloat posY, GLfloat posZ) {
 	looksAt = glm::vec3(posX, posY, posZ);
 }
 
