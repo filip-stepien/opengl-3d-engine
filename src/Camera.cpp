@@ -26,11 +26,6 @@ Camera::Camera() {
 	updateVectors();
 }
 
-Camera& Camera::get() {
-	static Camera engine;
-	return engine;
-}
-
 void Camera::setProjection(Projection projection, GLfloat near, GLfloat far, GLfloat fovDegrees) {
 	this->projection = projection;
 	this->near = near;

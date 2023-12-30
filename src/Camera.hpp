@@ -38,7 +38,6 @@ private:
 	void processMovement();
 
 public:
-	static Camera& get();
 	using Direction = enum DIRECTION { FORWARD, BACKWARD, LEFT, RIGHT };
 
 	Camera();
