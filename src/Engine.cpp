@@ -46,6 +46,18 @@ GLuint Engine::getWindowHeight() {
 	return windowHeight;
 }
 
+const char* Engine::getWindowTitle() {
+	return windowTitle;
+}
+
+Engine::WindowMode Engine::getWindowMode() {
+	return windowMode;
+}
+
+GLFWwindow* Engine::getWindow() {
+	return window;
+}
+
 void Engine::onResize(GLFWwindow* window, int width, int height) {
 	windowWidth = width;
 	windowHeight = height;

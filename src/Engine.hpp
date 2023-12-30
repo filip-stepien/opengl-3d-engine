@@ -52,6 +52,9 @@ public:
 	float getAspectRatio();
 	GLuint getWindowWidth();
 	GLuint getWindowHeight();
+	const char* getWindowTitle();
+	WindowMode getWindowMode();
+	GLFWwindow* getWindow();
 
 	bool isRunning();
 	void clearWindow(GLfloat r = 0.0f, GLfloat g = 0.0f, GLfloat b = 0.0f, GLfloat a = 1.0f);
