@@ -22,6 +22,7 @@ Camera::Camera() {
 
 	front = glm::vec3(0.0f, 0.0f, -1.0f);
 	up = glm::vec3(0.0f, 1.0f, 0.0f);
+	initialFocus = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	updateVectors();
 }
@@ -58,10 +59,12 @@ void Camera::updateProjection() {
 
 void Camera::setYaw(GLfloat yaw) {
 	this->yaw = yaw;
+	updateVectors();
 }
 
 void Camera::setPitch(GLfloat pitch) {
 	this->pitch = pitch;
+	updateVectors();
 }
 
 void Camera::setSpeed(GLfloat speed) {
@@ -78,6 +81,16 @@ void Camera::setZoom(GLfloat zoom) {
 
 void Camera::setMovementEnabled(bool movementEnabled) {
 	this->movementEnabled = movementEnabled;
+}
+
+void Camera::setInitialFocus(glm::vec3 initalFocus) {
+	this->initialFocus = initalFocus;
+	updateFocus();
+}
+
+void Camera::setInitialFocus(GLfloat x, GLfloat y, GLfloat z) {
+	this->initialFocus = glm::vec3(x, y, z);
+	updateFocus();
 }
 
 GLfloat Camera::getYaw() {
@@ -98,6 +111,10 @@ GLfloat Camera::getSensitivity() {
 
 GLfloat Camera::getZoom() {
 	return zoom;
+}
+
+glm::vec3 Camera::getInitalFocus() {
+	return initialFocus;
 }
 
 bool Camera::isMovementEnabled() {
@@ -159,6 +176,14 @@ void Camera::updateVectors() {
 	up = glm::normalize(glm::cross(right, front));
 }
 
+void Camera::updateFocus() {
+	glm::vec3 direction = glm::normalize(initialFocus - position);
+	float yaw = glm::degrees(atan2(direction.z, direction.x));
+	float pitch = glm::degrees(asin(direction.y));
+	setYaw(yaw);
+	setPitch(pitch);
+}
+
 void Camera::processMovement() {
 	GLFWwindow* window = Engine::get().getWindow();
 
@@ -174,10 +199,21 @@ void Camera::processMovement() {
 
 void Camera::update(Shader& shader) {
 	viewMatrix = glm::lookAt(position, position + front, glm::vec3(0.0f, 1.0f, 0.0f));
+	
 	shader.setMat4("projection", projectionMatrix);
 	shader.setMat4("view", viewMatrix);
 	shader.setVec3("viewPos", position);
 
 	if(movementEnabled)
 		processMovement();
+}
+
+void Camera::move(GLfloat x, GLfloat y, GLfloat z) {
+	Movable::move(x, y, z);
+	updateFocus();
+}
+
+void Camera::move(glm::vec3 translation) {
+	Movable::move(translation);
+	updateFocus();
 }
