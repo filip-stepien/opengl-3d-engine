@@ -1,11 +1,18 @@
 #include "Engine.hpp"
 
-Engine::Engine() {
+Engine::Engine() : 
+	keyClickHandlers { nullptr },
+	keyReleaseHandlers{ nullptr },
+	mouseClickHandlers{ nullptr },
+	mouseReleaseHandlers{ nullptr }
+{
 	windowWidth = 0;
 	windowHeight = 0;
 	windowTitle = nullptr;
 	windowMode = WindowMode::DEFAULT;
 	window = nullptr;
+	app = nullptr;
+	mouseMoveHandler = nullptr;
 }
 
 Engine::~Engine() {
@@ -34,6 +41,11 @@ Engine& Engine::setWindowMode(WindowMode mode) {
 	return *this;
 }
 
+Engine& Engine::setApp(App* app) {
+	this->app = app;
+	return *this;
+}
+
 float Engine::getAspectRatio() {
 	return static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
 }
@@ -56,6 +68,10 @@ Engine::WindowMode Engine::getWindowMode() {
 
 GLFWwindow* Engine::getWindow() {
 	return window;
+}
+
+App* Engine::getApp() {
+	return app;
 }
 
 void Engine::onResize(GLFWwindow* window, int width, int height) {
@@ -83,6 +99,13 @@ void Engine::initGlfw() {
 void Engine::initGlad() {
 	if (!gladLoadGL()) {
 		std::cout << "Failed to create OpenGL context." << std::endl;
+		glfwTerminate();
+	}
+}
+void Engine::checkAppState() {
+	if (app == nullptr) {
+		std::cout << "APP ERROR" << std::endl;
+		std::cout << "App class is not defined." << std::endl;
 		glfwTerminate();
 	}
 }
@@ -122,12 +145,47 @@ void Engine::endFrame() {
 	glfwPollEvents();
 }
 
+void Engine::handleKeyAction(int action) {
+	for (int i = 0; i < GLFW_KEY_LAST; i++) {
+		Handler& clickHandler = keyClickHandlers[i];
+		Handler& releaseHandler = keyReleaseHandlers[i];
+
+		if (action == GLFW_PRESS && clickHandler != nullptr) {
+			std::invoke(clickHandler, app);
+		}
+		else if (action == GLFW_RELEASE && releaseHandler != nullptr) {
+			std::invoke(releaseHandler, app);
+		}
+	}
+}
+
+void Engine::handleButtonAction(int action) {
+	for (int i = 0; i < GLFW_MOUSE_BUTTON_LAST; i++) {
+		Handler& clickHandler = mouseClickHandlers[i];
+		Handler& releaseHandler = mouseReleaseHandlers[i];
+
+		if (action == GLFW_PRESS && clickHandler != nullptr) {
+			std::invoke(clickHandler, app);
+		}
+		else if (action == GLFW_RELEASE && releaseHandler != nullptr) {
+			std::invoke(releaseHandler, app);
+		}
+	}
+}
+
+void Engine::handleMouseMove() {
+	if (mouseMoveHandler != nullptr) {
+		std::invoke(mouseMoveHandler, app);
+	}
+}
+
 bool Engine::build() {
 	initGlfw();
 	createWindow();
 	initGlad();
 	setViewport();
 	setupGl();
+	checkAppState();
 
 	// DEBUG ///////////////////////////////////////////////////////////////////
 
@@ -199,6 +257,12 @@ bool Engine::build() {
 	light2.move(2.0f, 2.0f, 2.0f);
 
 	cube2.move(2.5f, 0.0f, 0.0f);
+
+	glfwSetKeyCallback(window, cb::onKeyAction);
+	glfwSetMouseButtonCallback(window, cb::onButtonAction);
+	glfwSetCursorPosCallback(window, cb::onMouseMove);
+
+	app->setup();
 	while (isRunning()) {
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
 
@@ -212,6 +276,7 @@ bool Engine::build() {
 		cube1.draw(shader);
 		cube2.draw(shader);
 
+		app->loop();
 		endFrame();
 	}
 
