@@ -15,25 +15,25 @@ private:
     GLuint vertexShader;
     GLuint id;
 
-    std::string loadShaderFromFile(const char* path);
-    GLuint createShader(const char* path, ShaderType type);
+    std::string loadShaderFromFile(std::string path);
+    GLuint createShader(std::string path, ShaderType type);
     GLuint createProgram();
     void checkForException(GLuint program, Exception exceptionType);
 
 public:
-    Shader(const char* vertexPath, const char* fragmentPath);
+    Shader(std::string vertexPath, std::string fragmentPath);
 
     void use();
-    void setBool(const char* name, bool value);
-    void setInt(const char* name, int value);
-    void setFloat(const char* name, float value);
-    void setVec2(const char* name, const glm::vec2& value);
-    void setVec2(const char* name, float x, float y);
-    void setVec3(const char* name, const glm::vec3& value);
-    void setVec3(const char* name, float x, float y, float z);
-    void setVec4(const char* name, const glm::vec4& value);
-    void setVec4(const char* name, float x, float y, float z, float w);
-    void setMat2(const char* name, const glm::mat2& mat);
-    void setMat3(const char* name, const glm::mat3& mat);
-    void setMat4(const char* name, const glm::mat4& mat);
+    void setBool(std::string name, bool value);
+    void setInt(std::string name, int value);
+    void setFloat(std::string name, float value);
+    void setVec2(std::string name, const glm::vec2& value);
+    void setVec2(std::string name, float x, float y);
+    void setVec3(std::string name, const glm::vec3& value);
+    void setVec3(std::string name, float x, float y, float z);
+    void setVec4(std::string name, const glm::vec4& value);
+    void setVec4(std::string name, float x, float y, float z, float w);
+    void setMat2(std::string name, const glm::mat2& mat);
+    void setMat3(std::string name, const glm::mat3& mat);
+    void setMat4(std::string name, const glm::mat4& mat);
 };
