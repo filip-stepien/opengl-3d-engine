@@ -38,6 +38,10 @@ private:
 	WindowMode windowMode;
 	GLFWwindow* window;
 
+	GLdouble currentFrame;
+	GLdouble lastFrame;
+	GLdouble deltaTime;
+
 	Handler keyClickHandlers[GLFW_KEY_LAST];
 	Handler keyReleaseHandlers[GLFW_KEY_LAST];
 	Handler mouseClickHandlers[GLFW_MOUSE_BUTTON_LAST];
@@ -52,6 +56,8 @@ private:
 
 	void setViewport();
 	void setupGl();
+
+	void updateDeltaTime();
 	void endFrame();
 
 	friend class App;
@@ -71,6 +77,7 @@ public:
 	WindowMode getWindowMode();
 	GLFWwindow* getWindow();
 	App* getApp();
+	GLdouble getDeltaTime();
 
 	void handleKeyAction(int action);
 	void handleButtonAction(int action);

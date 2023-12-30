@@ -13,6 +13,10 @@ Engine::Engine() :
 	window = nullptr;
 	app = nullptr;
 	mouseMoveHandler = nullptr;
+
+	currentFrame = 0;
+	lastFrame = 0;
+	deltaTime = 0;
 }
 
 Engine::~Engine() {
@@ -145,6 +149,12 @@ void Engine::endFrame() {
 	glfwPollEvents();
 }
 
+void Engine::updateDeltaTime() {
+	currentFrame = glfwGetTime();
+	deltaTime = currentFrame - lastFrame;
+	lastFrame = currentFrame;
+}
+
 void Engine::handleKeyAction(int action) {
 	for (int i = 0; i < GLFW_KEY_LAST; i++) {
 		Handler& clickHandler = keyClickHandlers[i];
@@ -265,6 +275,7 @@ bool Engine::build() {
 	app->setup();
 	while (isRunning()) {
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
+		updateDeltaTime();
 
 		shader.use();
 		shader.setVec3("objectColor", 1.0f, 1.0f, 1.0f);
