@@ -72,6 +72,8 @@ src/Rotatable.cpp
 src/Rotatable.hpp
 src/Drawable.hpp
 src/Updatable.hpp
+src/Controllable.hpp
+src/Controllable.cpp
 src/App.cpp
 src/App.hpp
 resources/shaders/basic_vertex.glsl

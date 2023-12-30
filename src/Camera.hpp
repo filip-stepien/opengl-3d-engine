@@ -4,10 +4,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Shader.hpp"
 #include "Engine.hpp"
-#include "Movable.hpp"
+#include "Controllable.hpp"
 #include "Updatable.hpp"
 
-class Camera : public Updatable, public Movable {
+class Camera : public Updatable, public Controllable {
 private:
 	glm::mat4 viewMatrix;
 	glm::mat4 projectionMatrix;
