@@ -146,6 +146,7 @@ void Engine::setViewport() {
 }
 
 void Engine::setupGl() {
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glEnable(GL_DEPTH_TEST);
 }
 

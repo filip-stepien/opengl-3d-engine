@@ -16,5 +16,6 @@ namespace cb {
 
 	void onMouseMove(GLFWwindow* window, double xpos, double ypos) {
 		Engine::get().handleMouseMove();
+		Engine::get().getCamera()->handleMouseMove(xpos, ypos);
 	}
 }

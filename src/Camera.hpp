@@ -16,6 +16,10 @@ private:
 	GLfloat far;
 	GLfloat fov;
 
+	bool firstMouse;
+	GLfloat lastX;
+	GLfloat lastY;
+
 	GLfloat yaw;
 	GLfloat pitch;
 	GLfloat speed;
@@ -28,7 +32,6 @@ private:
 
 	glm::mat4 viewMatrix;
 	glm::mat4 projectionMatrix;
-	glm::vec3 looksAt;
 
 	void updateVectors();
 	void processMovement();
@@ -38,8 +41,6 @@ public:
 	using Direction = enum DIRECTION { FORWARD, BACKWARD, LEFT, RIGHT };
 
 	Camera();
-	void lookAt(glm::vec3 position);
-	void lookAt(GLfloat posX, GLfloat posY, GLfloat posZ);
 	void setProjection(Projection projection, GLfloat near, GLfloat far, GLfloat fovDegrees = 45.0f);
 	void update(Shader& shader);
 
@@ -57,5 +58,6 @@ public:
 
 	void processKeyboard(Direction direction);
 	void processMouse(GLfloat offsetX, GLfloat offsetY);
+	void handleMouseMove(double posX, double posY);
 	void updateProjection();
 };

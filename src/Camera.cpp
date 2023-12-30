@@ -3,12 +3,15 @@
 
 Camera::Camera() {
 	viewMatrix = glm::mat4(1.0f);
-	looksAt = glm::vec3(0.0f);
 	projectionMatrix = glm::perspective(45.0f, Engine::get().getAspectRatio(), 0.1f, 100.0f);
 
 	near = 0.1f;
 	far = 100.0f;
 	fov = 45.0f;
+
+	firstMouse = true;
+	lastX = 0.0f;
+	lastY = 0.0f;
 
 	yaw = -90.0f;
 	pitch = 0.0f;
@@ -55,14 +58,6 @@ void Camera::updateProjection() {
 			far
 		);
 	}
-}
-
-void Camera::lookAt(glm::vec3 position) {
-	looksAt = position;
-}
-
-void Camera::lookAt(GLfloat posX, GLfloat posY, GLfloat posZ) {
-	looksAt = glm::vec3(posX, posY, posZ);
 }
 
 void Camera::setYaw(GLfloat yaw) {
@@ -117,6 +112,25 @@ void Camera::processKeyboard(Direction direction) {
 		position += right * velocity;
 }
 
+void Camera::handleMouseMove(double posX, double posY) {
+	GLfloat xpos = static_cast<GLfloat>(posX);
+	GLfloat ypos = static_cast<GLfloat>(posY);
+
+	if (firstMouse) {
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	GLfloat xoffset = xpos - lastX;
+	GLfloat yoffset = lastY - ypos;
+
+	lastX = xpos;
+	lastY = ypos;
+
+	processMouse(xoffset, yoffset);
+}
+
 void Camera::processMouse(GLfloat offsetX, GLfloat offsetY) {
 	offsetX *= sensitivity;
 	offsetY *= sensitivity;
@@ -133,7 +147,6 @@ void Camera::processMouse(GLfloat offsetX, GLfloat offsetY) {
 }
 
 void Camera::updateVectors() {
-	glm::vec3 front;
 	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 	front.y = sin(glm::radians(pitch));
 	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));

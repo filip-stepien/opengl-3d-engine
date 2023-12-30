@@ -16,9 +16,9 @@ class DebugApp : public App {
 	}
 
 	void setup() {
-		onKeyClick(GLFW_KEY_A, getHandler(&DebugApp::handler));
-		onMouseClick(GLFW_MOUSE_BUTTON_1, getHandler(&DebugApp::handler));
-		onMouseMove(getHandler(&DebugApp::move));
+		//onKeyClick(GLFW_KEY_A, getHandler(&DebugApp::handler));
+		//onMouseClick(GLFW_MOUSE_BUTTON_1, getHandler(&DebugApp::handler));
+		//onMouseMove(getHandler(&DebugApp::move));
 	}
 };
 
