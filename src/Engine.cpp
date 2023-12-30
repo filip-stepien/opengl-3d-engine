@@ -254,8 +254,7 @@ bool Engine::build() {
 
 	Camera camera;
 	camera.setProjection(Camera::PERSPECTIVE, 0.1f, 100.0f);
-	camera.move(6.0f, 6.0f, 6.0f);
-	camera.lookAt(0.0f, 0.0f, 0.0f);
+	camera.move(0.0f, 0.0f, 6.0f);
 
 	Light light1;
 	Light light2;
