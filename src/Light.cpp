@@ -35,9 +35,9 @@ GLfloat Light::getSpecularStength() {
 }
 
 void Light::update(Shader& shader, int index) {
-	if (index >= 64) {
+	if (index >= 8 || index < 0) {
 		std::cout << "SHADER ERROR" << std::endl;
-		std::cout << "Light index out of range. Maximum number of lights is 64." << std::endl;
+		std::cout << "Light index out of range. This value should be between 0 and 7." << std::endl;
 		return;
 	}
 
