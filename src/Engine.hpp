@@ -87,6 +87,7 @@ public:
 	void handleMouseMove();
 
 	bool isRunning();
+	void close();
 	void clearWindow(GLfloat r = 0.0f, GLfloat g = 0.0f, GLfloat b = 0.0f, GLfloat a = 1.0f);
 	void onResize(GLFWwindow* window, int width, int height);
 };

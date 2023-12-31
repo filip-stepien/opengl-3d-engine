@@ -6,19 +6,12 @@
 #include "App.hpp"
 
 class DebugApp : public App {
-	void handler() {
-		std::cout << "test" << std::endl;
-	}
-
-	void move() {
-		glm::vec2 pos = getMousePosition();
-		std::cout << "x: " << pos.x << " y: " << pos.y << std::endl;
+	void close() {
+		Engine::get().close();
 	}
 
 	void setup() {
-		//onKeyClick(GLFW_KEY_A, getHandler(&DebugApp::handler));
-		//onMouseClick(GLFW_MOUSE_BUTTON_1, getHandler(&DebugApp::handler));
-		//onMouseMove(getHandler(&DebugApp::move));
+		onKeyClick(GLFW_KEY_ESCAPE, getHandler(&DebugApp::close));
 	}
 };
 

@@ -154,6 +154,10 @@ bool Engine::isRunning() {
 	return !glfwWindowShouldClose(window);
 }
 
+void Engine::close() {
+	glfwSetWindowShouldClose(window, true);
+}
+
 void Engine::clearWindow(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 	glClearColor(r, g, b, a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
