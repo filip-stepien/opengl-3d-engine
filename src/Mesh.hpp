@@ -21,5 +21,9 @@ private:
 public:
 	Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const char* texturePath = nullptr);
 	~Mesh();
+
+	void setTexture(const char* path);
+	Texture* getTexture();
+
 	void draw(Shader& shader);
 };

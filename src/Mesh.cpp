@@ -28,6 +28,14 @@ Mesh::~Mesh() {
 	delete texture;
 }
 
+void Mesh::setTexture(const char* path) {
+	texture = new Texture(path);
+}
+
+Texture* Mesh::getTexture() {
+	return texture;
+}
+
 void Mesh::draw(Shader& shader) {
 	shader.use();
 	shader.setMat4("model", model);

@@ -62,6 +62,8 @@ src/Mesh.cpp
 src/Mesh.hpp
 src/Light.cpp
 src/Light.hpp
+src/Shape.cpp
+src/Shape.hpp
 src/Transformable.cpp
 src/Transformable.hpp
 src/Movable.cpp
