@@ -13,8 +13,8 @@ private:
 	glm::vec3 color;
 
 protected:
-	virtual void populateVertices(std::vector<Vertex> vertices);
-	virtual void populateInidces(std::vector<GLuint> indices);
+	virtual void populateVertices(std::vector<Vertex> vertices) {};
+	virtual void populateInidces(std::vector<GLuint> indices) {};
 
 public:
 	Shape();

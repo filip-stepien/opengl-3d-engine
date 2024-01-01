@@ -12,7 +12,7 @@
 #include "Movable.hpp"
 
 class Mesh : public Drawable, public Scalable, public Rotatable, public Movable {
-private:
+protected:
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 	Texture* texture;
