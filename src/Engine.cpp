@@ -6,8 +6,8 @@ Engine::Engine() :
 	mouseClickHandlers{ nullptr },
 	mouseReleaseHandlers{ nullptr }
 {
-	windowWidth = 0;
-	windowHeight = 0;
+	windowWidth = 800;
+	windowHeight = 600;
 	windowTitle = nullptr;
 	windowMode = WindowMode::DEFAULT;
 	window = nullptr;
