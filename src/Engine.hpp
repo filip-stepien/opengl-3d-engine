@@ -44,6 +44,8 @@ private:
 	GLdouble lastFrame;
 	GLdouble deltaTime;
 
+	bool mouseCapture;
+
 	Handler keyClickHandlers[GLFW_KEY_LAST];
 	Handler keyReleaseHandlers[GLFW_KEY_LAST];
 	Handler mouseClickHandlers[GLFW_MOUSE_BUTTON_LAST];
@@ -71,6 +73,7 @@ public:
 	Engine& setWindowMode(WindowMode mode);
 	Engine& setApp(App* app);
 	Engine& setCamera(Camera* camera);
+	Engine& setMouseCapture(bool mouseCapture);
 	bool build();
 
 	float getAspectRatio();

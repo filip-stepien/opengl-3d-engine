@@ -14,6 +14,7 @@ Engine::Engine() :
 	app = nullptr;
 	camera = nullptr;
 	mouseMoveHandler = nullptr;
+	mouseCapture = true;
 
 	currentFrame = 0;
 	lastFrame = 0;
@@ -53,6 +54,11 @@ Engine& Engine::setApp(App* app) {
 
 Engine& Engine::setCamera(Camera* camera) {
 	this->camera = camera;
+	return *this;
+}
+
+Engine& Engine::setMouseCapture(bool mouseCapture) {
+	this->mouseCapture = mouseCapture;
 	return *this;
 }
 
@@ -146,8 +152,10 @@ void Engine::setViewport() {
 }
 
 void Engine::setupGl() {
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glEnable(GL_DEPTH_TEST);
+
+	if(mouseCapture)
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 bool Engine::isRunning() {

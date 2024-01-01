@@ -27,6 +27,7 @@ int main() {
 	Engine::get()
 	.setWindowDimensions(800, 800)
 	.setWindowTitle("Title")
+	.setMouseCapture(true)
 	.setApp(&app)
 	.setCamera(&cam)
 	.build();
