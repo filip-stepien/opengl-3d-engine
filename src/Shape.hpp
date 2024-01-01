@@ -16,10 +16,5 @@ protected:
 	virtual void populateIndices();
 
 public:
-	Shape(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const char* texturePath = nullptr);
-
-	void setColor(glm::vec3 color);
-	void setColor(GLfloat r, GLfloat g, GLfloat b);
-	
-	glm::vec3 getColor();
+	Shape(std::vector<Vertex>& vertices, std::vector<GLuint>& indices);
 };

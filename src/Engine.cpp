@@ -226,14 +226,7 @@ bool Engine::build() {
 	Light light1;
 	Light light2;
 
-	light1.setColor(0.1f, 1.0f, 0.1f);
-	light1.setAmbientStrength(0.1f);
-	light1.setSpecularStength(0.5f);
 	light1.move(1.2f, 1.0f, 2.0f);
-
-	light2.setColor(0.8f, 0.0f, 0.0f);
-	light2.setAmbientStrength(0.1f);
-	light2.setSpecularStength(0.5f);
 	light2.move(2.0f, 2.0f, 2.0f);
 
 	glfwSetKeyCallback(window, cb::onKeyAction);
@@ -244,14 +237,13 @@ bool Engine::build() {
 	app->setup();
 
 	Cube cube;
-	cube.setTexture("../resources/textures/wall.jpg");
+	cube.setColor(1.0f, 0.0f, 0.0f);
 
 	while (isRunning()) {
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
 		updateDeltaTime();
 
 		shader.use();
-		shader.setVec3("objectColor", 1.0f, 1.0f, 1.0f);
 
 		light1.update(shader, 0);
 		light2.update(shader, 1);

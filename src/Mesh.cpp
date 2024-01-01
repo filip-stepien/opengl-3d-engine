@@ -1,9 +1,11 @@
 #include "Mesh.hpp"
 
-Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const char* texturePath) {
+Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices) {
 	this->vertices = vertices;
 	this->indices = indices;
-	this->texture = texturePath == nullptr ? new Texture : new Texture(texturePath);
+	this->texture = new Texture;
+	this->color = glm::vec3(1.0f, 1.0f, 1.0f);
+
 	initialize();
 }
 
@@ -14,8 +16,6 @@ void Mesh::initialize() {
 	vao.bind();
 	vbo.bind();
 	ebo.bind();
-
-	std::cout << vertices.empty();
 
 	vbo.setData(vertices);
 	ebo.setData(indices);
@@ -37,6 +37,18 @@ void Mesh::setTexture(const char* path) {
 	texture = new Texture(path);
 }
 
+void Mesh::setColor(glm::vec3 color) {
+	this->color = color;
+}
+
+void Mesh::setColor(GLfloat r, GLfloat g, GLfloat b) {
+	this->color = glm::vec3(r, g, b);
+}
+
+glm::vec3 Mesh::getColor() {
+	return color;
+}
+
 Texture* Mesh::getTexture() {
 	return texture;
 }
@@ -44,6 +56,7 @@ Texture* Mesh::getTexture() {
 void Mesh::draw(Shader& shader) {
 	shader.use();
 	shader.setMat4("model", model);
+	shader.setVec3("objectColor", color);
 
 	vao.bind();
 	texture->bind();
