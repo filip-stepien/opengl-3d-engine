@@ -19,6 +19,7 @@
 #include "Light.hpp"
 #include "App.hpp"
 #include "Cube.hpp"
+#include "Sphere.hpp"
 
 class Engine {
 public:

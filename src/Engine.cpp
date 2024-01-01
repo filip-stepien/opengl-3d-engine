@@ -228,10 +228,7 @@ bool Engine::build() {
 	);
 
 	Light light1;
-	Light light2;
-
-	light1.move(1.2f, 1.0f, 2.0f);
-	light2.move(2.0f, 2.0f, 2.0f);
+	light1.move(10.0f, 10.0f, 10.0f);
 
 	glfwSetKeyCallback(window, cb::onKeyAction);
 	glfwSetMouseButtonCallback(window, cb::onButtonAction);
@@ -240,8 +237,8 @@ bool Engine::build() {
 	camera->updateProjection();
 	app->setup();
 
-	Cube cube;
-	cube.setColor(1.0f, 0.0f, 0.0f);
+	Sphere sphere(1.0f, 24, 24);
+	sphere.setTexture("../resources/textures/ball.jpg");
 
 	while (isRunning()) {
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
@@ -250,10 +247,9 @@ bool Engine::build() {
 		shader.use();
 
 		light1.update(shader, 0);
-		light2.update(shader, 1);
 		camera->update(shader);
 
-		cube.draw(shader);
+		sphere.draw(shader);
 
 		app->loop();
 		endFrame();
