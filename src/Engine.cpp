@@ -218,54 +218,10 @@ bool Engine::build() {
 
 	// DEBUG ///////////////////////////////////////////////////////////////////
 
-	std::vector<Vertex> vertices = {
-		{glm::vec3(-1.0, -1.0, 1.0), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 1.0f)},
-		{glm::vec3(1.0, -1.0, 1.0), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 1.0f)},
-		{glm::vec3(1.0, 1.0, 1.0), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 0.0f)},
-		{glm::vec3(-1.0, 1.0, 1.0), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f)},
-
-		{glm::vec3(-1.0, -1.0, -1.0), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 1.0f)},
-		{glm::vec3(-1.0, 1.0, -1.0), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 0.0f)},
-		{glm::vec3(1.0, 1.0, -1.0), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f, 0.0f)},
-		{glm::vec3(1.0, -1.0, -1.0), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f, 1.0f)},
-
-		{glm::vec3(-1.0, 1.0, -1.0), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 1.0f)},
-		{glm::vec3(-1.0, 1.0, 1.0), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 0.0f)},
-		{glm::vec3(1.0, 1.0, 1.0), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f)},
-		{glm::vec3(1.0, 1.0, -1.0), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f)},
-
-		{glm::vec3(-1.0, -1.0, -1.0), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(1.0f, 1.0f)},
-		{glm::vec3(1.0, -1.0, -1.0), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.0f, 1.0f)},
-		{glm::vec3(1.0, -1.0, 1.0), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.0f, 0.0f)},
-		{glm::vec3(-1.0, -1.0, 1.0), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(1.0f, 0.0f)},
-
-		{glm::vec3(1.0, -1.0, -1.0), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f)},
-		{glm::vec3(1.0, 1.0, -1.0), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f)},
-		{glm::vec3(1.0, 1.0, 1.0), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f)},
-		{glm::vec3(1.0, -1.0, 1.0), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)},
-
-		{glm::vec3(-1.0, -1.0, -1.0), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f)},
-		{glm::vec3(-1.0, -1.0, 1.0), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f)},
-		{glm::vec3(-1.0, 1.0, 1.0), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)},
-		{glm::vec3(-1.0, 1.0, -1.0), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f)}
-	};
-
-	std::vector<GLuint> indices = {
-		0, 1, 2, 2, 3, 0,
-		4, 5, 6, 6, 7, 4,
-		8, 9, 10, 10, 11, 8,
-		12, 13, 14, 14, 15, 12,
-		16, 17, 18, 18, 19, 16,
-		20, 21, 22, 22, 23, 20
-	};
-
 	Shader shader(
 		"../resources/shaders/basic_vertex.glsl", 
 		"../resources/shaders/basic_fragment.glsl"
 	);
-
-	Mesh cube1(vertices, indices);
-	Mesh cube2(vertices, indices, "../resources/textures/wall.jpg");
 
 	Light light1;
 	Light light2;
@@ -280,14 +236,16 @@ bool Engine::build() {
 	light2.setSpecularStength(0.5f);
 	light2.move(2.0f, 2.0f, 2.0f);
 
-	cube2.move(2.5f, 0.0f, 0.0f);
-
 	glfwSetKeyCallback(window, cb::onKeyAction);
 	glfwSetMouseButtonCallback(window, cb::onButtonAction);
 	glfwSetCursorPosCallback(window, cb::onMouseMove);
 
 	camera->updateProjection();
 	app->setup();
+
+	Cube cube;
+	cube.setTexture("../resources/textures/wall.jpg");
+
 	while (isRunning()) {
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
 		updateDeltaTime();
@@ -299,8 +257,7 @@ bool Engine::build() {
 		light2.update(shader, 1);
 		camera->update(shader);
 
-		cube1.draw(shader);
-		cube2.draw(shader);
+		cube.draw(shader);
 
 		app->loop();
 		endFrame();

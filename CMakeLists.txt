@@ -64,6 +64,8 @@ src/Light.cpp
 src/Light.hpp
 src/Shape.cpp
 src/Shape.hpp
+src/Cube.cpp
+src/Cube.hpp
 src/Transformable.cpp
 src/Transformable.hpp
 src/Movable.cpp

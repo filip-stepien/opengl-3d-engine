@@ -9,15 +9,14 @@
 #include <vector>
 
 class Shape : public Mesh {
-private:
+protected:
 	glm::vec3 color;
 
-protected:
-	virtual void populateVertices(std::vector<Vertex> vertices) {};
-	virtual void populateInidces(std::vector<GLuint> indices) {};
+	virtual void populateVertices();
+	virtual void populateIndices();
 
 public:
-	Shape();
+	Shape(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const char* texturePath = nullptr);
 
 	void setColor(glm::vec3 color);
 	void setColor(GLfloat r, GLfloat g, GLfloat b);

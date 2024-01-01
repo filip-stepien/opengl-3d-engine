@@ -4,13 +4,18 @@ Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const ch
 	this->vertices = vertices;
 	this->indices = indices;
 	this->texture = texturePath == nullptr ? new Texture : new Texture(texturePath);
-	
+	initialize();
+}
+
+void Mesh::initialize() {
 	VertexBuffer vbo;
 	ElementBuffer ebo;
 
 	vao.bind();
 	vbo.bind();
 	ebo.bind();
+
+	std::cout << vertices.empty();
 
 	vbo.setData(vertices);
 	ebo.setData(indices);

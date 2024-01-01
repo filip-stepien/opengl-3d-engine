@@ -18,6 +18,8 @@ protected:
 	Texture* texture;
 	VertexArray vao;
 
+	void initialize();
+
 public:
 	Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const char* texturePath = nullptr);
 	~Mesh();

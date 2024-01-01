@@ -18,6 +18,7 @@
 #include "Mesh.hpp"
 #include "Light.hpp"
 #include "App.hpp"
+#include "Cube.hpp"
 
 class Engine {
 public:

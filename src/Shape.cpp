@@ -1,7 +1,21 @@
 #include "Shape.hpp"
 
-Shape::Shape() : Mesh(vertices, indices) {
-	color = glm::vec3(1.0, 1.0, 1.0f);
+Shape::Shape(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const char* texturePath) 
+    : Mesh(vertices, indices, texturePath) 
+{
+	this->color = glm::vec3(1.0, 1.0, 1.0f);
+    this->vertices = vertices;
+    this->indices = indices;
+
+    initialize();
+}
+
+void Shape::populateVertices() {
+    vertices = std::vector<Vertex>();
+}
+
+void Shape::populateIndices() {
+    indices = std::vector<GLuint>();
 }
 
 void Shape::setColor(glm::vec3 color) {

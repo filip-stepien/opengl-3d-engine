@@ -11,7 +11,7 @@ class DebugApp : public App {
 	}
 
 	void setup() {
-		onKeyClick(GLFW_KEY_ESCAPE, getHandler(&DebugApp::close));
+		//onKeyClick(GLFW_KEY_A, getHandler(&DebugApp::close));
 	}
 };
 
@@ -22,7 +22,7 @@ int main() {
 	cam.setProjection(Camera::PERSPECTIVE, 0.1f, 100.0f);
 	cam.setInitialFocus(0.0f, 0.0f, 0.0f);
 	cam.move(6.0f, 3.0f, 6.0f);
-	cam.setMovementEnabled(false);
+	cam.setMovementEnabled(true);
 
 	Engine& engine = Engine::get();
 
