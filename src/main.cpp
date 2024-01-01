@@ -11,7 +11,7 @@ class DebugApp : public App {
 	}
 
 	void setup() {
-		//onKeyClick(GLFW_KEY_A, getHandler(&DebugApp::close));
+		onKeyClick(GLFW_KEY_ESCAPE, getHandler(&DebugApp::close));
 	}
 };
 
@@ -24,9 +24,7 @@ int main() {
 	cam.move(6.0f, 3.0f, 6.0f);
 	cam.setMovementEnabled(true);
 
-	Engine& engine = Engine::get();
-
-	engine
+	Engine::get()
 	.setWindowDimensions(800, 800)
 	.setWindowTitle("Title")
 	.setApp(&app)

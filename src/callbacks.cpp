@@ -7,11 +7,11 @@ namespace cb {
 	}
 
 	void onKeyAction(GLFWwindow* window, int key, int scancode, int action, int mods) {
-		Engine::get().handleKeyAction(action);
+		Engine::get().handleKeyAction(key, action);
 	}
 
 	void onButtonAction(GLFWwindow* window, int button, int action, int mods) {
-		Engine::get().handleButtonAction(action);
+		Engine::get().handleButtonAction(button, action);
 	}
 
 	void onMouseMove(GLFWwindow* window, double xpos, double ypos) {

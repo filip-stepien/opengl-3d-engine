@@ -83,8 +83,8 @@ public:
 	Camera* getCamera();
 	GLdouble getDeltaTime();
 
-	void handleKeyAction(int action);
-	void handleButtonAction(int action);
+	void handleKeyAction(int key, int action);
+	void handleButtonAction(int button, int action);
 	void handleMouseMove();
 
 	bool isRunning();

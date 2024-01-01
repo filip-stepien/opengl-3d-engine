@@ -174,31 +174,27 @@ void Engine::updateDeltaTime() {
 	lastFrame = currentFrame;
 }
 
-void Engine::handleKeyAction(int action) {
-	for (int i = 0; i < GLFW_KEY_LAST; i++) {
-		Handler& clickHandler = keyClickHandlers[i];
-		Handler& releaseHandler = keyReleaseHandlers[i];
+void Engine::handleKeyAction(int key, int action) {
+	Handler& clickHandler = keyClickHandlers[key];
+	Handler& releaseHandler = keyReleaseHandlers[key];
 
-		if (action == GLFW_PRESS && clickHandler != nullptr) {
-			std::invoke(clickHandler, app);
-		}
-		else if (action == GLFW_RELEASE && releaseHandler != nullptr) {
-			std::invoke(releaseHandler, app);
-		}
+	if (action == GLFW_PRESS && clickHandler != nullptr) {
+		std::invoke(clickHandler, app);
+	}
+	else if (action == GLFW_RELEASE && releaseHandler != nullptr) {
+		std::invoke(releaseHandler, app);
 	}
 }
 
-void Engine::handleButtonAction(int action) {
-	for (int i = 0; i < GLFW_MOUSE_BUTTON_LAST; i++) {
-		Handler& clickHandler = mouseClickHandlers[i];
-		Handler& releaseHandler = mouseReleaseHandlers[i];
+void Engine::handleButtonAction(int button, int action) {
+	Handler& clickHandler = mouseClickHandlers[button];
+	Handler& releaseHandler = mouseReleaseHandlers[button];
 
-		if (action == GLFW_PRESS && clickHandler != nullptr) {
-			std::invoke(clickHandler, app);
-		}
-		else if (action == GLFW_RELEASE && releaseHandler != nullptr) {
-			std::invoke(releaseHandler, app);
-		}
+	if (action == GLFW_PRESS && clickHandler != nullptr) {
+		std::invoke(clickHandler, app);
+	}
+	else if (action == GLFW_RELEASE && releaseHandler != nullptr) {
+		std::invoke(releaseHandler, app);
 	}
 }
 
