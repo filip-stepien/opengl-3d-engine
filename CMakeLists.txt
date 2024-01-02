@@ -78,8 +78,6 @@ src/Rotatable.cpp
 src/Rotatable.hpp
 src/Drawable.hpp
 src/Updatable.hpp
-src/Controllable.hpp
-src/Controllable.cpp
 src/EngineObject.hpp
 src/EngineObject.cpp
 src/App.cpp
