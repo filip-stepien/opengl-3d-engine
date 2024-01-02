@@ -7,6 +7,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <vector>
+#include <set>
 
 #include "callbacks.hpp"
 #include "Shader.hpp"
@@ -40,6 +41,7 @@ private:
 	const char* windowTitle;
 	WindowMode windowMode;
 	GLFWwindow* window;
+	std::vector<Shape> renderPipeline;
 
 	GLdouble currentFrame;
 	GLdouble lastFrame;

@@ -11,8 +11,6 @@ void Sphere::populateVertices() {
 
     Vertex vertex;
     for (GLuint i = 0; i <= stackCount; ++i) {
-        vertex = {};
-
         stackAngle = M_PI / 2 - i * stackStep;
         xy = radius * cosf(stackAngle);
         z = radius * sinf(stackAngle);

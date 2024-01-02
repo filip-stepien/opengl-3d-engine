@@ -80,6 +80,8 @@ src/Drawable.hpp
 src/Updatable.hpp
 src/Controllable.hpp
 src/Controllable.cpp
+src/EngineObject.hpp
+src/EngineObject.cpp
 src/App.cpp
 src/App.hpp
 resources/shaders/basic_vertex.glsl

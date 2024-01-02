@@ -13,5 +13,5 @@ protected:
 	void populateVertices() override;
 	void populateIndices() override;
 public:
-	Sphere(GLfloat radius, GLuint sectorCount, GLuint stackCount);
+	Sphere(GLfloat radius = 1.0f, GLuint sectorCount = 24, GLuint stackCount = 24);
 };

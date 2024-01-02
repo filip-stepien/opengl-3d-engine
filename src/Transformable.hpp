@@ -2,7 +2,9 @@
 
 #include <glm/glm.hpp>
 
-class Transformable {
+#include "EngineObject.hpp"
+
+class Transformable : public EngineObject {
 protected:
 	glm::mat4 model;
 public:

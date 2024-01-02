@@ -1,7 +1,7 @@
 #include "Engine.hpp"
 
 Engine::Engine() : 
-	keyClickHandlers { nullptr },
+	keyClickHandlers{ nullptr },
 	keyReleaseHandlers{ nullptr },
 	mouseClickHandlers{ nullptr },
 	mouseReleaseHandlers{ nullptr }
@@ -15,6 +15,7 @@ Engine::Engine() :
 	camera = nullptr;
 	mouseMoveHandler = nullptr;
 	mouseCapture = true;
+	renderPipeline = {};
 
 	currentFrame = 0;
 	lastFrame = 0;
@@ -237,7 +238,7 @@ bool Engine::build() {
 	camera->updateProjection();
 	app->setup();
 
-	Sphere sphere(1.0f, 24, 24);
+	Sphere sphere;
 	sphere.setTexture("../resources/textures/ball.jpg");
 
 	while (isRunning()) {
