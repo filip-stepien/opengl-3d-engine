@@ -2,7 +2,7 @@
 
 class EngineObject {
 protected:
-	unsigned long id;
+	unsigned long uid;
 	static unsigned long& generateID();
 public:
 	EngineObject();

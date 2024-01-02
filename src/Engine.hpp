@@ -41,7 +41,7 @@ private:
 	const char* windowTitle;
 	WindowMode windowMode;
 	GLFWwindow* window;
-	std::vector<Shape> renderPipeline;
+	std::vector<Shape*> shapePipeline;
 
 	GLdouble currentFrame;
 	GLdouble lastFrame;
@@ -94,6 +94,7 @@ public:
 	void handleMouseMove();
 
 	bool isRunning();
+	void addToShapePipeline(Shape* shape);
 	void close();
 	void clearWindow(GLfloat r = 0.0f, GLfloat g = 0.0f, GLfloat b = 0.0f, GLfloat a = 1.0f);
 	void onResize(GLFWwindow* window, int width, int height);

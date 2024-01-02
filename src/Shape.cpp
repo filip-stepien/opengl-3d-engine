@@ -6,8 +6,6 @@ Shape::Shape(std::vector<Vertex>& vertices, std::vector<GLuint>& indices)
 	this->color = glm::vec3(1.0, 1.0, 1.0f);
     this->vertices = vertices;
     this->indices = indices;
-
-    initialize();
 }
 
 void Shape::populateVertices() {

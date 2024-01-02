@@ -6,11 +6,19 @@
 #include "App.hpp"
 
 class DebugApp : public App {
+public:
+	Cube cube;
+	Sphere sphere;
+
 	void close() {
 		Engine::get().close();
 	}
 
 	void setup() {
+		cube.setColor(1.0f, 0.0f, 0.0f);
+		sphere.setTexture("../resources/textures/ball.jpg");
+		sphere.move(3.0f, 0.0f, 0.0f);
+
 		onKeyClick(GLFW_KEY_ESCAPE, getHandler(&DebugApp::close));
 	}
 };
@@ -18,6 +26,7 @@ class DebugApp : public App {
 
 int main() {
 	DebugApp app;
+
 	Camera cam;
 	cam.setProjection(Camera::PERSPECTIVE, 0.1f, 100.0f);
 	cam.setInitialFocus(0.0f, 0.0f, 0.0f);

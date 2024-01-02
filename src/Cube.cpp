@@ -1,4 +1,5 @@
 #include "Cube.hpp"
+#include "Engine.hpp"
 
 void Cube::populateVertices() {
 	vertices = {
@@ -48,5 +49,5 @@ void Cube::populateIndices() {
 Cube::Cube() : Shape(vertices, indices) {
 	populateVertices();
 	populateIndices();
-	initialize();
+	Engine::get().addToShapePipeline(this);
 }

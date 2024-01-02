@@ -5,28 +5,30 @@ Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices) {
 	this->indices = indices;
 	this->texture = new Texture;
 	this->color = glm::vec3(1.0f, 1.0f, 1.0f);
-
-	initialize();
+	this->vao = nullptr;
 }
 
 void Mesh::initialize() {
 	VertexBuffer vbo;
 	ElementBuffer ebo;
+	vao = new VertexArray;
 
-	vao.bind();
+	vao->bind();
 	vbo.bind();
 	ebo.bind();
 
 	vbo.setData(vertices);
 	ebo.setData(indices);
 
-	vao.setAttribPointer(0, 3, 0);
-	vao.setAttribPointer(1, 3, offsetof(Vertex, normal));
-	vao.setAttribPointer(2, 2, offsetof(Vertex, texture));
+	vao->setAttribPointer(0, 3, 0);
+	vao->setAttribPointer(1, 3, offsetof(Vertex, normal));
+	vao->setAttribPointer(2, 2, offsetof(Vertex, texture));
 
-	vao.unbind();
+	vao->unbind();
 	vbo.unbind();
 	ebo.unbind();
+
+	texture->initialize();
 }
 
 Mesh::~Mesh() {
@@ -58,7 +60,7 @@ void Mesh::draw(Shader& shader) {
 	shader.setMat4("model", model);
 	shader.setVec3("objectColor", color);
 
-	vao.bind();
+	vao->bind();
 	texture->bind();
-	vao.drawIndices(indices.size());
+	vao->drawIndices(indices.size());
 }

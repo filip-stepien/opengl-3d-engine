@@ -1,4 +1,5 @@
 #include "Sphere.hpp"
+#include "Engine.hpp"
 
 void Sphere::populateVertices() {
     GLfloat x, y, z, xy;
@@ -67,5 +68,5 @@ Sphere::Sphere(GLfloat radius, GLuint sectorCount, GLuint stackCount)
 
     populateVertices();
     populateIndices();
-    initialize();
+    Engine::get().addToShapePipeline(this);
 }

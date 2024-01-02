@@ -1,7 +1,7 @@
 #include "EngineObject.hpp"
 
 EngineObject::EngineObject() {
-	id = generateID()++;
+	uid = generateID()++;
 }
 
 unsigned long& EngineObject::generateID() {
@@ -10,5 +10,5 @@ unsigned long& EngineObject::generateID() {
 }
 
 unsigned long EngineObject::getID() {
-	return id;
+	return uid;
 }

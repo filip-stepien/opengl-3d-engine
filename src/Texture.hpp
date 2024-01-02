@@ -7,14 +7,16 @@
 class Texture {
 private:
 	GLuint id;
+	GLenum wrapping;
+	const char* path;
 
 	void loadImage(const char* path);
 
 public:
-	Texture();
-	Texture(const char* path, GLenum wrapping = GL_REPEAT);
+	Texture(const char* path = "../resources/textures/default.png", GLenum wrapping = GL_REPEAT);
 	~Texture();
 
+	void initialize();
 	void bind();
 	void unbind();
 };

@@ -15,7 +15,7 @@ Engine::Engine() :
 	camera = nullptr;
 	mouseMoveHandler = nullptr;
 	mouseCapture = true;
-	renderPipeline = {};
+	shapePipeline = {};
 
 	currentFrame = 0;
 	lastFrame = 0;
@@ -97,6 +97,10 @@ Camera* Engine::getCamera() {
 
 GLdouble Engine::getDeltaTime() {
 	return deltaTime;
+}
+
+void Engine::addToShapePipeline(Shape* shape) {
+	shapePipeline.push_back(shape);
 }
 
 void Engine::onResize(GLFWwindow* window, int width, int height) {
@@ -229,7 +233,7 @@ bool Engine::build() {
 	);
 
 	Light light1;
-	light1.move(10.0f, 10.0f, 10.0f);
+	light1.move(2.0f, 1.5f, 3.0f);
 
 	glfwSetKeyCallback(window, cb::onKeyAction);
 	glfwSetMouseButtonCallback(window, cb::onButtonAction);
@@ -238,8 +242,9 @@ bool Engine::build() {
 	camera->updateProjection();
 	app->setup();
 
-	Sphere sphere;
-	sphere.setTexture("../resources/textures/ball.jpg");
+	for (Shape* s : shapePipeline) {
+		s->initialize();
+	}
 
 	while (isRunning()) {
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
@@ -249,8 +254,10 @@ bool Engine::build() {
 
 		light1.update(shader, 0);
 		camera->update(shader);
-
-		sphere.draw(shader);
+		
+		for (Shape* s : shapePipeline) {
+			s->draw(shader);
+		}
 
 		app->loop();
 		endFrame();

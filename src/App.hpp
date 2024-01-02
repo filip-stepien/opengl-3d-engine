@@ -6,6 +6,8 @@
 
 class App {
 public:
+    App();
+
     using Handler = void (App::*)();
 
     virtual void setup();
@@ -16,6 +18,8 @@ public:
     void onMouseClick(int mouseButton, Handler handler);
     void onMouseRelease(int mouseButton, Handler handler);
     void onMouseMove(Handler handler);
+
+    void run();
 
     glm::vec2 getMousePosition();
 

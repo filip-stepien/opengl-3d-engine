@@ -19,21 +19,13 @@ void Texture::loadImage(const char* path) {
 	stbi_image_free(data);
 }
 
-Texture::Texture() {
-	glGenTextures(1, &id);
-
-	bind();
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	loadImage("../resources/textures/default.png");
-	unbind();
+Texture::Texture(const char* path, GLenum wrapping) {
+	this->path = path;
+	this->wrapping = wrapping;
 }
 
-Texture::Texture(const char* path, GLenum wrapping) {
+void Texture::initialize() {
 	glGenTextures(1, &id);
-	
 	bind();
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapping);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapping);

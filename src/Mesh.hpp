@@ -21,9 +21,7 @@ protected:
 	std::vector<GLuint> indices;
 	Texture* texture;
 	glm::vec3 color;
-	VertexArray vao;
-
-	void initialize();
+	VertexArray* vao;
 
 public:
 	Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices);
@@ -36,5 +34,6 @@ public:
 	Texture* getTexture();
 	glm::vec3 getColor();
 
+	void initialize();
 	void draw(Shader& shader);
 };
