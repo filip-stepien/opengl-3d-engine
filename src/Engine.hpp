@@ -42,6 +42,7 @@ private:
 	WindowMode windowMode;
 	GLFWwindow* window;
 	std::vector<Shape*> shapePipeline;
+	std::vector<Light*> lightPipeline;
 
 	GLdouble currentFrame;
 	GLdouble lastFrame;
@@ -93,8 +94,10 @@ public:
 	void handleButtonAction(int button, int action);
 	void handleMouseMove();
 
-	bool isRunning();
 	void addToShapePipeline(Shape* shape);
+	void addToLightPipeline(Light* light);
+
+	bool isRunning();
 	void close();
 	void clearWindow(GLfloat r = 0.0f, GLfloat g = 0.0f, GLfloat b = 0.0f, GLfloat a = 1.0f);
 	void onResize(GLFWwindow* window, int width, int height);

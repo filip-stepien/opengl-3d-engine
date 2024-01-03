@@ -9,6 +9,7 @@ class DebugApp : public App {
 public:
 	Cube cube;
 	Sphere sphere;
+	Light light;
 
 	void close() {
 		Engine::get().close();
@@ -18,6 +19,7 @@ public:
 		cube.setColor(1.0f, 0.0f, 0.0f);
 		sphere.setTexture("../resources/textures/ball.jpg");
 		sphere.move(3.0f, 0.0f, 0.0f);
+		light.move(2.0f, 1.5f, 3.0f);
 
 		onKeyClick(GLFW_KEY_ESCAPE, getHandler(&DebugApp::close));
 	}

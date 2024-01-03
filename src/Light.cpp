@@ -1,9 +1,13 @@
 #include "Light.hpp"
+#include "Engine.hpp"
 
 Light::Light() {
 	color = glm::vec3(1.0f, 1.0f, 1.0f);
 	ambientStrength = 0.1f;
 	specularStrength = 0.5f;
+	shape = nullptr;
+
+	Engine::get().addToLightPipeline(this);
 }
 
 void Light::setColor(glm::vec3 color) {
@@ -20,6 +24,11 @@ void Light::setAmbientStrength(GLfloat ambientStrength) {
 
 void Light::setSpecularStength(GLfloat specularStrength) {
 	this->specularStrength = specularStrength;
+}
+
+void Light::setShape(Shape* shape) {
+	this->shape = shape;
+	shape->initialize();
 }
 
 glm::vec3 Light::getColor() {

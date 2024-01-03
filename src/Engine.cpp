@@ -16,6 +16,7 @@ Engine::Engine() :
 	mouseMoveHandler = nullptr;
 	mouseCapture = true;
 	shapePipeline = {};
+	lightPipeline = {};
 
 	currentFrame = 0;
 	lastFrame = 0;
@@ -101,6 +102,10 @@ GLdouble Engine::getDeltaTime() {
 
 void Engine::addToShapePipeline(Shape* shape) {
 	shapePipeline.push_back(shape);
+}
+
+void Engine::addToLightPipeline(Light* light) {
+	lightPipeline.push_back(light);
 }
 
 void Engine::onResize(GLFWwindow* window, int width, int height) {
@@ -232,8 +237,10 @@ bool Engine::build() {
 		"../resources/shaders/basic_fragment.glsl"
 	);
 
-	Light light1;
-	light1.move(2.0f, 1.5f, 3.0f);
+	Shader lighShader(
+		"../resources/shaders/light_vertex.glsl",
+		"../resources/shaders/light_fragment.glsl"
+	);
 
 	glfwSetKeyCallback(window, cb::onKeyAction);
 	glfwSetMouseButtonCallback(window, cb::onButtonAction);
@@ -250,15 +257,15 @@ bool Engine::build() {
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
 		updateDeltaTime();
 
-		shader.use();
-
-		light1.update(shader, 0);
-		camera->update(shader);
+		for (int i = 0; i < lightPipeline.size(); i++) {
+			lightPipeline[i]->update(shader, i);
+		}
 		
 		for (Shape* s : shapePipeline) {
 			s->draw(shader);
 		}
 
+		camera->update(shader);
 		app->loop();
 		endFrame();
 	}
