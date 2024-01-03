@@ -19,23 +19,22 @@ class Mesh : public Drawable, public Scalable, public Rotatable, public Movable 
 protected:
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
-	Texture* texture;
-	glm::vec3 color;
 	VertexArray* vao;
-	bool shading;
+	Texture* diffuse;
+	Texture* specular;
+	GLfloat shininess;
 
 public:
 	Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices);
 	~Mesh();
 
-	void setTexture(const char* path);
-	void setColor(glm::vec3 color);
-	void setColor(GLfloat r, GLfloat g, GLfloat b);
-	void setShading(bool shading);
+	void setDiffuseTexture(const char* path);
+	void setSpecularTexture(const char* path);
+	void setShininess(GLfloat shininess);
 
-	Texture* getTexture();
-	glm::vec3 getColor();
-	bool getShading();
+	Texture* getDiffuseTexture();
+	Texture* getSpecularTexture();
+	GLfloat getShininess();
 
 	void initialize();
 	void draw(Shader& shader);

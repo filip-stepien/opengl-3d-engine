@@ -2,45 +2,47 @@
 #include "Engine.hpp"
 
 Light::Light() {
-	color = glm::vec3(1.0f, 1.0f, 1.0f);
-	ambientStrength = 0.1f;
-	specularStrength = 0.5f;
-	shape = nullptr;
+	diffuse = glm::vec3(0.5f);
+	ambient = glm::vec3(0.2f);
+	specular = glm::vec3(1.0f);
 
 	Engine::get().addToLightPipeline(this);
 }
 
-void Light::setColor(glm::vec3 color) {
-	this->color = color;
+void Light::setAmbient(glm::vec3 ambient) {
+	this->ambient = ambient;
 }
 
-void Light::setColor(GLfloat r, GLfloat g, GLfloat b) {
-	this->color = glm::vec3(r, g, b);
+void Light::setDiffuse(glm::vec3 diffuse) {
+	this->diffuse = diffuse;
 }
 
-void Light::setAmbientStrength(GLfloat ambientStrength) {
-	this->ambientStrength = ambientStrength;
+void Light::setSpecular(glm::vec3 specular) {
+	this->specular = specular;
 }
 
-void Light::setSpecularStength(GLfloat specularStrength) {
-	this->specularStrength = specularStrength;
+void Light::setAmbient(GLfloat r, GLfloat g, GLfloat b) {
+	this->ambient = glm::vec3(r, g, b);
 }
 
-void Light::setShape(Shape* shape) {
-	this->shape = shape;
-	shape->initialize();
+void Light::setDiffuse(GLfloat r, GLfloat g, GLfloat b) {
+	this->diffuse = glm::vec3(r, g, b);
 }
 
-glm::vec3 Light::getColor() {
-	return color;
+void Light::setSpecular(GLfloat r, GLfloat g, GLfloat b) {
+	this->specular = glm::vec3(r, g, b);
 }
 
-GLfloat Light::getAmbientStrength() {
-	return ambientStrength;
+glm::vec3 Light::getAmbient() {
+	return this->ambient;
 }
 
-GLfloat Light::getSpecularStength() {
-	return specularStrength;
+glm::vec3 Light::getDiffuse() {
+	return this->diffuse;
+}
+
+glm::vec3 Light::getSpecular() {
+	return this->specular;
 }
 
 void Light::update(Shader& shader, int index) {
@@ -52,8 +54,9 @@ void Light::update(Shader& shader, int index) {
 
 	std::string lightName = "light[" + std::to_string(index) + "]";
 
-	shader.setVec3(lightName + ".color", color);
+	shader.use();
 	shader.setVec3(lightName + ".position", position);
-	shader.setFloat(lightName + ".ambientStrength", ambientStrength);
-	shader.setFloat(lightName + ".specularStrength", specularStrength);
+	shader.setVec3(lightName + ".ambient", ambient);
+	shader.setVec3(lightName + ".diffuse", diffuse);
+	shader.setVec3(lightName + ".specular", specular);
 }

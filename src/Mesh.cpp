@@ -3,10 +3,10 @@
 Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices) {
 	this->vertices = vertices;
 	this->indices = indices;
-	this->texture = new Texture;
-	this->color = glm::vec3(1.0f, 1.0f, 1.0f);
 	this->vao = nullptr;
-	this->shading = true;
+	this->diffuse = new Texture(Texture::DIFFUSE);
+	this->specular = new Texture(Texture::SPECULAR);
+	this->shininess = 30.0f;
 }
 
 void Mesh::initialize() {
@@ -29,48 +29,49 @@ void Mesh::initialize() {
 	vbo.unbind();
 	ebo.unbind();
 
-	texture->initialize();
+	diffuse->initialize();
+	specular->initialize();
 }
 
 Mesh::~Mesh() {
-	delete texture;
+	delete diffuse;
+	delete specular;
 }
 
-void Mesh::setTexture(const char* path) {
-	texture = new Texture(path);
+void Mesh::setDiffuseTexture(const char* path) {
+	diffuse = new Texture(Texture::DIFFUSE, path);
 }
 
-void Mesh::setColor(glm::vec3 color) {
-	this->color = color;
+void Mesh::setSpecularTexture(const char* path) {
+	specular = new Texture(Texture::SPECULAR, path);
 }
 
-void Mesh::setColor(GLfloat r, GLfloat g, GLfloat b) {
-	this->color = glm::vec3(r, g, b);
+void Mesh::setShininess(GLfloat shininess) {
+	this->shininess = shininess;
 }
 
-void Mesh::setShading(bool shading) {
-	this->shading = shading;
+Texture* Mesh::getDiffuseTexture() {
+	return diffuse;
 }
 
-bool Mesh::getShading() {
-	return shading;
+Texture* Mesh::getSpecularTexture() {
+	return specular;
 }
 
-glm::vec3 Mesh::getColor() {
-	return color;
-}
-
-Texture* Mesh::getTexture() {
-	return texture;
+GLfloat Mesh::getShininess() {
+	return shininess;
 }
 
 void Mesh::draw(Shader& shader) {
-	shader.use();
-	shader.setBool("shading", shading);
-	shader.setMat4("model", model);
-	shader.setVec3("objectColor", color);
-
 	vao->bind();
-	texture->bind();
+	diffuse->bind();
+	specular->bind();
+
+	shader.use();
+	shader.setMat4("model", model);
+	shader.setInt("material.diffuse", 0);
+	shader.setInt("material.specular", 1);
+	shader.setFloat("material.shininess", shininess);
+
 	vao->drawIndices(indices.size());
 }

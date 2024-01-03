@@ -5,7 +5,11 @@
 #include <iostream>
 
 class Texture {
+public:
+	using TextureType = enum TEXTURE { DIFFUSE, SPECULAR };
+
 private:
+	TextureType type;
 	GLuint id;
 	GLenum wrapping;
 	const char* path;
@@ -13,7 +17,11 @@ private:
 	void loadImage(const char* path);
 
 public:
-	Texture(const char* path = "../resources/textures/default.png", GLenum wrapping = GL_REPEAT);
+	Texture(
+		TextureType type = DIFFUSE,
+		const char* path = "../resources/textures/default.png", 
+		GLenum wrapping = GL_REPEAT
+	);
 	~Texture();
 
 	void initialize();

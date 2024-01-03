@@ -7,7 +7,7 @@ void Texture::loadImage(const char* path) {
 	stbi_set_flip_vertically_on_load(true);
 
 	int width, height, nrChannels;
-	unsigned char* data = stbi_load(path, &width, &height, &nrChannels, 0);
+	unsigned char* data = stbi_load(path, &width, &height, &nrChannels, 3);
 
 	if (data) {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -19,9 +19,11 @@ void Texture::loadImage(const char* path) {
 	stbi_image_free(data);
 }
 
-Texture::Texture(const char* path, GLenum wrapping) {
+Texture::Texture(TextureType type, const char* path, GLenum wrapping) {
+	this->id = 0;
 	this->path = path;
 	this->wrapping = wrapping;
+	this->type = type;
 }
 
 void Texture::initialize() {
@@ -40,6 +42,7 @@ Texture::~Texture() {
 }
 
 void Texture::bind() {
+	type == DIFFUSE ? glActiveTexture(GL_TEXTURE0) : glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, id);
 }
 

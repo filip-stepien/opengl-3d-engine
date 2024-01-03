@@ -12,22 +12,23 @@
 
 class Light : public Updatable, public Movable {
 private:
-	glm::vec3 color;
-	GLfloat ambientStrength;
-	GLfloat specularStrength;
-	Shape* shape;
+	glm::vec3 ambient;
+	glm::vec3 diffuse;
+	glm::vec3 specular;
 
 public:
 	Light();
-	void setColor(glm::vec3 color);
-	void setColor(GLfloat r, GLfloat g, GLfloat b);
-	void setAmbientStrength(GLfloat strength);
-	void setSpecularStength(GLfloat strength);
-	void setShape(Shape* shape);
 
-	glm::vec3 getColor();
-	GLfloat getAmbientStrength();
-	GLfloat getSpecularStength();
+	void setAmbient(glm::vec3 ambient);
+	void setDiffuse(glm::vec3 diffuse);
+	void setSpecular(glm::vec3 specular);
+	void setAmbient(GLfloat r, GLfloat g, GLfloat b);
+	void setDiffuse(GLfloat r, GLfloat g, GLfloat b);
+	void setSpecular(GLfloat r, GLfloat g, GLfloat b);
+
+	glm::vec3 getAmbient();
+	glm::vec3 getDiffuse();
+	glm::vec3 getSpecular();
 
 	void update(Shader& shader, int index);
 };
