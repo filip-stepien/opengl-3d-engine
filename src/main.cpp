@@ -16,10 +16,12 @@ public:
 	}
 
 	void setup() {
-		cube.setColor(1.0f, 0.0f, 0.0f);
+		cube.setColor(0.0f, 0.0f, 1.0f);
+		cube.setShading(false);
 		sphere.setTexture("../resources/textures/ball.jpg");
 		sphere.move(3.0f, 0.0f, 0.0f);
 		light.move(2.0f, 1.5f, 3.0f);
+		light.setColor(0.0f, 0.0f, 1.0f);
 
 		onKeyClick(GLFW_KEY_ESCAPE, getHandler(&DebugApp::close));
 	}

@@ -6,6 +6,7 @@ Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices) {
 	this->texture = new Texture;
 	this->color = glm::vec3(1.0f, 1.0f, 1.0f);
 	this->vao = nullptr;
+	this->shading = true;
 }
 
 void Mesh::initialize() {
@@ -47,6 +48,14 @@ void Mesh::setColor(GLfloat r, GLfloat g, GLfloat b) {
 	this->color = glm::vec3(r, g, b);
 }
 
+void Mesh::setShading(bool shading) {
+	this->shading = shading;
+}
+
+bool Mesh::getShading() {
+	return shading;
+}
+
 glm::vec3 Mesh::getColor() {
 	return color;
 }
@@ -57,6 +66,7 @@ Texture* Mesh::getTexture() {
 
 void Mesh::draw(Shader& shader) {
 	shader.use();
+	shader.setBool("shading", shading);
 	shader.setMat4("model", model);
 	shader.setVec3("objectColor", color);
 

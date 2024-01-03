@@ -22,6 +22,7 @@ protected:
 	Texture* texture;
 	glm::vec3 color;
 	VertexArray* vao;
+	bool shading;
 
 public:
 	Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices);
@@ -30,9 +31,11 @@ public:
 	void setTexture(const char* path);
 	void setColor(glm::vec3 color);
 	void setColor(GLfloat r, GLfloat g, GLfloat b);
+	void setShading(bool shading);
 
 	Texture* getTexture();
 	glm::vec3 getColor();
+	bool getShading();
 
 	void initialize();
 	void draw(Shader& shader);

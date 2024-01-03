@@ -12,6 +12,8 @@ uniform sampler2D tex;
 uniform vec3 viewPos; 
 uniform vec3 objectColor;
 
+uniform bool shading;
+
 struct Light {
     vec3 position;
     vec3 color;        
@@ -44,6 +46,12 @@ void main() {
     for(int i = 0; i < MAX_LIGHTS; i++)
         lightResult += calcLight(light[i], FragPos, norm, viewDir);
 
-    vec3 result = lightResult * texColor * objectColor;
+    vec3 result;
+    if(shading) {
+        result = lightResult * texColor * objectColor;
+    } else {
+        result = texColor * objectColor;
+    }
+
     FragColor = vec4(result, 1.0);
 } 
