@@ -4,11 +4,15 @@
 
 #include "Engine.hpp"
 #include "App.hpp"
+#include "Torus.hpp"
+#include "Cube.hpp"
+#include "Sphere.hpp"
 
 class DebugApp : public App {
 public:
-	Cube cube;
-	Sphere sphere;
+	//Cube cube;
+	Torus torus { 1.0f, 10.0f, 64, 64 };
+	Sphere sphere { 3.0f, 64, 64 };
 	Light light;
 
 	void close() {
@@ -16,18 +20,23 @@ public:
 	}
 
 	void setup() {
-		sphere.move(3.0f, 0.0f, 0.0f);
-		sphere.setDiffuseTexture("../resources/textures/ball.jpg");
-
-		cube.setDiffuseTexture("../resources/textures/container.png");
-		cube.setSpecularTexture("../resources/textures/container_specular.png");
-		cube.setShininess(5.0f);
-
-		light.move(2.0f, 1.5f, 3.0f);
-		light.setAmbient(0.0f, 0.1f, 0.0f);
+		light.move(12.0f, 1.5f, 13.0f);
+		light.setAmbient(0.1f, 0.1f, 0.1f);
 		light.setDiffuse(1.0f, 1.0f, 1.0f);
 
+		torus.rotate(90.0f, 1.0f, 0.0f, 0.0f);
+		torus.setDiffuseTexture("../resources/textures/debug.png");
+
+		sphere.setDiffuseTexture("../resources/textures/ball.jpg");
+
 		onKeyClick(GLFW_KEY_ESCAPE, getHandler(&DebugApp::close));
+	}
+
+	void loop() {
+		float delta = Engine::get().getDeltaTime();
+
+		torus.rotate(1.0f * delta, 0.0f, 0.0f, 1.0f);
+		torus.rotate(0.5f * delta, 0.0f, 1.0f, 0.0f);
 	}
 };
 

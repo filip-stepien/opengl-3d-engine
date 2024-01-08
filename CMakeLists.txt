@@ -68,6 +68,8 @@ src/Cube.cpp
 src/Cube.hpp
 src/Sphere.cpp
 src/Sphere.hpp
+src/Torus.cpp
+src/Torus.hpp
 src/Transformable.cpp
 src/Transformable.hpp
 src/Movable.cpp
