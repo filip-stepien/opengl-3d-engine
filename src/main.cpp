@@ -11,8 +11,8 @@
 class DebugApp : public App {
 public:
 	//Cube cube;
-	Torus torus { 1.0f, 10.0f, 8, 8 };
-	Sphere sphere { 3.0f, 8, 8 };
+	Torus torus { 1.0f, 10.0f, 32, 32 };
+	Sphere sphere { 3.0f, 32, 32 };
 	Light light;
 
 	void close() {
@@ -25,12 +25,11 @@ public:
 		light.setDiffuse(1.0f, 1.0f, 1.0f);
 
 		torus.rotate(90.0f, 1.0f, 0.0f, 0.0f);
-		torus.setSides(16);
-		torus.setRings(8);
 
 		torus.setDiffuseTexture("../resources/textures/debug.png");
 
 		sphere.setDiffuseTexture("../resources/textures/ball.jpg");
+		sphere.scale(1.0f, 0.5f, 1.0f);
 
 		onKeyClick(GLFW_KEY_ESCAPE, getHandler(&DebugApp::close));
 	}
@@ -50,7 +49,8 @@ int main() {
 	Camera cam;
 	cam.setProjection(Camera::PERSPECTIVE, 0.1f, 100.0f);
 	cam.setInitialFocus(0.0f, 0.0f, 0.0f);
-	cam.move(6.0f, 3.0f, 6.0f);
+	cam.move(12.0f, 3.0f, 12.0f);
+	cam.setSpeed(15.0f);
 	cam.setMovementEnabled(true);
 
 	Engine::get()

@@ -14,4 +14,12 @@ protected:
 	void populateIndices() override;
 public:
 	Sphere(GLfloat radius = 1.0f, GLuint sectorCount = 24, GLuint stackCount = 24);
+
+	void Sphere::setRadius(GLfloat radius);
+	void Sphere::setSectors(GLuint sectors);
+	void Sphere::setStacks(GLuint stacks);
+	
+	GLfloat Sphere::getRadius();
+	GLuint Sphere::getSectors();
+	GLuint Sphere::getStacks();
 };

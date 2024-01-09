@@ -70,3 +70,33 @@ Sphere::Sphere(GLfloat radius, GLuint sectorCount, GLuint stackCount)
     populateIndices();
     Engine::get().addToShapePipeline(this);
 }
+
+void Sphere::setRadius(GLfloat radius) {
+    this->radius = radius;
+    populateVertices();
+    populateIndices();
+}
+
+void Sphere::setSectors(GLuint sectors) {
+    this->sectorCount = sectors;
+    populateVertices();
+    populateIndices();
+}
+
+void Sphere::setStacks(GLuint stacks) {
+    this->stackCount = stacks;
+    populateVertices();
+    populateIndices();
+}
+
+GLfloat Sphere::getRadius() {
+    return radius;
+}
+
+GLuint Sphere::getSectors() {
+    return sectorCount;
+}
+
+GLuint Sphere::getStacks() {
+    return stackCount;
+}
