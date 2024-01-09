@@ -11,8 +11,8 @@
 class DebugApp : public App {
 public:
 	//Cube cube;
-	Torus torus { 1.0f, 10.0f, 64, 64 };
-	Sphere sphere { 3.0f, 64, 64 };
+	Torus torus { 1.0f, 10.0f, 8, 8 };
+	Sphere sphere { 3.0f, 8, 8 };
 	Light light;
 
 	void close() {
@@ -25,6 +25,9 @@ public:
 		light.setDiffuse(1.0f, 1.0f, 1.0f);
 
 		torus.rotate(90.0f, 1.0f, 0.0f, 0.0f);
+		torus.setSides(16);
+		torus.setRings(8);
+
 		torus.setDiffuseTexture("../resources/textures/debug.png");
 
 		sphere.setDiffuseTexture("../resources/textures/ball.jpg");

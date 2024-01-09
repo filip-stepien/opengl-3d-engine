@@ -13,6 +13,8 @@ Torus::Torus(GLuint innerRadius, GLuint outerRadius, GLuint sides, GLuint rings)
 }
 
 void Torus::populateVertices() {
+    vertices.clear();
+
     float sideStep = 2 * M_PI / sides;
     float ringStep = 2 * M_PI / rings;
     float theta, phi, x, y, z, u, v;
@@ -38,6 +40,8 @@ void Torus::populateVertices() {
 }
 
 void Torus::populateIndices() {
+    indices.clear();
+
     int first, second;
     for (int i = 0; i < rings; ++i) {
         for (int j = 0; j < sides; ++j) {
@@ -53,4 +57,44 @@ void Torus::populateIndices() {
             indices.push_back(first + 1);
         }
     }
+}
+
+void Torus::setSides(GLuint sides) {
+    this->sides = sides;
+    populateVertices();
+    populateIndices();
+}
+
+void Torus::setRings(GLuint rings) {
+    this->rings = rings;
+    populateVertices();
+    populateIndices();
+}
+
+void Torus::setOuterRadius(GLfloat outerRadius) {
+    this->outerRadius = outerRadius;
+    populateVertices();
+    populateIndices();
+}
+
+void Torus::setInnerRadius(GLfloat innerRadius) {
+    this->innerRadius = innerRadius;
+    populateVertices();
+    populateIndices();
+}
+
+GLuint Torus::getSides() {
+    return sides;
+}
+
+GLuint Torus::getRings() {
+    return rings;
+}
+
+GLfloat Torus::getOuterRadius() {
+    return outerRadius;
+}
+
+GLfloat Torus::getInnerRadius() {
+    return innerRadius;
 }

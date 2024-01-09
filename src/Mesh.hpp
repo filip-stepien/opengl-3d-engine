@@ -36,6 +36,6 @@ public:
 	Texture* getSpecularTexture();
 	GLfloat getShininess();
 
-	void initialize();
+	virtual void initialize();
 	void draw(Shader& shader);
 };
