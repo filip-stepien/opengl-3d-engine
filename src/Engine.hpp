@@ -49,6 +49,8 @@ private:
 	GLdouble deltaTime;
 
 	bool mouseCapture;
+	bool maximized;
+	bool fullscreen;
 
 	Handler keyClickHandlers[GLFW_KEY_LAST];
 	Handler keyReleaseHandlers[GLFW_KEY_LAST];
@@ -61,11 +63,10 @@ private:
 	void initGlfw();
 	void initGlad();
 	void checkAppState();
-
 	void setViewport();
 	void setupGl();
-
 	void updateDeltaTime();
+	void setCallbacks();
 	void endFrame();
 
 	friend class App;
@@ -78,6 +79,8 @@ public:
 	Engine& setApp(App* app);
 	Engine& setCamera(Camera* camera);
 	Engine& setMouseCapture(bool mouseCapture);
+	Engine& setWindowMaximized(bool maximized);
+	Engine& setWindowFullscreen(bool fullscreen);
 	bool build();
 
 	float getAspectRatio();

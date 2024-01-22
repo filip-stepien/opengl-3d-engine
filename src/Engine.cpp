@@ -18,6 +18,10 @@ Engine::Engine() :
 	shapePipeline = {};
 	lightPipeline = {};
 
+	mouseCapture = true;
+	maximized = false;
+	fullscreen = false;
+
 	currentFrame = 0;
 	lastFrame = 0;
 	deltaTime = 0;
@@ -31,6 +35,16 @@ Engine::~Engine() {
 Engine& Engine::get() {
 	static Engine engine;
 	return engine;
+}
+
+Engine& Engine::setWindowMaximized(bool maximized) {
+	this->maximized = maximized;
+	return *this;
+}
+
+Engine& Engine::setWindowFullscreen(bool fullscreen) {
+	this->fullscreen = fullscreen;
+	return *this;
 }
 
 Engine& Engine::setWindowDimensions(int width, int height) {
@@ -146,7 +160,24 @@ void Engine::checkAppState() {
 
 void Engine::createWindow() {
 	setWindowHints();
-	window = glfwCreateWindow(windowWidth, windowHeight, windowTitle, NULL, NULL);
+
+	if (fullscreen) {
+		GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+		const GLFWvidmode* videoMode = glfwGetVideoMode(primaryMonitor);
+		window = glfwCreateWindow(videoMode->width, videoMode->height, windowTitle, primaryMonitor, NULL);
+		windowWidth = videoMode->width;
+		windowHeight = videoMode->height;
+	}
+	else {
+		window = glfwCreateWindow(windowWidth, windowHeight, windowTitle, NULL, NULL);
+		if (maximized) {
+			glfwMaximizeWindow(window);
+			int framebufferWidth, framebufferHeight;
+			glfwGetFramebufferSize(window, &framebufferWidth, &framebufferHeight);
+			windowWidth = framebufferWidth;
+			windowHeight = framebufferHeight;
+		}
+	}
 
 	if (window == nullptr) {
 		std::cout << "Failed to create GLFW window." << std::endl;
@@ -222,6 +253,12 @@ void Engine::handleMouseMove() {
 	}
 }
 
+void Engine::setCallbacks() {
+	glfwSetKeyCallback(window, cb::onKeyAction);
+	glfwSetMouseButtonCallback(window, cb::onButtonAction);
+	glfwSetCursorPosCallback(window, cb::onMouseMove);
+}
+
 bool Engine::build() {
 	initGlfw();
 	createWindow();
@@ -229,22 +266,12 @@ bool Engine::build() {
 	setViewport();
 	setupGl();
 	checkAppState();
-
-	// DEBUG ///////////////////////////////////////////////////////////////////
+	setCallbacks();
 
 	Shader shader(
 		"../resources/shaders/basic_vertex.glsl", 
 		"../resources/shaders/basic_fragment.glsl"
 	);
-
-	Shader lighShader(
-		"../resources/shaders/light_vertex.glsl",
-		"../resources/shaders/light_fragment.glsl"
-	);
-
-	glfwSetKeyCallback(window, cb::onKeyAction);
-	glfwSetMouseButtonCallback(window, cb::onButtonAction);
-	glfwSetCursorPosCallback(window, cb::onMouseMove);
 
 	camera->updateProjection();
 	app->setup();
@@ -269,8 +296,6 @@ bool Engine::build() {
 		app->loop();
 		endFrame();
 	}
-
-	///////////////////////////////////////////////////////////////////////////
 
 	return true;
 }
