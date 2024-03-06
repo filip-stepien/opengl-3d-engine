@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CALLBACKS_H
+#define CALLBACKS_H
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -10,3 +11,5 @@ namespace cb {
     void onButtonAction(GLFWwindow* window, int button, int action, int mods);
     void onMouseMove(GLFWwindow* window, double xpos, double ypos);
 }
+
+#endif
