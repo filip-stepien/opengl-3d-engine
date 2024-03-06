@@ -1,4 +1,5 @@
-#pragma once
+#ifndef APP_H
+#define APP_H
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -6,20 +7,16 @@
 
 class App {
 public:
-    App();
-
     using Handler = void (App::*)();
 
-    virtual void setup();
-	virtual void loop();
+    virtual void setup() {};
+	virtual void loop() {};
 
 	void onKeyClick(int key, Handler handler);
     void onKeyRelease(int key, Handler handler);
     void onMouseClick(int mouseButton, Handler handler);
     void onMouseRelease(int mouseButton, Handler handler);
     void onMouseMove(Handler handler);
-
-    void run();
 
     glm::vec2 getMousePosition();
 
@@ -28,3 +25,5 @@ public:
         return static_cast<Handler>(handler);
     }
 };
+
+#endif
