@@ -8,6 +8,7 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <functional>
 
 #include "callbacks.hpp"
 #include "Shader.hpp"
