@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SCALABLE_H
+#define SCALABLE_H
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -12,3 +13,5 @@ public:
 	virtual void scale(GLfloat x, GLfloat y, GLfloat z);
 	virtual void scale(glm::vec3 scale);
 };
+
+#endif

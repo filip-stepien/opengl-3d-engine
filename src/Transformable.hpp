@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TRANSFORMABLE_H
+#define TRANSFORMABLE_H
 
 #include <glm/glm.hpp>
 
@@ -10,3 +11,5 @@ protected:
 public:
 	Transformable();
 };
+
+#endif

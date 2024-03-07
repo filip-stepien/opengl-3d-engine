@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ROTATABLE_H
+#define ROTATABLE_H
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -12,3 +13,5 @@ public:
 	virtual void rotate(GLfloat angle, GLfloat x, GLfloat y, GLfloat z);
 	virtual void rotate(GLfloat angle, glm::vec3 origin);
 };
+
+#endif

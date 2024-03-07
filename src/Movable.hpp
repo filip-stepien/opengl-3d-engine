@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MOVABLE_H
+#define MOVABLE_H
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -16,3 +17,5 @@ public:
 	virtual void move(GLfloat x, GLfloat y, GLfloat z);
 	virtual void move(glm::vec3 translation);
 };
+
+#endif
