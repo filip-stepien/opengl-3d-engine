@@ -38,7 +38,7 @@ public:
 	GLfloat getShininess();
 
 	virtual void initialize();
-	void draw(Shader& shader);
+	void draw(Shader& shader) override;
 };
 
 #endif
