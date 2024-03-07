@@ -9,7 +9,7 @@
 
 class Movable : virtual public Transformable {
 protected:
-	glm::vec3 position;
+	glm::vec3 position { 0.0f };
 public:
 	Movable();
 	glm::vec3 getPosition();

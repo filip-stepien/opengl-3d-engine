@@ -4,6 +4,6 @@
 
 class Updatable {
 public:
-	void update(Shader& shader) {};
+    virtual void update(Shader& shader) {};
 	void update(Shader& shader, int index) {};
 };

@@ -14,11 +14,11 @@ namespace cb {
 		Engine::get().handleButtonAction(button, action);
 	}
 
-	void onMouseMove(GLFWwindow* window, double xpos, double ypos) {
+	void onMouseMove(GLFWwindow* window, double mouseX, double mouseY) {
 		Engine::get().handleMouseMove();
 
 		Camera* camera = Engine::get().getCamera();
 		if(camera->isMovementEnabled())
-			camera->handleMouseMove(xpos, ypos);
+			camera->handleMouseMove(mouseX, mouseY);
 	}
 }
