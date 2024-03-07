@@ -21,8 +21,6 @@
 #include "Mesh.hpp"
 #include "Light.hpp"
 #include "App.hpp"
-#include "Cube.hpp"
-#include "Sphere.hpp"
 
 class Engine {
 public:
@@ -43,7 +41,6 @@ private:
 	const char* windowTitle;
 	WindowMode windowMode;
 	GLFWwindow* window;
-	std::vector<Shape*> shapePipeline;
 	std::vector<Light*> lightPipeline;
 
 	GLdouble currentFrame;
@@ -99,7 +96,6 @@ public:
 	void handleButtonAction(int button, int action);
 	void handleMouseMove();
 
-	void addToShapePipeline(Shape* shape);
 	void addToLightPipeline(Light* light);
 
 	bool isRunning();

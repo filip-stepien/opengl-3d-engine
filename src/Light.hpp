@@ -9,7 +9,6 @@
 #include "Movable.hpp"
 #include "Updatable.hpp"
 #include "Shader.hpp"
-#include "Shape.hpp"
 
 class Light : public Updatable, public Movable {
 private:

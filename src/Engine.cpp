@@ -16,7 +16,6 @@ Engine::Engine() :
 	camera = nullptr;
 	mouseMoveHandler = nullptr;
 	mouseCapture = true;
-	shapePipeline = {};
 	lightPipeline = {};
 
 	mouseCapture = true;
@@ -113,10 +112,6 @@ Camera* Engine::getCamera() {
 
 GLdouble Engine::getDeltaTime() {
 	return deltaTime;
-}
-
-void Engine::addToShapePipeline(Shape* shape) {
-	shapePipeline.push_back(shape);
 }
 
 void Engine::addToLightPipeline(Light* light) {
@@ -277,10 +272,6 @@ bool Engine::build() {
 	camera->initialize();
 	app->setup();
 
-	for (Shape* s : shapePipeline) {
-		s->initialize();
-	}
-
     Model model;
     model.load("../resources/models/box.obj");
 
@@ -294,10 +285,6 @@ bool Engine::build() {
 
 		for (int i = 0; i < lightPipeline.size(); i++) {
 			lightPipeline[i]->update(shader, i);
-		}
-		
-		for (Shape* s : shapePipeline) {
-			s->draw(shader);
 		}
 
         for(Mesh* mesh : model.meshes) {
