@@ -12,8 +12,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(glfw)
 
 FetchContent_Declare(
-    glad
-    GIT_REPOSITORY https://github.com/Dav1dde/glad.git
+    glad GIT_REPOSITORY https://github.com/Dav1dde/glad.git
     GIT_TAG        master
 )
 
@@ -28,19 +27,41 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(glm)
 
 FetchContent_Declare(
-  stb_image
-  GIT_REPOSITORY https://github.com/nothings/stb.git
-  GIT_TAG master
+    glm
+    GIT_REPOSITORY https://github.com/g-truc/glm.git
+    GIT_TAG        master
+)
+
+FetchContent_MakeAvailable(glm)
+
+FetchContent_Declare(
+    stb_image
+    GIT_REPOSITORY https://github.com/nothings/stb.git
+    GIT_TAG master
 )
 
 FetchContent_GetProperties(stb_image)
 if(NOT stb_image_POPULATED)
-  FetchContent_Populate(stb_image)
-  add_library(stb_image INTERFACE)
-  target_include_directories(stb_image INTERFACE ${stb_image_SOURCE_DIR})
+    FetchContent_Populate(stb_image)
+    add_library(stb_image INTERFACE)
+    target_include_directories(stb_image INTERFACE ${stb_image_SOURCE_DIR})
+endif()
+
+FetchContent_Declare(
+    obj_loader
+    GIT_REPOSITORY https://github.com/Bly7/OBJ-Loader.git
+    GIT_TAG master
+)
+
+if(NOT obj_loader_POPULATED)
+    FetchContent_Populate(obj_loader)
+    add_library(obj_loader INTERFACE)
+    target_include_directories(obj_loader INTERFACE ${obj_loader_SOURCE_DIR}/Source)
 endif()
 
 add_executable(opengl-3d-engine
+resources/shaders/basic_vertex.glsl
+resources/shaders/basic_fragment.glsl
 src/main.cpp
 src/Engine.cpp
 src/Engine.hpp
@@ -86,8 +107,10 @@ src/Demo.cpp
 src/Demo.hpp
 src/App.cpp
 src/App.hpp
-resources/shaders/basic_vertex.glsl
-resources/shaders/basic_fragment.glsl
+src/Model.cpp
+src/Model.cpp
+src/Model.hpp
+src/Model.hpp
 )
 
-target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm stb_image)
+target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm stb_image obj_loader)

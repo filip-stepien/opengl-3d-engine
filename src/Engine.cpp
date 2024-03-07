@@ -1,4 +1,5 @@
 #include "Engine.hpp"
+#include "Model.hpp"
 
 Engine::Engine() : 
 	keyClickHandlers{ nullptr },
@@ -280,6 +281,13 @@ bool Engine::build() {
 		s->initialize();
 	}
 
+    Model model;
+    model.load("../resources/models/box.obj");
+
+    for(Mesh* mesh : model.meshes) {
+        mesh->initialize();
+    }
+
 	while (isRunning()) {
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
 		updateDeltaTime();
@@ -291,6 +299,10 @@ bool Engine::build() {
 		for (Shape* s : shapePipeline) {
 			s->draw(shader);
 		}
+
+        for(Mesh* mesh : model.meshes) {
+            mesh->draw(shader);
+        }
 
 		camera->update(shader);
 		app->loop();

@@ -3,10 +3,18 @@
 #include <GLFW/glfw3.h>
 
 #include "Engine.hpp"
-#include "Demo.hpp"
+#include "Model.hpp"
+
+class Test : public App {
+    Light light;
+
+    void setup() override {
+        light.move(3.0f, 6.0f, 4.0f);
+    }
+};
 
 int main() {
-	Demo app;
+    Test app;
 
 	Camera cam;
 	cam.setProjection(Camera::PERSPECTIVE, 0.1f, 100.0f);
