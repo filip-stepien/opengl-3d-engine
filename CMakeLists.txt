@@ -83,15 +83,7 @@ src/Mesh.cpp
 src/Mesh.hpp
 src/Light.cpp
 src/Light.hpp
-src/Shape.cpp
-src/Shape.hpp
-src/Cube.cpp
-src/Cube.hpp
-src/Sphere.cpp
-src/Sphere.hpp
-src/Torus.cpp
-src/Torus.hpp
-src/Transformable.cpp
+        src/Transformable.cpp
 src/Transformable.hpp
 src/Movable.cpp
 src/Movable.hpp
@@ -103,9 +95,7 @@ src/Drawable.hpp
 src/Updatable.hpp
 src/EngineObject.hpp
 src/EngineObject.cpp
-src/Demo.cpp
-src/Demo.hpp
-src/App.cpp
+        src/App.cpp
 src/App.hpp
 src/Model.cpp
 src/Model.cpp
