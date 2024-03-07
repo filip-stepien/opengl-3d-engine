@@ -1,10 +1,13 @@
-#pragma once
+#ifndef ENGINE_OBJECT_H
+#define ENGINE_OBJECT_H
 
 class EngineObject {
 protected:
-	unsigned long uid;
-	static unsigned long& generateID();
+	unsigned long long uid;
+	static unsigned long long& getIDCounter();
 public:
 	EngineObject();
-	unsigned long getID();
+	unsigned long long getID();
 };
+
+#endif
