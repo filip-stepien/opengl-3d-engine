@@ -1,14 +1,14 @@
 #include "EngineObject.hpp"
 
 EngineObject::EngineObject() {
-	uid = generateID()++;
+	uid = getIDCounter()++;
 }
 
-unsigned long& EngineObject::generateID() {
-	static unsigned long counter = 0;
+unsigned long long& EngineObject::getIDCounter() {
+	static unsigned long long counter = 0;
 	return counter;
 }
 
-unsigned long EngineObject::getID() {
+unsigned long long EngineObject::getID() {
 	return uid;
 }
