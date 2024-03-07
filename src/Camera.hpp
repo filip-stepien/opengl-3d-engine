@@ -1,8 +1,7 @@
-#pragma once
+#ifndef CAMERA_H
+#define CAMERA_H
 
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include "Shader.hpp"
 #include "Movable.hpp"
 #include "Updatable.hpp"
 
@@ -11,38 +10,37 @@ public:
 	using Projection = enum PROJECTION { PERSPECTIVE, ORTHO };
 
 private:
-	Projection projection;
-	GLfloat near;
-	GLfloat far;
-	GLfloat fov;
+	Projection projection { PERSPECTIVE };
 
-	bool firstMouse;
-	GLfloat lastX;
-	GLfloat lastY;
+	GLfloat near { 0.1f };
+	GLfloat far { 100.0f };
+	GLfloat fov { 45.0f };
 
-	bool movementEnabled;
-	GLfloat yaw;
-	GLfloat pitch;
-	GLfloat speed;
-	GLfloat sensitivity;
-	GLfloat zoom;
+	bool firstMouse { true };
+	GLfloat lastX { 0.0f };
+	GLfloat lastY { 0.0f };
 
-	glm::vec3 front;
-	glm::vec3 up;
-	glm::vec3 right;
+	bool movementEnabled { true };
+	GLfloat yaw { -90.0f };
+	GLfloat pitch { 0.0f };
+	GLfloat sensitivity { 0.1f };
+	GLfloat zoom { 45.0f };
+    GLfloat speed { 2.5f };
 
-	glm::mat4 viewMatrix;
-	glm::mat4 projectionMatrix;
-	glm::vec3 initialFocus;
+    glm::vec3 initialFocus { 0.0f };
+	glm::vec3 front { 0.0f, 0.0f, -1.0f };
+	glm::vec3 up { 0.0f, 1.0f, 0.0f };
+	glm::vec3 right { 0.0f, 0.0f, 0.0f };
 
-	void updateVectors();
-	void updateFocus();
+	glm::mat4 viewMatrix { glm::mat4(1.0f) };
+	glm::mat4 projectionMatrix { glm::perspective(45.0f, 16.0f / 9.0f, 0.1f, 100.0f) };
+
+    void updateFocus();
+    void updateVectors();
 	void processMovement();
 
 public:
 	using Direction = enum DIRECTION { FORWARD, BACKWARD, LEFT, RIGHT };
-
-	Camera();
 
 	void setYaw(GLfloat yaw);
 	void setPitch(GLfloat pitch);
@@ -64,10 +62,11 @@ public:
 
 	void processKeyboard(Direction direction);
 	void processMouse(GLfloat offsetX, GLfloat offsetY);
-	void handleMouseMove(double posX, double posY);
-	void updateProjection();
+	void handleMouseMove(double mouseX, double mouseY);
 
-	void update(Shader& shader);
-	void move(GLfloat x, GLfloat y, GLfloat z);
-	void move(glm::vec3 translation);
+    void initialize();
+    void updateProjection();
+	void update(Shader& shader) override;
 };
+
+#endif

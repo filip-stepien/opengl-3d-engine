@@ -273,7 +273,7 @@ bool Engine::build() {
 		"../resources/shaders/basic_fragment.glsl"
 	);
 
-	camera->updateProjection();
+	camera->initialize();
 	app->setup();
 
 	for (Shape* s : shapePipeline) {

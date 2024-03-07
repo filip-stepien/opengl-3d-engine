@@ -1,54 +1,27 @@
 #include "Camera.hpp"
 #include "Engine.hpp"
 
-Camera::Camera() {
-	viewMatrix = glm::mat4(1.0f);
-	projectionMatrix = glm::perspective(45.0f, Engine::get().getAspectRatio(), 0.1f, 100.0f);
-
-	near = 0.1f;
-	far = 100.0f;
-	fov = 45.0f;
-
-	firstMouse = true;
-	lastX = 0.0f;
-	lastY = 0.0f;
-
-	movementEnabled = true;
-	yaw = -90.0f;
-	pitch = 0.0f;
-	speed = 2.5f;
-	sensitivity = 0.1f;
-	zoom = 45.0f;
-
-	front = glm::vec3(0.0f, 0.0f, -1.0f);
-	up = glm::vec3(0.0f, 1.0f, 0.0f);
-	initialFocus = glm::vec3(0.0f, 0.0f, 0.0f);
-
-	updateVectors();
-}
-
 void Camera::setProjection(Projection projection, GLfloat near, GLfloat far, GLfloat fovDegrees) {
 	this->projection = projection;
 	this->near = near;
 	this->far = far;
 	this->fov = fovDegrees;
-
-	updateProjection();
 }
 
 void Camera::updateProjection() {
+    float apsect = Engine::get().getAspectRatio();
+
 	if (projection == PERSPECTIVE) {
 		projectionMatrix = glm::perspective(
 			glm::radians(fov),
-			Engine::get().getAspectRatio(),
+            apsect,
 			near,
 			far
 		);
-	}
-	else {
+	} else {
 		projectionMatrix = glm::ortho(
-			-Engine::get().getAspectRatio(),
-			Engine::get().getAspectRatio(),
+			-apsect,
+            apsect,
 			-1.0f,
 			1.0f,
 			near,
@@ -85,12 +58,10 @@ void Camera::setMovementEnabled(bool movementEnabled) {
 
 void Camera::setInitialFocus(glm::vec3 initalFocus) {
 	this->initialFocus = initalFocus;
-	updateFocus();
 }
 
 void Camera::setInitialFocus(GLfloat x, GLfloat y, GLfloat z) {
 	this->initialFocus = glm::vec3(x, y, z);
-	updateFocus();
 }
 
 GLfloat Camera::getYaw() {
@@ -122,7 +93,9 @@ bool Camera::isMovementEnabled() {
 }
 
 void Camera::processKeyboard(Direction direction) {
-	float velocity = speed * Engine::get().getDeltaTime();
+    double dt = Engine::get().getDeltaTime();
+	float velocity = static_cast<float>(speed * dt);
+
 	if (direction == FORWARD)
 		position += front * velocity;
 	if (direction == BACKWARD)
@@ -133,23 +106,23 @@ void Camera::processKeyboard(Direction direction) {
 		position += right * velocity;
 }
 
-void Camera::handleMouseMove(double posX, double posY) {
-	GLfloat xpos = static_cast<GLfloat>(posX);
-	GLfloat ypos = static_cast<GLfloat>(posY);
+void Camera::handleMouseMove(double mouseX, double mouseY) {
+	GLfloat x = static_cast<GLfloat>(mouseX);
+	GLfloat y = static_cast<GLfloat>(mouseY);
 
 	if (firstMouse) {
-		lastX = xpos;
-		lastY = ypos;
+		lastX = x;
+		lastY = y;
 		firstMouse = false;
 	}
 
-	GLfloat xoffset = xpos - lastX;
-	GLfloat yoffset = lastY - ypos;
+	GLfloat offsetX = x - lastX;
+	GLfloat offsetY = lastY - y;
 
-	lastX = xpos;
-	lastY = ypos;
+	lastX = x;
+	lastY = y;
 
-	processMouse(xoffset, yoffset);
+	processMouse(offsetX, offsetY);
 }
 
 void Camera::processMouse(GLfloat offsetX, GLfloat offsetY) {
@@ -167,21 +140,32 @@ void Camera::processMouse(GLfloat offsetX, GLfloat offsetY) {
 	updateVectors();
 }
 
-void Camera::updateVectors() {
-	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	front.y = sin(glm::radians(pitch));
-	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	front = glm::normalize(front);
-	right = glm::normalize(glm::cross(front, glm::vec3(0.0f, 1.0f, 0.0f)));
-	up = glm::normalize(glm::cross(right, front));
+void Camera::updateFocus() {
+    glm::vec3 diff = initialFocus - position;
+
+    if (glm::length(diff) <= 0.0)
+        return;
+
+    glm::vec3 direction = glm::normalize(diff);
+    double newYaw = glm::degrees(atan2(direction.z, direction.x));
+    double newPitch = glm::degrees(asin(direction.y));
+
+    yaw = static_cast<float>(newYaw);
+    pitch = static_cast<float>(newPitch);
+
+    updateVectors();
 }
 
-void Camera::updateFocus() {
-	glm::vec3 direction = glm::normalize(initialFocus - position);
-	float yaw = glm::degrees(atan2(direction.z, direction.x));
-	float pitch = glm::degrees(asin(direction.y));
-	setYaw(yaw);
-	setPitch(pitch);
+void Camera::updateVectors() {
+    float yawRad = glm::radians(yaw);
+    float pitchRad = glm::radians(pitch);
+
+	front.x = std::cos(yawRad) * std::cos(pitchRad);
+	front.y = std::sin(pitchRad);
+	front.z = std::sin(yawRad) * std::cos(pitchRad);
+
+	front = glm::normalize(front);
+	right = glm::normalize(glm::cross(front, up));
 }
 
 void Camera::processMovement() {
@@ -198,22 +182,17 @@ void Camera::processMovement() {
 }
 
 void Camera::update(Shader& shader) {
-	viewMatrix = glm::lookAt(position, position + front, glm::vec3(0.0f, 1.0f, 0.0f));
+    if (movementEnabled)
+        processMovement();
+
+	viewMatrix = glm::lookAt(position, position + front, up);
 	
 	shader.setMat4("projection", projectionMatrix);
 	shader.setMat4("view", viewMatrix);
 	shader.setVec3("viewPos", position);
-
-	if(movementEnabled)
-		processMovement();
 }
 
-void Camera::move(GLfloat x, GLfloat y, GLfloat z) {
-	Movable::move(x, y, z);
-	updateFocus();
-}
-
-void Camera::move(glm::vec3 translation) {
-	Movable::move(translation);
-	updateFocus();
+void Camera::initialize() {
+    updateProjection();
+    updateFocus();
 }
