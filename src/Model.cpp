@@ -1,6 +1,14 @@
 #include "Model.hpp"
 #include <OBJ_loader.h>
 
+Model::~Model() {
+    for (Mesh* mesh : meshes) {
+        delete mesh;
+    }
+
+    meshes.clear();
+}
+
 void Model::load(const std::string& path) {
     objl::Loader loader;
     bool fileLoaded = loader.LoadFile(path);
