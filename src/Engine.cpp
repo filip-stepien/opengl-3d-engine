@@ -1,5 +1,6 @@
 #include "Engine.hpp"
 #include "Model.hpp"
+#include "Billboard.hpp"
 
 Engine::Engine() : 
 	keyClickHandlers{ nullptr },
@@ -275,6 +276,9 @@ bool Engine::build() {
     Model model;
     model.load("../resources/models/box.obj");
 
+    Billboard b;
+    b.initialize();
+
     for(Mesh* mesh : model.meshes) {
         mesh->initialize();
     }
@@ -287,9 +291,11 @@ bool Engine::build() {
 			lightPipeline[i]->update(shader, i);
 		}
 
-        for(Mesh* mesh : model.meshes) {
-            mesh->draw(shader);
+        for (Mesh* mesh : model.meshes) {
+            //mesh->draw(shader);
         }
+
+        b.draw(shader, camera->getPosition());
 
 		camera->update(shader);
 		app->loop();

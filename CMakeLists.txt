@@ -101,6 +101,8 @@ src/Model.cpp
 src/Model.cpp
 src/Model.hpp
 src/Model.hpp
+        src/Billboard.cpp
+        src/Billboard.hpp
 )
 
 target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm stb_image obj_loader)
