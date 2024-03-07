@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SHAPE_H
+#define SHAPE_H
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -18,3 +19,5 @@ protected:
 public:
 	Shape(std::vector<Vertex>& vertices, std::vector<GLuint>& indices);
 };
+
+#endif

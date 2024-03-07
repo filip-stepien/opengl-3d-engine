@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LIGHT_H
+#define LIGHT_H
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -32,3 +33,5 @@ public:
 
 	void update(Shader& shader, int index);
 };
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ENGINE_H
+#define ENGINE_H
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -106,3 +107,5 @@ public:
 	void clearWindow(GLfloat r = 0.0f, GLfloat g = 0.0f, GLfloat b = 0.0f, GLfloat a = 1.0f);
 	void onResize(GLFWwindow* window, int width, int height);
 };
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef VERTEX_BUFFER_H
+#define VERTEX_BUFFER_H
 
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
@@ -23,3 +24,5 @@ public:
 	void bind();
 	void unbind();
 };
+
+#endif

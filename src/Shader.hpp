@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SHADER_H
+#define SHADER_H
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -37,3 +38,5 @@ public:
     void setMat3(std::string name, const glm::mat3& mat);
     void setMat4(std::string name, const glm::mat4& mat);
 };
+
+#endif

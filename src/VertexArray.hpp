@@ -1,4 +1,5 @@
-#pragma once
+#ifndef VERTEX_ARRAY_H
+#define VERTEX_ARRAY_H
 
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
@@ -18,3 +19,5 @@ public:
 	void drawVertices(GLuint numOfVertices, GLenum primitive = GL_TRIANGLES);
 	void drawIndices(GLuint numOfIndices, GLenum primitive = GL_TRIANGLES);
 };
+
+#endif
