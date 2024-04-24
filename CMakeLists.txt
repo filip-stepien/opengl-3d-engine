@@ -85,13 +85,7 @@ src/Light.cpp
 src/Light.hpp
         src/Transformable.cpp
 src/Transformable.hpp
-src/Movable.cpp
-src/Movable.hpp
-src/Scalable.cpp
-src/Scalable.hpp
-src/Rotatable.cpp
-src/Rotatable.hpp
-src/Drawable.hpp
+        src/Drawable.hpp
 src/Updatable.hpp
 src/EngineObject.hpp
 src/EngineObject.cpp

@@ -3,9 +3,6 @@
 
 #include "Texture.hpp"
 #include "Drawable.hpp"
-#include "Rotatable.hpp"
-#include "Scalable.hpp"
-#include "Movable.hpp"
 #include "Mesh.hpp"
 
 class Billboard : public Mesh {

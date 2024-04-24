@@ -1,5 +1,7 @@
 #include "Mesh.hpp"
 
+Mesh::Mesh() = default;
+
 Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices) {
 	this->vertices = vertices;
 	this->indices = indices;

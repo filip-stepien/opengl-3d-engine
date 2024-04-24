@@ -2,10 +2,10 @@
 #define CAMERA_H
 
 #include <glm/glm.hpp>
-#include "Movable.hpp"
 #include "Updatable.hpp"
+#include "Transformable.hpp"
 
-class Camera : public Updatable, public Movable {
+class Camera : public Updatable, public Transformable {
 public:
 	using Projection = enum PROJECTION { PERSPECTIVE, ORTHO };
 

@@ -19,9 +19,9 @@ private:
 
 public:
 	Texture(
-		TextureType type,
-		const char* path,
-		GLenum wrapping
+		TextureType type = DIFFUSE,
+		const char* path = "../resources/textures/default.png",
+		GLenum wrapping = GL_REPEAT
 	);
 	~Texture();
 
