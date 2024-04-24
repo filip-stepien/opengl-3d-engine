@@ -34,28 +34,28 @@ private:
 	Engine(const Engine&);
 	void operator=(const Engine&);
 
-	App* app;
-	Camera* camera;
-	GLuint windowWidth;
-	GLuint windowHeight;
-	const char* windowTitle;
-	WindowMode windowMode;
-	GLFWwindow* window;
-	std::vector<Light*> lightPipeline;
+	App* app { nullptr };
+	Camera* camera { nullptr };
+	GLuint windowWidth = 800;
+	GLuint windowHeight = 600;
+	const char* windowTitle = nullptr;
+	WindowMode windowMode = DEFAULT;
+	GLFWwindow* window = nullptr;
+	std::vector<Light*> lights = {};
 
-	GLdouble currentFrame;
-	GLdouble lastFrame;
-	GLdouble deltaTime;
+	GLdouble currentFrame { 0 };
+	GLdouble lastFrame { 0 };
+	GLdouble deltaTime { 0 };
 
-	bool mouseCapture;
-	bool maximized;
-	bool fullscreen;
+	bool mouseCapture { true };
+	bool maximized { false };
+	bool fullscreen { false };
 
-	Handler keyClickHandlers[GLFW_KEY_LAST];
-	Handler keyReleaseHandlers[GLFW_KEY_LAST];
-	Handler mouseClickHandlers[GLFW_MOUSE_BUTTON_LAST];
-	Handler mouseReleaseHandlers[GLFW_MOUSE_BUTTON_LAST];
-	Handler mouseMoveHandler;
+	Handler keyClickHandlers[GLFW_KEY_LAST] = { nullptr };
+	Handler keyReleaseHandlers[GLFW_KEY_LAST] = { nullptr };
+	Handler mouseClickHandlers[GLFW_MOUSE_BUTTON_LAST] = { nullptr };
+	Handler mouseReleaseHandlers[GLFW_MOUSE_BUTTON_LAST] = { nullptr };
+	Handler mouseMoveHandler = nullptr;
 
 	void setWindowHints();
 	void createWindow();
@@ -96,7 +96,7 @@ public:
 	void handleButtonAction(int button, int action);
 	void handleMouseMove();
 
-	void addToLightPipeline(Light* light);
+	void addLight(Light* light);
 
 	bool isRunning();
 	void close();

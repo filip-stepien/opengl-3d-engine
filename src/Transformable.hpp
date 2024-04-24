@@ -14,6 +14,8 @@ protected:
     glm::vec3 position { 0.0f };
 public:
     glm::vec3 getPosition();
+    virtual void setPosition(glm::vec3 position);
+    virtual void setPosition(GLfloat x, GLfloat y, GLfloat z);
     virtual void move(GLfloat x, GLfloat y, GLfloat z);
     virtual void move(glm::vec3 translation);
     virtual void rotate(GLfloat angle, GLfloat x, GLfloat y, GLfloat z);

@@ -2,31 +2,7 @@
 #include "Model.hpp"
 #include "Billboard.hpp"
 
-Engine::Engine() : 
-	keyClickHandlers{ nullptr },
-	keyReleaseHandlers{ nullptr },
-	mouseClickHandlers{ nullptr },
-	mouseReleaseHandlers{ nullptr }
-{
-	windowWidth = 800;
-	windowHeight = 600;
-	windowTitle = nullptr;
-	windowMode = WindowMode::DEFAULT;
-	window = nullptr;
-	app = nullptr;
-	camera = nullptr;
-	mouseMoveHandler = nullptr;
-	mouseCapture = true;
-	lightPipeline = {};
-
-	mouseCapture = true;
-	maximized = false;
-	fullscreen = false;
-
-	currentFrame = 0;
-	lastFrame = 0;
-	deltaTime = 0;
-}
+Engine::Engine() = default;
 
 Engine::~Engine() {
 	glfwDestroyWindow(window);
@@ -115,8 +91,8 @@ GLdouble Engine::getDeltaTime() {
 	return deltaTime;
 }
 
-void Engine::addToLightPipeline(Light* light) {
-	lightPipeline.push_back(light);
+void Engine::addLight(Light* light) {
+	lights.push_back(light);
 }
 
 void Engine::onResize(GLFWwindow* window, int width, int height) {
@@ -287,8 +263,8 @@ bool Engine::build() {
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
 		updateDeltaTime();
 
-		for (int i = 0; i < lightPipeline.size(); i++) {
-			lightPipeline[i]->update(shader, i);
+		for (int i = 0; i < lights.size(); i++) {
+			lights[i]->update(shader, i);
 		}
 
         for (Mesh* mesh : model.meshes) {
@@ -296,6 +272,7 @@ bool Engine::build() {
         }
 
         b.draw(shader, camera->getPosition());
+        b.setPosition(camera->getRaycast());
 
 		camera->update(shader);
 		app->loop();

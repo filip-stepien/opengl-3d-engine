@@ -4,6 +4,14 @@ glm::vec3 Transformable::getPosition() {
     return position;
 }
 
+void Transformable::setPosition(glm::vec3 position) {
+    this->position = position;
+}
+
+void Transformable::setPosition(GLfloat x, GLfloat y, GLfloat z) {
+    this->position = glm::vec3(x, y, z);
+}
+
 void Transformable::move(GLfloat x, GLfloat y, GLfloat z) {
     model = glm::translate(model, glm::vec3(x, y, z));
     position += glm::vec3(x, y, z);
