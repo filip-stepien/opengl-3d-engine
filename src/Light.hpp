@@ -6,11 +6,11 @@
 #include <glm/glm.hpp>
 #include <string>
 
-#include "Movable.hpp"
+#include "Transformable.hpp"
 #include "Updatable.hpp"
 #include "Shader.hpp"
 
-class Light : public Updatable, public Movable {
+class Light : public Updatable, public Transformable {
 private:
 	glm::vec3 ambient;
 	glm::vec3 diffuse;

@@ -10,13 +10,10 @@
 #include "ElementBuffer.hpp"
 #include "Texture.hpp"
 #include "Shader.hpp"
-
 #include "Drawable.hpp"
-#include "Scalable.hpp"
-#include "Rotatable.hpp"
-#include "Movable.hpp"
+#include "Transformable.hpp"
 
-class Mesh : public Drawable, public Scalable, public Rotatable, public Movable {
+class Mesh : public Drawable, public Transformable {
 protected:
 	std::vector<Vertex> vertices {};
 	std::vector<GLuint> indices {};
@@ -26,6 +23,7 @@ protected:
 	GLfloat shininess = 30.0f;
 
 public:
+    Mesh();
 	Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices);
 	~Mesh();
 
