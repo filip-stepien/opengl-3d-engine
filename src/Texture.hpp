@@ -10,18 +10,18 @@ public:
 	using TextureType = enum TEXTURE { DIFFUSE, SPECULAR };
 
 private:
-	TextureType type;
-	GLuint id;
-	GLenum wrapping;
-	const char* path;
+	TextureType type { DIFFUSE };
+	GLuint id { 0 };
+	GLenum wrapping { GL_REPEAT };
+	const char* path { "../resources/textures/default.png" };
 
 	void loadImage(const char* path);
 
 public:
 	Texture(
-		TextureType type = DIFFUSE,
-		const char* path = "../resources/textures/default.png", 
-		GLenum wrapping = GL_REPEAT
+		TextureType type,
+		const char* path,
+		GLenum wrapping
 	);
 	~Texture();
 

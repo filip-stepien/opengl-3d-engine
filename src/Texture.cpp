@@ -20,7 +20,6 @@ void Texture::loadImage(const char* path) {
 }
 
 Texture::Texture(TextureType type, const char* path, GLenum wrapping) {
-	this->id = 0;
 	this->path = path;
 	this->wrapping = wrapping;
 	this->type = type;
