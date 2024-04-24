@@ -1,21 +1,8 @@
 #include "Mesh.hpp"
 
-Mesh::Mesh() {
-    this->vertices = {};
-    this->indices = {};
-    this->vao = nullptr;
-    this->diffuse = new Texture(Texture::DIFFUSE);
-    this->specular = new Texture(Texture::SPECULAR);
-    this->shininess = 30.0f;
-}
-
 Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices) {
 	this->vertices = vertices;
 	this->indices = indices;
-	this->vao = nullptr;
-	this->diffuse = new Texture(Texture::DIFFUSE);
-	this->specular = new Texture(Texture::SPECULAR);
-	this->shininess = 30.0f;
 }
 
 void Mesh::initialize() {

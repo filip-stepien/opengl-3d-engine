@@ -18,15 +18,14 @@
 
 class Mesh : public Drawable, public Scalable, public Rotatable, public Movable {
 protected:
-	std::vector<Vertex> vertices;
-	std::vector<GLuint> indices;
-	VertexArray* vao;
-	Texture* diffuse;
-	Texture* specular;
-	GLfloat shininess;
+	std::vector<Vertex> vertices {};
+	std::vector<GLuint> indices {};
+	VertexArray* vao = nullptr;
+	Texture* diffuse = new Texture(Texture::DIFFUSE);
+	Texture* specular = new Texture(Texture::SPECULAR);
+	GLfloat shininess = 30.0f;
 
 public:
-    Mesh();
 	Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices);
 	~Mesh();
 
