@@ -6,7 +6,7 @@ Light::Light() {
 	ambient = glm::vec3(0.2f);
 	specular = glm::vec3(1.0f);
 
-	Engine::get().addToLightPipeline(this);
+	Engine::get().addLight(this);
 }
 
 void Light::setAmbient(glm::vec3 ambient) {

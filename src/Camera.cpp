@@ -84,8 +84,33 @@ GLfloat Camera::getZoom() {
 	return zoom;
 }
 
+glm::mat4 Camera::getProjectionMatrix() {
+    return projectionMatrix;
+}
+
+glm::mat4 Camera::getViewMatrix() {
+    return viewMatrix;
+}
+
 glm::vec3 Camera::getInitalFocus() {
 	return initialFocus;
+}
+
+glm::vec3 Camera::getRaycast() {
+    int width = Engine::get().getWindowWidth();
+    int height = Engine::get().getWindowHeight();
+
+    float normalizedX = (2.0f * mouseX) / width - 1.0f;
+    float normalizedY = 1.0f - (2.0f * mouseY) / height;
+
+    glm::vec4 rayClip = { normalizedX, normalizedY, -1.0f, 1.0f };
+    glm::vec4 rayEye = glm::inverse(projectionMatrix) * rayClip;
+
+    rayEye = glm::vec4(rayEye.x, rayEye.y, -1.0f, 0.0f);
+
+    glm::vec3 rayWorld = glm::inverse(viewMatrix) * rayEye;
+
+    return glm::normalize(rayWorld);
 }
 
 bool Camera::isMovementEnabled() {
@@ -107,20 +132,20 @@ void Camera::processKeyboard(Direction direction) {
 }
 
 void Camera::handleMouseMove(double mouseX, double mouseY) {
-	GLfloat x = static_cast<GLfloat>(mouseX);
-	GLfloat y = static_cast<GLfloat>(mouseY);
+	mouseX = static_cast<GLfloat>(mouseX);
+	mouseY = static_cast<GLfloat>(mouseY);
 
 	if (firstMouse) {
-		lastX = x;
-		lastY = y;
+		lastX = mouseX;
+		lastY = mouseY;
 		firstMouse = false;
 	}
 
-	GLfloat offsetX = x - lastX;
-	GLfloat offsetY = lastY - y;
+	GLfloat offsetX = mouseX - lastX;
+	GLfloat offsetY = lastY - mouseY;
 
-	lastX = x;
-	lastY = y;
+	lastX = mouseX;
+	lastY = mouseY;
 
 	processMouse(offsetX, offsetY);
 }
@@ -186,7 +211,7 @@ void Camera::update(Shader& shader) {
         processMovement();
 
 	viewMatrix = glm::lookAt(position, position + front, up);
-	
+
 	shader.setMat4("projection", projectionMatrix);
 	shader.setMat4("view", viewMatrix);
 	shader.setVec3("viewPos", position);

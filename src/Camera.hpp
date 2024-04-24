@@ -17,6 +17,8 @@ private:
 	GLfloat fov { 45.0f };
 
 	bool firstMouse { true };
+    GLfloat mouseX = { 0 };
+    GLfloat mouseY = { 0 };
 	GLfloat lastX { 0.0f };
 	GLfloat lastY { 0.0f };
 
@@ -57,7 +59,10 @@ public:
 	GLfloat getSpeed();
 	GLfloat getSensitivity();
 	GLfloat getZoom();
+    glm::mat4 getProjectionMatrix();
+    glm::mat4 getViewMatrix();
 	glm::vec3 getInitalFocus();
+    glm::vec3 getRaycast();
 	bool isMovementEnabled();
 
 	void processKeyboard(Direction direction);

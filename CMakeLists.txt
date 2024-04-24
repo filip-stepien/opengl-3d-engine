@@ -55,7 +55,8 @@ FetchContent_Declare(
 
 if(NOT obj_loader_POPULATED)
     FetchContent_Populate(obj_loader)
-    add_library(obj_loader INTERFACE)
+    add_library(obj_loader INTERFACE
+            src/Raycaster.hpp)
     target_include_directories(obj_loader INTERFACE ${obj_loader_SOURCE_DIR}/Source)
 endif()
 
