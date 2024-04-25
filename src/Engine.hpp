@@ -42,7 +42,9 @@ private:
 	const char* windowTitle = nullptr;
 	WindowMode windowMode = DEFAULT;
 	GLFWwindow* window = nullptr;
+
 	std::vector<Light*> lights = {};
+    std::vector<Mesh*> meshes = {};
 
 	GLdouble currentFrame { 0 };
 	GLdouble lastFrame { 0 };
@@ -52,8 +54,9 @@ private:
 	bool fullscreen { false };
     bool mouseCapture { true };
 
-    int mouseX;
-    int mouseY;
+    GLuint pixelX { 0 };
+    GLuint pixelY { 0 };
+    PixelInfo pixel { 0 };
 
 	Handler keyClickHandlers[GLFW_KEY_LAST] = { nullptr };
 	Handler keyReleaseHandlers[GLFW_KEY_LAST] = { nullptr };
@@ -71,6 +74,7 @@ private:
 	void updateDeltaTime();
 	void setCallbacks();
 	void endFrame();
+    void updatePixelInfo();
 
 	friend class App;
 
@@ -95,12 +99,14 @@ public:
 	App* getApp();
 	Camera* getCamera();
 	GLdouble getDeltaTime();
+    PixelInfo getPixel(GLuint x, GLuint y);
 
 	void handleKeyAction(int key, int action);
 	void handleButtonAction(int button, int action);
-	void handleMouseMove(double mouseX, double mouseY);
+	void handleMouseMove();
 
 	void addLight(Light* light);
+    void addMesh(Mesh* mesh);
 
 	bool isRunning();
 	void close();

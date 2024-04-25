@@ -15,7 +15,7 @@ namespace cb {
 	}
 
 	void onMouseMove(GLFWwindow* window, double mouseX, double mouseY) {
-		Engine::get().handleMouseMove(mouseX, mouseY);
+		Engine::get().handleMouseMove();
 
 		Camera* camera = Engine::get().getCamera();
 		if(camera->isMovementEnabled())

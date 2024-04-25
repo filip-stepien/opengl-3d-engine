@@ -83,7 +83,7 @@ void FrameBuffer::disableReading() {
     glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 }
 
-FrameBuffer::PixelInfo FrameBuffer::readPixel(GLuint x, GLuint y) {
+PixelInfo FrameBuffer::readPixel(GLuint x, GLuint y) {
     PixelInfo pixel;
 
     enableReading();

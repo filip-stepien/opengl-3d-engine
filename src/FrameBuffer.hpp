@@ -5,6 +5,16 @@
 #include <glfw/glfw3.h>
 #include <iostream>
 
+struct PixelInfo {
+    GLuint idObject { 0 };
+    GLuint idPrim { 0 };
+    GLuint _ { 0 };
+
+    void print() {
+        std::printf("object = %d, prim = %d\n", idObject, idPrim);
+    }
+};
+
 class FrameBuffer {
 private:
     GLuint id { 0 };
@@ -16,16 +26,6 @@ private:
     void initialize();
 
 public:
-    struct PixelInfo {
-        GLuint idObject { 0 };
-        GLuint idPrim { 0 };
-        GLuint _ { 0 };
-
-        void print() {
-            std::printf("object = %d, prim = %d\n", idObject, idPrim);
-        }
-    };
-
     FrameBuffer();
     ~FrameBuffer();
 
