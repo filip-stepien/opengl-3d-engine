@@ -1,6 +1,9 @@
 #include "Engine.hpp"
 #include "Model.hpp"
 
+#define GLT_IMPLEMENTATION
+#include "gltext.h"
+
 Engine::Engine() = default;
 
 Engine::~Engine() {
@@ -179,8 +182,10 @@ void Engine::setViewport() {
 
 void Engine::setupGl() {
 	glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	if(mouseCapture)
+	if (mouseCapture)
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
@@ -303,14 +308,27 @@ bool Engine::build() {
 	Shader shader;
     Shader pickingShader("C:/Users/user/Desktop/opengl-3d-engine/resources/shaders/picking_fragment.glsl");
 
+    gltInit();
+    GLTtext* text = gltCreateText();
+    gltSetText(text, ".");
+
 	while (isRunning()) {
         updateDeltaTime();
         updatePixelInfo(fbo, pickingShader);
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
         updateEngineObjects(shader);
         drawEngineObjects(shader);
+
+        gltBeginDraw();
+        gltColor(1.0f, 1.0f, 1.0f, 1.0f);
+        gltDrawText2D(text, windowWidth / 2, windowHeight / 2, 3.0f);
+        gltEndDraw();
+
 		endFrame();
 	}
+
+    gltDeleteText(text);
+    gltTerminate();
 
 	return true;
 }
