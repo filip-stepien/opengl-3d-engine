@@ -9,6 +9,10 @@ Model::~Model() {
     meshes.clear();
 }
 
+std::vector<Mesh *> Model::getMeshes() {
+    return meshes;
+}
+
 void Model::load(const std::string& path) {
     objl::Loader loader;
     bool fileLoaded = loader.LoadFile(path);

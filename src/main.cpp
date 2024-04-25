@@ -1,17 +1,24 @@
-#include <iostream>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 #include "Engine.hpp"
 #include "Model.hpp"
 
 class Test : public App {
     Light light;
     Model model;
+    Engine& e = Engine::get();
 
     void setup() override {
         model.load("C:/Users/user/Desktop/opengl-3d-engine/resources/models/box.obj");
         light.move(3.0f, 6.0f, 4.0f);
+
+        e.watchPixel(e.getWindowWidth() / 2, e.getWindowHeight() / 2);
+    }
+
+    void loop() override {
+        for (Mesh* mesh : model.getMeshes()) {
+            if (e.getPixelInfo().idObject == mesh->getID()) {
+                mesh->rotate(glm::radians(180.0f * e.getDeltaTime()), 0.0f, 1.0f, 0.0f);
+            }
+        }
     }
 };
 
@@ -27,7 +34,7 @@ int main() {
 
 	Engine::get()
 	.setWindowDimensions(800, 800)
-	.setWindowTitle("Demo technologiczne")
+	.setWindowTitle("Demo")
 	.setWindowMaximized(true)
 	.setMouseCapture(true)
 	.setApp(&app)

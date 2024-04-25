@@ -56,7 +56,7 @@ private:
 
     GLuint pixelX { 0 };
     GLuint pixelY { 0 };
-    PixelInfo pixel { 0 };
+    PixelInfo pixelInfo { 0 };
 
 	Handler keyClickHandlers[GLFW_KEY_LAST] = { nullptr };
 	Handler keyReleaseHandlers[GLFW_KEY_LAST] = { nullptr };
@@ -74,7 +74,10 @@ private:
 	void updateDeltaTime();
 	void setCallbacks();
 	void endFrame();
-    void updatePixelInfo();
+    void initEngineObjects();
+    void updateEngineObjects(Shader& shader);
+    void drawEngineObjects(Shader& shader);
+    void updatePixelInfo(FrameBuffer& fbo, Shader& shader);
 
 	friend class App;
 
@@ -99,7 +102,9 @@ public:
 	App* getApp();
 	Camera* getCamera();
 	GLdouble getDeltaTime();
-    PixelInfo getPixel(GLuint x, GLuint y);
+
+    void watchPixel(GLuint x, GLuint y);
+    PixelInfo getPixelInfo();
 
 	void handleKeyAction(int key, int action);
 	void handleButtonAction(int button, int action);

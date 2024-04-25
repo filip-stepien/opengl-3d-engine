@@ -9,10 +9,14 @@
 #include "Mesh.hpp"
 
 class Model {
+private:
+    std::vector<Mesh*> meshes;
+
 public:
     ~Model();
-    std::vector<Mesh*> meshes;
+
     void load(const std::string& path);
+    std::vector<Mesh*> getMeshes();
 };
 
 #endif

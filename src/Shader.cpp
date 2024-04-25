@@ -73,7 +73,7 @@ void Shader::checkForException(GLuint program, Exception exceptionType) {
     }
 }
 
-Shader::Shader(std::string vertexPath, std::string fragmentPath) {
+Shader::Shader(std::string fragmentPath, std::string vertexPath) {
     vertexShader = createShader(vertexPath, VERTEX);
     fragmentShader = createShader(fragmentPath, FRAGMENT);
     id = createProgram();
