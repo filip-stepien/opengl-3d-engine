@@ -3,11 +3,11 @@
 
 class EngineObject {
 protected:
-	unsigned long long uid;
-	static unsigned long long& getIDCounter();
+	unsigned int uid;
+	static unsigned int& getIDCounter();
 public:
 	EngineObject();
-	unsigned long long getID();
+	unsigned int getID();
 };
 
 #endif

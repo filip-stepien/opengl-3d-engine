@@ -17,12 +17,12 @@ private:
 
 public:
     struct PixelInfo {
-        GLuint idObject = 0;
-        GLuint idDraw = 0;
-        GLuint idPrim = 0;
+        GLuint idObject { 0 };
+        GLuint idPrim { 0 };
+        GLuint _ { 0 };
 
         void print() {
-            std::printf("object = %d, draw = %d, prim = %d\n", idObject, idDraw, idPrim);
+            std::printf("object = %d, prim = %d\n", idObject, idPrim);
         }
     };
 
