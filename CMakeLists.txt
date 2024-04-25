@@ -35,6 +35,20 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(glm)
 
 FetchContent_Declare(
+    gl_text
+    GIT_REPOSITORY https://github.com/vallentin/glText.git
+    GIT_TAG        master
+)
+
+FetchContent_GetProperties(gl_text)
+if(NOT gl_text_POPULATED)
+    FetchContent_Populate(gl_text)
+    add_library(gl_text INTERFACE)
+    target_include_directories(gl_text INTERFACE ${gl_text_SOURCE_DIR})
+endif()
+
+
+FetchContent_Declare(
     stb_image
     GIT_REPOSITORY https://github.com/nothings/stb.git
     GIT_TAG master
@@ -55,8 +69,7 @@ FetchContent_Declare(
 
 if(NOT obj_loader_POPULATED)
     FetchContent_Populate(obj_loader)
-    add_library(obj_loader INTERFACE
-            src/Raycaster.hpp)
+    add_library(obj_loader INTERFACE)
     target_include_directories(obj_loader INTERFACE ${obj_loader_SOURCE_DIR}/Source)
 endif()
 
@@ -84,20 +97,22 @@ src/Mesh.cpp
 src/Mesh.hpp
 src/Light.cpp
 src/Light.hpp
-        src/Transformable.cpp
+src/Transformable.cpp
 src/Transformable.hpp
-        src/Drawable.hpp
+src/Drawable.hpp
 src/Updatable.hpp
 src/EngineObject.hpp
 src/EngineObject.cpp
-        src/App.cpp
+src/App.cpp
 src/App.hpp
 src/Model.cpp
 src/Model.cpp
 src/Model.hpp
 src/Model.hpp
-        src/Billboard.cpp
-        src/Billboard.hpp
+src/Billboard.cpp
+src/Billboard.hpp
+src/FrameBuffer.hpp
+src/FrameBuffer.cpp
 )
 
-target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm stb_image obj_loader)
+target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm stb_image obj_loader gl_text)
