@@ -7,8 +7,10 @@
 
 class Test : public App {
     Light light;
+    Model model;
 
     void setup() override {
+        model.load("C:/Users/user/Desktop/opengl-3d-engine/resources/models/box.obj");
         light.move(3.0f, 6.0f, 4.0f);
     }
 };

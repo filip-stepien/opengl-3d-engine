@@ -1,6 +1,5 @@
 #include "Engine.hpp"
 #include "Model.hpp"
-#include "Billboard.hpp"
 
 Engine::Engine() = default;
 
@@ -91,8 +90,16 @@ GLdouble Engine::getDeltaTime() {
 	return deltaTime;
 }
 
+PixelInfo Engine::getPixel(GLuint x, GLuint y) {
+
+}
+
 void Engine::addLight(Light* light) {
 	lights.push_back(light);
+}
+
+void Engine::addMesh(Mesh *mesh) {
+    meshes.push_back(mesh);
 }
 
 void Engine::onResize(GLFWwindow* window, int width, int height) {
@@ -200,6 +207,10 @@ void Engine::updateDeltaTime() {
 	lastFrame = currentFrame;
 }
 
+void Engine::updatePixelInfo() {
+
+}
+
 void Engine::handleKeyAction(int key, int action) {
 	Handler& clickHandler = keyClickHandlers[key];
 	Handler& releaseHandler = keyReleaseHandlers[key];
@@ -224,10 +235,7 @@ void Engine::handleButtonAction(int button, int action) {
 	}
 }
 
-void Engine::handleMouseMove(double mouseX, double mouseY) {
-    this->mouseX = static_cast<int>(mouseX);
-    this->mouseY = static_cast<int>(mouseY);
-
+void Engine::handleMouseMove() {
 	if (mouseMoveHandler != nullptr) {
 		std::invoke(mouseMoveHandler, app);
 	}
@@ -261,10 +269,7 @@ bool Engine::build() {
 	camera->initialize();
 	app->setup();
 
-    Model model;
-    model.load("C:/Users/user/Desktop/opengl-3d-engine/resources/models/box.obj");
-
-    for (Mesh* mesh : model.meshes) {
+    for (Mesh* mesh : meshes) {
         mesh->initialize();
     }
 
@@ -277,13 +282,13 @@ bool Engine::build() {
         clearBuffer();
 
         camera->update(pickingShader);
-        for (Mesh* mesh : model.meshes) {
+        for (Mesh* mesh : meshes) {
             pickingShader.setInt("objectIndex", mesh->getID());
             mesh->drawToBuffer(pickingShader);
         }
 
         fbo.disableWriting();
-        FrameBuffer::PixelInfo pixel = fbo.readPixel(windowWidth / 2, windowHeight / 2);
+        pixel = fbo.readPixel(windowWidth / 2, windowHeight / 2);
 
         GLuint selected = pixel.idObject;
 
@@ -293,7 +298,7 @@ bool Engine::build() {
 			lights[i]->update(shader, i);
 		}
 
-        for (Mesh* mesh : model.meshes) {
+        for (Mesh* mesh : meshes) {
             if (mesh->getID() == selected) {
                 shader.setInt("selected", 1);
             } else {
@@ -305,6 +310,7 @@ bool Engine::build() {
 
 		camera->update(shader);
 		app->loop();
+
 		endFrame();
 	}
 

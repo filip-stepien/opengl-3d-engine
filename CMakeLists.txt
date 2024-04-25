@@ -109,9 +109,7 @@ src/Model.cpp
 src/Model.cpp
 src/Model.hpp
 src/Model.hpp
-src/Billboard.cpp
-src/Billboard.hpp
-src/FrameBuffer.hpp
+        src/FrameBuffer.hpp
 src/FrameBuffer.cpp
 )
 

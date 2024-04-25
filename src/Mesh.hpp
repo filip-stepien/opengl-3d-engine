@@ -27,7 +27,6 @@ protected:
 	GLfloat shininess = 30.0f;
 
 public:
-    Mesh();
 	Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices);
 	~Mesh();
 

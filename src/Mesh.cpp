@@ -1,10 +1,11 @@
 #include "Mesh.hpp"
-
-Mesh::Mesh() = default;
+#include "Engine.hpp"
 
 Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices) {
 	this->vertices = vertices;
 	this->indices = indices;
+
+    Engine::get().addMesh(this);
 }
 
 void Mesh::initialize() {
