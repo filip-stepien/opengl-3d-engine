@@ -8,24 +8,24 @@ Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices) {
 }
 
 void Mesh::initialize() {
-	VertexBuffer vbo;
-	ElementBuffer ebo;
+	ebo = new ElementBuffer;
+    vbo = new VertexBuffer;
 	vao = new VertexArray;
 
 	vao->bind();
-	vbo.bind();
-	ebo.bind();
+	vbo->bind();
+	ebo->bind();
 
-	vbo.setData(vertices);
-	ebo.setData(indices);
+	vbo->setData(vertices);
+	ebo->setData(indices);
 
 	vao->setAttribPointer(0, 3, 0);
 	vao->setAttribPointer(1, 3, offsetof(Vertex, normal));
 	vao->setAttribPointer(2, 2, offsetof(Vertex, texture));
 
 	vao->unbind();
-	vbo.unbind();
-	ebo.unbind();
+	vbo->unbind();
+	ebo->unbind();
 
 	diffuse->initialize();
 	specular->initialize();
@@ -34,6 +34,9 @@ void Mesh::initialize() {
 Mesh::~Mesh() {
 	delete diffuse;
 	delete specular;
+    delete vao;
+    delete vbo;
+    delete ebo;
 }
 
 void Mesh::setDiffuseTexture(const char* path) {
@@ -72,4 +75,14 @@ void Mesh::draw(Shader& shader) {
 	shader.setFloat("material.shininess", shininess);
 
 	vao->drawIndices(indices.size());
+}
+
+void Mesh::drawToBuffer(Shader &shader) {
+    vao->bind();
+
+    shader.use();
+    shader.setUInt("objectIndex", 200);
+    shader.setMat4("model", model);
+
+    vao->drawIndices(indices.size());
 }

@@ -13,6 +13,7 @@ private:
 
     void generatePrimitiveTexture(GLuint windowWidth, GLuint windowHeight);
     void generateDepthTexture(GLuint windowWidth, GLuint windowHeight);
+    void initialize();
 
 public:
     struct PixelInfo {
@@ -28,7 +29,6 @@ public:
     FrameBuffer();
     ~FrameBuffer();
 
-    void initialize();
     void bind();
     void unbind();
     void bindPrimitiveTexture();

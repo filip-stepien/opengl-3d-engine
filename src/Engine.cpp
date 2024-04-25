@@ -220,7 +220,10 @@ void Engine::handleButtonAction(int button, int action) {
 	}
 }
 
-void Engine::handleMouseMove() {
+void Engine::handleMouseMove(double mouseX, double mouseY) {
+    this->mouseX = static_cast<int>(mouseX);
+    this->mouseY = static_cast<int>(mouseY);
+
 	if (mouseMoveHandler != nullptr) {
 		std::invoke(mouseMoveHandler, app);
 	}
@@ -242,24 +245,45 @@ bool Engine::build() {
 	setCallbacks();
 
 	Shader shader(
-		"../resources/shaders/basic_vertex.glsl", 
-		"../resources/shaders/basic_fragment.glsl"
+		"C:/Users/user/Desktop/opengl-3d-engine/resources/shaders/basic_vertex.glsl",
+		"C:/Users/user/Desktop/opengl-3d-engine/resources/shaders/basic_fragment.glsl"
 	);
+
+    Shader pickingShader(
+        "C:/Users/user/Desktop/opengl-3d-engine/resources/shaders/basic_vertex.glsl",
+        "C:/Users/user/Desktop/opengl-3d-engine/resources/shaders/picking_fragment.glsl"
+    );
 
 	camera->initialize();
 	app->setup();
 
     Model model;
-    model.load("../resources/models/box.obj");
+    model.load("C:/Users/user/Desktop/opengl-3d-engine/resources/models/box.obj");
 
     Billboard b;
     b.initialize();
 
-    for(Mesh* mesh : model.meshes) {
+    for (Mesh* mesh : model.meshes) {
         mesh->initialize();
     }
 
+    FrameBuffer fbo;
+
 	while (isRunning()) {
+
+        fbo.enableWriting();
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        fbo.bindDepthTexture();
+        fbo.bindPrimitiveTexture();
+        camera->update(pickingShader);
+        for (Mesh* mesh : model.meshes) {
+            mesh->drawToBuffer(pickingShader);
+        }
+        fbo.unbindTexture();
+        fbo.disableWriting();
+
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
 		updateDeltaTime();
 
@@ -268,11 +292,10 @@ bool Engine::build() {
 		}
 
         for (Mesh* mesh : model.meshes) {
-            //mesh->draw(shader);
+           mesh->draw(shader);
         }
 
-        b.draw(shader, camera->getPosition());
-        b.setPosition(camera->getRaycast());
+        //b.draw(shader, camera->getPosition());
 
 		camera->update(shader);
 		app->loop();

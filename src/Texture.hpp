@@ -13,14 +13,14 @@ private:
 	TextureType type { DIFFUSE };
 	GLuint id { 0 };
 	GLenum wrapping { GL_REPEAT };
-	const char* path { "../resources/textures/default.png" };
+	const char* path { "C:/Users/user/Desktop/opengl-3d-engine/resources/textures/container.png" };
 
 	void loadImage(const char* path);
 
 public:
 	Texture(
 		TextureType type = DIFFUSE,
-		const char* path = "../resources/textures/default.png",
+		const char* path = "C:/Users/user/Desktop/opengl-3d-engine/resources/textures/container.png",
 		GLenum wrapping = GL_REPEAT
 	);
 	~Texture();

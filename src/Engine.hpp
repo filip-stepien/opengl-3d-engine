@@ -21,6 +21,7 @@
 #include "Mesh.hpp"
 #include "Light.hpp"
 #include "App.hpp"
+#include "FrameBuffer.hpp"
 
 class Engine {
 public:
@@ -47,9 +48,12 @@ private:
 	GLdouble lastFrame { 0 };
 	GLdouble deltaTime { 0 };
 
-	bool mouseCapture { true };
 	bool maximized { false };
 	bool fullscreen { false };
+    bool mouseCapture { true };
+
+    int mouseX;
+    int mouseY;
 
 	Handler keyClickHandlers[GLFW_KEY_LAST] = { nullptr };
 	Handler keyReleaseHandlers[GLFW_KEY_LAST] = { nullptr };
@@ -94,7 +98,7 @@ public:
 
 	void handleKeyAction(int key, int action);
 	void handleButtonAction(int button, int action);
-	void handleMouseMove();
+	void handleMouseMove(double mouseX, double mouseY);
 
 	void addLight(Light* light);
 

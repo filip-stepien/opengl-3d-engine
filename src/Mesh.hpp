@@ -17,7 +17,11 @@ class Mesh : public Drawable, public Transformable {
 protected:
 	std::vector<Vertex> vertices {};
 	std::vector<GLuint> indices {};
+
 	VertexArray* vao = nullptr;
+    VertexBuffer* vbo = nullptr;
+    ElementBuffer* ebo = nullptr;
+
 	Texture* diffuse = new Texture(Texture::DIFFUSE);
 	Texture* specular = new Texture(Texture::SPECULAR);
 	GLfloat shininess = 30.0f;
@@ -37,6 +41,7 @@ public:
 
 	virtual void initialize();
 	void draw(Shader& shader) override;
+    void drawToBuffer(Shader& shader) override;
 };
 
 #endif
