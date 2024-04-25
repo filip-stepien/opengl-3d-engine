@@ -90,8 +90,13 @@ GLdouble Engine::getDeltaTime() {
 	return deltaTime;
 }
 
-PixelInfo Engine::getPixel(GLuint x, GLuint y) {
+void Engine::watchPixel(GLuint x, GLuint y) {
+    pixelX = x;
+    pixelY = y;
+}
 
+PixelInfo Engine::getPixelInfo() {
+    return pixelInfo;
 }
 
 void Engine::addLight(Light* light) {
@@ -196,19 +201,24 @@ void Engine::clearBuffer() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Engine::endFrame() {
-	glfwSwapBuffers(window);
-	glfwPollEvents();
-}
-
 void Engine::updateDeltaTime() {
 	currentFrame = glfwGetTime();
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 }
 
-void Engine::updatePixelInfo() {
+void Engine::updatePixelInfo(FrameBuffer& fbo, Shader& shader) {
+    fbo.enableWriting();
+    clearBuffer();
 
+    camera->update(shader);
+    for (Mesh* mesh : meshes) {
+        shader.setInt("objectIndex", mesh->getID());
+        mesh->drawToBuffer(shader);
+    }
+
+    fbo.disableWriting();
+    pixelInfo = fbo.readPixel(pixelX, pixelY);
 }
 
 void Engine::handleKeyAction(int key, int action) {
@@ -247,6 +257,38 @@ void Engine::setCallbacks() {
 	glfwSetCursorPosCallback(window, cb::onMouseMove);
 }
 
+void Engine::initEngineObjects() {
+    camera->initialize();
+    app->setup();
+
+    for (Mesh* mesh : meshes) {
+        mesh->initialize();
+    }
+}
+
+void Engine::updateEngineObjects(Shader& shader) {
+    for (int i = 0; i < lights.size(); i++) {
+        lights[i]->update(shader, i);
+    }
+
+    camera->update(shader);
+    app->loop();
+}
+
+void Engine::drawEngineObjects(Shader &shader) {
+    for (Mesh* mesh : meshes) {
+        // debug
+        shader.setInt("selected", mesh->getID() == pixelInfo.idObject ? 1 : 0);
+        //
+        mesh->draw(shader);
+    }
+}
+
+void Engine::endFrame() {
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+}
+
 bool Engine::build() {
 	initGlfw();
 	createWindow();
@@ -255,62 +297,18 @@ bool Engine::build() {
 	setupGl();
 	checkAppState();
 	setCallbacks();
-
-	Shader shader(
-		"C:/Users/user/Desktop/opengl-3d-engine/resources/shaders/basic_vertex.glsl",
-		"C:/Users/user/Desktop/opengl-3d-engine/resources/shaders/basic_fragment.glsl"
-	);
-
-    Shader pickingShader(
-        "C:/Users/user/Desktop/opengl-3d-engine/resources/shaders/basic_vertex.glsl",
-        "C:/Users/user/Desktop/opengl-3d-engine/resources/shaders/picking_fragment.glsl"
-    );
-
-	camera->initialize();
-	app->setup();
-
-    for (Mesh* mesh : meshes) {
-        mesh->initialize();
-    }
+    initEngineObjects();
 
     FrameBuffer fbo;
+	Shader shader;
+    Shader pickingShader("C:/Users/user/Desktop/opengl-3d-engine/resources/shaders/picking_fragment.glsl");
 
 	while (isRunning()) {
         updateDeltaTime();
-
-        fbo.enableWriting();
-        clearBuffer();
-
-        camera->update(pickingShader);
-        for (Mesh* mesh : meshes) {
-            pickingShader.setInt("objectIndex", mesh->getID());
-            mesh->drawToBuffer(pickingShader);
-        }
-
-        fbo.disableWriting();
-        pixel = fbo.readPixel(windowWidth / 2, windowHeight / 2);
-
-        GLuint selected = pixel.idObject;
-
+        updatePixelInfo(fbo, pickingShader);
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
-
-		for (int i = 0; i < lights.size(); i++) {
-			lights[i]->update(shader, i);
-		}
-
-        for (Mesh* mesh : meshes) {
-            if (mesh->getID() == selected) {
-                shader.setInt("selected", 1);
-            } else {
-                shader.setInt("selected", 0);
-            }
-
-            mesh->draw(shader);
-        }
-
-		camera->update(shader);
-		app->loop();
-
+        updateEngineObjects(shader);
+        drawEngineObjects(shader);
 		endFrame();
 	}
 

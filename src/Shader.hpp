@@ -22,7 +22,10 @@ private:
     void checkForException(GLuint program, Exception exceptionType);
 
 public:
-    Shader(std::string vertexPath, std::string fragmentPath);
+    Shader(
+        std::string fragmentPath = "C:/Users/user/Desktop/opengl-3d-engine/resources/shaders/basic_fragment.glsl",
+        std::string vertexPath = "C:/Users/user/Desktop/opengl-3d-engine/resources/shaders/basic_vertex.glsl"
+    );
 
     void use();
     void setBool(std::string name, bool value);
