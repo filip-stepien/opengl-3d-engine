@@ -212,6 +212,7 @@ void Camera::update(Shader& shader) {
 
 	viewMatrix = glm::lookAt(position, position + front, up);
 
+    shader.use();
 	shader.setMat4("projection", projectionMatrix);
 	shader.setMat4("view", viewMatrix);
 	shader.setVec3("viewPos", position);

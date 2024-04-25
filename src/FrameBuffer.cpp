@@ -2,9 +2,10 @@
 #include "Engine.hpp"
 
 FrameBuffer::FrameBuffer() {
-    glGenBuffers(1, &id);
+    glGenFramebuffers(1, &id);
     glGenTextures(1, &idPrimitiveTexture);
     glGenTextures(1, &idDepthTexture);
+    initialize();
 }
 
 FrameBuffer::~FrameBuffer() {

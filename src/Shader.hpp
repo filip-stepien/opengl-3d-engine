@@ -27,6 +27,7 @@ public:
     void use();
     void setBool(std::string name, bool value);
     void setInt(std::string name, int value);
+    void setUInt(std::string name, unsigned int value);
     void setFloat(std::string name, float value);
     void setVec2(std::string name, const glm::vec2& value);
     void setVec2(std::string name, float x, float y);
