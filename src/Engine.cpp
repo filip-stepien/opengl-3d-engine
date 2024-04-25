@@ -185,6 +185,10 @@ void Engine::clearWindow(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
+void Engine::clearBuffer() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
 void Engine::endFrame() {
 	glfwSwapBuffers(window);
 	glfwPollEvents();
@@ -260,9 +264,6 @@ bool Engine::build() {
     Model model;
     model.load("C:/Users/user/Desktop/opengl-3d-engine/resources/models/box.obj");
 
-    Billboard b;
-    b.initialize();
-
     for (Mesh* mesh : model.meshes) {
         mesh->initialize();
     }
@@ -270,32 +271,37 @@ bool Engine::build() {
     FrameBuffer fbo;
 
 	while (isRunning()) {
+        updateDeltaTime();
 
         fbo.enableWriting();
+        clearBuffer();
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        fbo.bindDepthTexture();
-        fbo.bindPrimitiveTexture();
         camera->update(pickingShader);
         for (Mesh* mesh : model.meshes) {
+            pickingShader.setInt("objectIndex", mesh->getID());
             mesh->drawToBuffer(pickingShader);
         }
-        fbo.unbindTexture();
+
         fbo.disableWriting();
+        FrameBuffer::PixelInfo pixel = fbo.readPixel(windowWidth / 2, windowHeight / 2);
+
+        GLuint selected = pixel.idObject;
 
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
-		updateDeltaTime();
 
 		for (int i = 0; i < lights.size(); i++) {
 			lights[i]->update(shader, i);
 		}
 
         for (Mesh* mesh : model.meshes) {
-           mesh->draw(shader);
-        }
+            if (mesh->getID() == selected) {
+                shader.setInt("selected", 1);
+            } else {
+                shader.setInt("selected", 0);
+            }
 
-        //b.draw(shader, camera->getPosition());
+            mesh->draw(shader);
+        }
 
 		camera->update(shader);
 		app->loop();
