@@ -64,6 +64,10 @@ void Camera::setInitialFocus(GLfloat x, GLfloat y, GLfloat z) {
 	this->initialFocus = glm::vec3(x, y, z);
 }
 
+void Camera::setYAxisLocked(bool locked) {
+    this->yAxisLocked = locked;
+}
+
 GLfloat Camera::getYaw() {
 	return yaw;
 }
@@ -121,19 +125,22 @@ void Camera::processKeyboard(Direction direction) {
     double dt = Engine::get().getDeltaTime();
 	float velocity = static_cast<float>(speed * dt);
 
+    glm::vec3 frontBackMove = yAxisLocked ? front * glm::vec3(velocity, 0.0f, velocity) : front * velocity;
+    glm::vec3 leftRightMove = yAxisLocked ? right * glm::vec3(velocity, 0.0f, velocity) : right * velocity;
+
 	if (direction == FORWARD)
-		position += front * velocity;
+		position += frontBackMove;
 	if (direction == BACKWARD)
-		position -= front * velocity;
+		position -= frontBackMove;
 	if (direction == LEFT)
-		position -= right * velocity;
+		position -= leftRightMove;
 	if (direction == RIGHT)
-		position += right * velocity;
+		position += leftRightMove;
 }
 
-void Camera::handleMouseMove(double mouseX, double mouseY) {
-	mouseX = static_cast<GLfloat>(mouseX);
-	mouseY = static_cast<GLfloat>(mouseY);
+void Camera::handleMouseMove(double mX, double mY) {
+	mouseX = static_cast<GLfloat>(mX);
+	mouseY = static_cast<GLfloat>(mY);
 
 	if (firstMouse) {
 		lastX = mouseX;

@@ -31,6 +31,7 @@ int main() {
 	cam.move(12.0f, 3.0f, 12.0f);
 	cam.setSpeed(15.0f);
 	cam.setMovementEnabled(true);
+    cam.setYAxisLocked(false);
 
 	Engine::get()
 	.setWindowDimensions(800, 800)
