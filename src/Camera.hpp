@@ -34,6 +34,8 @@ private:
 	glm::vec3 up { 0.0f, 1.0f, 0.0f };
 	glm::vec3 right { 0.0f, 0.0f, 0.0f };
 
+    bool yAxisLocked { false };
+
 	glm::mat4 viewMatrix { glm::mat4(1.0f) };
 	glm::mat4 projectionMatrix { glm::perspective(45.0f, 16.0f / 9.0f, 0.1f, 100.0f) };
 
@@ -53,6 +55,7 @@ public:
 	void setInitialFocus(glm::vec3 initalFocus);
 	void setInitialFocus(GLfloat x, GLfloat y, GLfloat z);
 	void setProjection(Projection projection, GLfloat near, GLfloat far, GLfloat fovDegrees = 45.0f);
+    void setYAxisLocked(bool locked);
 
 	GLfloat getYaw();
 	GLfloat getPitch();
