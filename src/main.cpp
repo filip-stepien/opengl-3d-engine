@@ -7,7 +7,10 @@ class Test : public App {
     Engine& e = Engine::get();
 
     void setup() override {
-        model.load("C:/Users/user/Desktop/opengl-3d-engine/resources/models/box.obj");
+        model.load("C:/Users/user/Desktop/opengl-3d-engine/resources/models/jbs.obj");
+        model.getMeshes().at(0)->setDiffuseTexture("C:/Users/user/Desktop/opengl-3d-engine/resources/textures/jbs-diffuse.png");
+        model.getMeshes().at(0)->setSpecularTexture("C:/Users/user/Desktop/opengl-3d-engine/resources/textures/jbs-specular.png");
+        
         light.move(3.0f, 6.0f, 4.0f);
 
         e.watchPixel(e.getWindowWidth() / 2, e.getWindowHeight() / 2);

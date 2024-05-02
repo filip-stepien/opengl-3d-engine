@@ -311,7 +311,7 @@ bool Engine::build() {
 
     gltInit();
     GLTtext* text = gltCreateText();
-    gltSetText(text, ".");
+    gltSetText(text, "+");
 
 	while (isRunning()) {
         updateDeltaTime();

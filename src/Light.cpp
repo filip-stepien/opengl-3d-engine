@@ -2,10 +2,6 @@
 #include "Engine.hpp"
 
 Light::Light() {
-	diffuse = glm::vec3(0.5f);
-	ambient = glm::vec3(0.2f);
-	specular = glm::vec3(1.0f);
-
 	Engine::get().addLight(this);
 }
 
