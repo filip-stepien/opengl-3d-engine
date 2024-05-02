@@ -1,16 +1,19 @@
 #include "Engine.hpp"
 #include "Model.hpp"
+#include "Plane3D.hpp"
 
 class Test : public App {
     Light light;
     Model model;
+    Plane3D plane;
     Engine& e = Engine::get();
 
     void setup() override {
         model.load("C:/Users/user/Desktop/opengl-3d-engine/resources/models/jbs.obj");
         model.getMeshes().at(0)->setDiffuseTexture("C:/Users/user/Desktop/opengl-3d-engine/resources/textures/jbs-diffuse.png");
         model.getMeshes().at(0)->setSpecularTexture("C:/Users/user/Desktop/opengl-3d-engine/resources/textures/jbs-specular.png");
-        
+
+        plane.move(2.0f, 2.0f, 0.0f);
         light.move(3.0f, 6.0f, 4.0f);
 
         e.watchPixel(e.getWindowWidth() / 2, e.getWindowHeight() / 2);
@@ -19,8 +22,10 @@ class Test : public App {
     void loop() override {
         for (Mesh* mesh : model.getMeshes()) {
             if (e.getPixelInfo().idObject == mesh->getID()) {
-                mesh->rotate(glm::radians(180.0f * e.getDeltaTime()), 0.0f, 1.0f, 0.0f);
+                mesh->rotate(180.0f * e.getDeltaTime(), 0.0f, 1.0f, 0.0f);
             }
+
+            plane.rotate(180.0f * e.getDeltaTime(), 0.0f, 1.0f, 0.0f);
         }
     }
 };

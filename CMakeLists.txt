@@ -111,6 +111,8 @@ src/Model.hpp
 src/Model.hpp
 src/FrameBuffer.hpp
 src/FrameBuffer.cpp
+src/Plane3D.hpp
+src/Plane3D.cpp
 )
 
 target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm stb_image obj_loader gl_text)
