@@ -10,11 +10,14 @@ out vec2 TexCoord;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform float textureScaleX;
+uniform float textureScaleY;
 
 void main() {
     FragPos = vec3(model * vec4(aPos, 1.0));
     Normal = mat3(transpose(inverse(model))) * aNormal;  
-    TexCoord = aTexCoord;
+    TexCoord = vec2(aTexCoord.s * textureScaleX, aTexCoord.t * textureScaleY);
+    //TexCoord = aTexCoord;
 
     gl_Position = projection * view * vec4(FragPos, 1.0);
 }

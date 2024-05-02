@@ -26,6 +26,11 @@ protected:
 	Texture* specular = new Texture(Texture::SPECULAR);
 	GLfloat shininess = 30.0f;
 
+    GLfloat textureScaleX { 1.0f };
+    GLfloat textureScaleY { 1.0f };
+
+    bool isLightSource { false };
+
 public:
 	Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices);
 	~Mesh();
@@ -33,6 +38,8 @@ public:
 	void setDiffuseTexture(const char* path);
 	void setSpecularTexture(const char* path);
 	void setShininess(GLfloat shininess);
+    void setTextureScale(float scaleX, float scaleY);
+    void setIsLightSource(bool isLightSource);
 
 	Texture* getDiffuseTexture();
 	Texture* getSpecularTexture();
