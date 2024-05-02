@@ -72,6 +72,9 @@ void Mesh::draw(Shader& shader) {
 	specular->bind();
 
 	shader.use();
+    shader.setFloat("textureScaleX", textureScaleX);
+    shader.setFloat("textureScaleY", textureScaleY);
+    shader.setBool("isLightSource", isLightSource);
 	shader.setMat4("model", model);
 	shader.setInt("material.diffuse", 0);
 	shader.setInt("material.specular", 1);
@@ -88,4 +91,13 @@ void Mesh::drawToBuffer(Shader &shader) {
     shader.setMat4("model", model);
 
     vao->drawIndices(indices.size());
+}
+
+void Mesh::setTextureScale(float scaleX, float scaleY) {
+    this->textureScaleX = scaleX;
+    this->textureScaleY = scaleY;
+}
+
+void Mesh::setIsLightSource(bool isLightSource) {
+    this->isLightSource = isLightSource;
 }

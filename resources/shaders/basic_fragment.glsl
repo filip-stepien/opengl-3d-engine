@@ -23,7 +23,7 @@ in vec2 TexCoord;
 uniform vec3 viewPos;
 uniform Material material;
 uniform Light light[MAX_LIGHTS];
-uniform int selected;
+uniform bool isLightSource;
 
 vec3 calcLight(Light light, vec3 norm, vec3 viewDir) {
     vec3 lightDir = normalize(light.position - FragPos);
@@ -47,5 +47,5 @@ void main() {
         result += calcLight(light[i], norm, viewDir);
     }
 
-    FragColor = selected == 1 ? vec4(255.0, 0, 0, 1.0) : vec4(result, 1.0);
+    FragColor = isLightSource ? vec4(255.0, 255.0, 255.0, 1.0) : vec4(result, 1.0);
 } 
