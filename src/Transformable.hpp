@@ -18,8 +18,8 @@ public:
     virtual void setPosition(GLfloat x, GLfloat y, GLfloat z);
     virtual void move(GLfloat x, GLfloat y, GLfloat z);
     virtual void move(glm::vec3 translation);
-    virtual void rotate(GLfloat angle, GLfloat x, GLfloat y, GLfloat z);
-    virtual void rotate(GLfloat angle, glm::vec3 origin);
+    virtual void rotate(GLfloat angleDegrees, GLfloat x, GLfloat y, GLfloat z);
+    virtual void rotate(GLfloat angleDegrees, glm::vec3 origin);
     virtual void scale(GLfloat x, GLfloat y, GLfloat z);
     virtual void scale(glm::vec3 scale);
 };

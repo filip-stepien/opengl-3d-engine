@@ -27,7 +27,7 @@ protected:
 	GLfloat shininess = 30.0f;
 
 public:
-	Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices);
+	Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices);
 	~Mesh();
 
 	void setDiffuseTexture(const char* path);

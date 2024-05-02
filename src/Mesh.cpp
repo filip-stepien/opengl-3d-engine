@@ -1,9 +1,11 @@
 #include "Mesh.hpp"
+
+#include <utility>
 #include "Engine.hpp"
 
-Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices) {
-	this->vertices = vertices;
-	this->indices = indices;
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices) {
+	this->vertices = std::move(vertices);
+	this->indices = std::move(indices);
 
     Engine::get().addMesh(this);
 }
