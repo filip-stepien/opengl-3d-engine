@@ -12,9 +12,9 @@
 
 class Light : public Updatable, public Transformable {
 private:
-	glm::vec3 ambient;
-	glm::vec3 diffuse;
-	glm::vec3 specular;
+	glm::vec3 ambient { 0.2f };
+	glm::vec3 diffuse { 1.0f };
+	glm::vec3 specular { 1.0f };
 
 public:
 	Light();
