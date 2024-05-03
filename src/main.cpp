@@ -5,6 +5,7 @@
 class Test : public App {
     Light light;
     Model model;
+    Model gun;
     Plane3D floor;
     Plane3D roof;
     Plane3D walls[4];
@@ -12,6 +13,15 @@ class Test : public App {
     Engine& e = Engine::get();
 
     void setup() override {
+        gun.load("../resources/models/gun.obj");
+        for (auto mesh : gun.getMeshes()) {
+            mesh->setViewIndependant(true);
+            mesh->move(0.5f, -0.3f, -1.0f);
+            mesh->scale(0.05f, 0.05f, 0.05f);
+            mesh->rotate(90.0f, 0.0f, 1.0f, 0.0f);
+            mesh->rotate(90.0f, 1.0f, 0.0f, 0.0f);
+        }
+
         model.load("C:/Users/user/Desktop/opengl-3d-engine/resources/models/jbs.obj");
         model.getMeshes().at(0)->setDiffuseTexture("C:/Users/user/Desktop/opengl-3d-engine/resources/textures/jbs-diffuse.png");
         model.getMeshes().at(0)->setSpecularTexture("C:/Users/user/Desktop/opengl-3d-engine/resources/textures/jbs-specular.png");
@@ -41,12 +51,12 @@ class Test : public App {
             walls[i].setShininess(20.0f);
         }
 
-        light.move(0.0f, 2.0f, 0.0f);
+        light.move(5.0f, 2.0f, 0.0f);
         light.setAmbient(0.3f, 0.3f, 0.3f);
 
         lightSource.setIsLightSource(true);
         lightSource.rotate(90.0f, 1.0f, 0.0f, 0.0f);
-        lightSource.move(0.0f, 0.0f, -2.99f);
+        lightSource.move(5.0f, 0.0f, -2.99f);
         lightSource.scale(0.5f, 0.5f, 0.5f);
 
         e.watchPixel(e.getWindowWidth() / 2, e.getWindowHeight() / 2);

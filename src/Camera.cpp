@@ -101,20 +101,7 @@ glm::vec3 Camera::getInitalFocus() {
 }
 
 glm::vec3 Camera::getRaycast() {
-    int width = Engine::get().getWindowWidth();
-    int height = Engine::get().getWindowHeight();
-
-    float normalizedX = (2.0f * mouseX) / width - 1.0f;
-    float normalizedY = 1.0f - (2.0f * mouseY) / height;
-
-    glm::vec4 rayClip = { normalizedX, normalizedY, -1.0f, 1.0f };
-    glm::vec4 rayEye = glm::inverse(projectionMatrix) * rayClip;
-
-    rayEye = glm::vec4(rayEye.x, rayEye.y, -1.0f, 0.0f);
-
-    glm::vec3 rayWorld = glm::inverse(viewMatrix) * rayEye;
-
-    return glm::normalize(rayWorld);
+    return front;
 }
 
 bool Camera::isMovementEnabled() {
@@ -223,9 +210,25 @@ void Camera::update(Shader& shader) {
 	shader.setMat4("projection", projectionMatrix);
 	shader.setMat4("view", viewMatrix);
 	shader.setVec3("viewPos", position);
+    shader.setVec3("viewFront", front);
 }
 
 void Camera::initialize() {
     updateProjection();
     updateFocus();
+}
+
+glm::mat4 Camera::getBillboardMatrix(glm::vec3 position) {
+    glm::vec3 up = { 0.0f, 1.0f, 0.0f };
+    glm::vec3 front = glm::normalize(this->position - position);
+    glm::vec3 right = glm::normalize(glm::cross(up, front));
+    glm::vec3 newUp = glm::cross(front, right);
+
+    glm::mat4 matrix = { 1.0f };
+    matrix[0] = { right, 0.0f };
+    matrix[1] = { newUp, 0.0f };
+    matrix[2] = { -front, 0.0f };
+    matrix[3] = { position, 1.0f };
+
+    return matrix;
 }

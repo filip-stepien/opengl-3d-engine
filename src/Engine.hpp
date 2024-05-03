@@ -43,12 +43,13 @@ private:
 	WindowMode windowMode = DEFAULT;
 	GLFWwindow* window = nullptr;
 
-	std::vector<Light*> lights = {};
-    std::vector<Mesh*> meshes = {};
+	std::vector<Light*> lights {};
+    std::vector<Mesh*> meshes {};
 
 	GLdouble currentFrame { 0 };
 	GLdouble lastFrame { 0 };
 	GLdouble deltaTime { 0 };
+    unsigned long long framesCount { 0 };
 
 	bool maximized { false };
 	bool fullscreen { false };
@@ -102,6 +103,7 @@ public:
 	App* getApp();
 	Camera* getCamera();
 	GLdouble getDeltaTime();
+    unsigned long long getFramesCount();
 
     void watchPixel(GLuint x, GLuint y);
     PixelInfo getPixelInfo();
@@ -117,6 +119,7 @@ public:
 	void close();
 	void clearWindow(GLfloat r = 0.0f, GLfloat g = 0.0f, GLfloat b = 0.0f, GLfloat a = 1.0f);
     void clearBuffer();
+    void resetFramesCount();
 	void onResize(GLFWwindow* window, int width, int height);
 };
 
