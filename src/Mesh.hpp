@@ -29,6 +29,7 @@ protected:
     GLfloat textureScaleX { 1.0f };
     GLfloat textureScaleY { 1.0f };
 
+    bool viewIndependant { false };
     bool isLightSource { false };
 
 public:
@@ -40,6 +41,7 @@ public:
 	void setShininess(GLfloat shininess);
     void setTextureScale(float scaleX, float scaleY);
     void setIsLightSource(bool isLightSource);
+    void setViewIndependant(bool independant);
 
 	Texture* getDiffuseTexture();
 	Texture* getSpecularTexture();

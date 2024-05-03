@@ -93,6 +93,14 @@ GLdouble Engine::getDeltaTime() {
 	return deltaTime;
 }
 
+unsigned long long Engine::getFramesCount() {
+    return framesCount;
+}
+
+void Engine::resetFramesCount() {
+    framesCount = 0;
+}
+
 void Engine::watchPixel(GLuint x, GLuint y) {
     pixelX = x;
     pixelY = y;
@@ -293,6 +301,7 @@ void Engine::drawEngineObjects(Shader &shader) {
 void Engine::endFrame() {
     glfwSwapBuffers(window);
     glfwPollEvents();
+    framesCount++;
 }
 
 bool Engine::build() {

@@ -28,7 +28,7 @@ uniform bool isLightSource;
 vec3 calcLight(Light light, vec3 norm, vec3 viewDir) {
     vec3 lightDir = normalize(light.position - FragPos);
     float diff = max(dot(norm, lightDir), 0.0);
-    vec3 reflectDir = reflect(-lightDir, norm);  
+    vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
 
     vec3 ambient = light.ambient * vec3(texture(material.diffuse, TexCoord));

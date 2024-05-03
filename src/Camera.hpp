@@ -66,6 +66,7 @@ public:
     glm::mat4 getViewMatrix();
 	glm::vec3 getInitalFocus();
     glm::vec3 getRaycast();
+    glm::mat4 getBillboardMatrix(glm::vec3 position);
 	bool isMovementEnabled();
 
 	void processKeyboard(Direction direction);
