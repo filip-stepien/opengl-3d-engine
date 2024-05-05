@@ -22,9 +22,9 @@ class Test : public App {
             mesh->rotate(90.0f, 1.0f, 0.0f, 0.0f);
         }
 
-        model.load("C:/Users/user/Desktop/opengl-3d-engine/resources/models/jbs.obj");
-        model.getMeshes().at(0)->setDiffuseTexture("C:/Users/user/Desktop/opengl-3d-engine/resources/textures/jbs-diffuse.png");
-        model.getMeshes().at(0)->setSpecularTexture("C:/Users/user/Desktop/opengl-3d-engine/resources/textures/jbs-specular.png");
+        model.load("../resources/models/jbs.obj");
+        model.getMeshes().at(0)->setDiffuseTexture("../resources/textures/jbs-diffuse.png");
+        model.getMeshes().at(0)->setSpecularTexture("../resources/textures/jbs-specular.png");
         model.getMeshes().at(0)->move(2.0f, 0.0f, 2.0f);
 
         floor.rotate(270.0f, 1.0f, 0.0f, 0.0f);
