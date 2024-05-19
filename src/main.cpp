@@ -2,24 +2,29 @@
 #include "Model.hpp"
 #include "Plane3D.hpp"
 
+#include <random>
+#include <cmath>
+#include <iostream>
+
 class Test : public App {
     Engine& e = Engine::get();
-    Light light;
     Model gun;
+    Model enemy;
     Plane3D floor;
     Plane3D roof;
     Plane3D walls[4];
-    Plane3D lightSource;
-    std::vector<Model> enemies;
+    Plane3D lightSource[2];
+    Light light[2];
 
-    void createLight() {
-        light.move(5.0f, 2.0f, 0.0f);
-        light.setAmbient(0.3f, 0.3f, 0.3f);
+    void createLight(int i, float x, float z) {
+        light[i].setPosition(x, 2.0f, z);
+        light[i].setAmbient(0.15f, 0.15f, 0.15f);
+        light[i].setDiffuse(0.7f, 0.7f, 0.7f);
 
-        lightSource.setIsLightSource(true);
-        lightSource.rotate(90.0f, 1.0f, 0.0f, 0.0f);
-        lightSource.move(5.0f, 0.0f, -2.99f);
-        lightSource.scale(0.5f, 0.5f, 0.5f);
+        lightSource[i].setIsLightSource(true);
+        lightSource[i].setRotation(90.0f, 1.0f, 0.0f, 0.0f);
+        lightSource[i].setPosition(x, 2.99f, z);
+        lightSource[i].setScale(0.5f, 0.5f, 0.5f);
     }
 
     void createWalls() {
@@ -64,30 +69,97 @@ class Test : public App {
         }
     }
 
-    void createEnemy(GLfloat x, GLfloat z) {
-        Model model;
-        model.load("../resources/models/jbs.obj");
-        model.getMeshes().at(0)->setDiffuseTexture("../resources/textures/jbs-diffuse.png");
-        model.getMeshes().at(0)->setSpecularTexture("../resources/textures/jbs-specular.png");
-        model.getMeshes().at(0)->move(2.0f, 0.0f, 2.0f);
+    float randomFloat(float min, float max) {
+        std::random_device rd;
+        std::mt19937 generator { rd() };
+        std::uniform_real_distribution<> distrib(min, max);
+        return distrib(generator);
+    }
 
-        for (auto& mesh : model.getMeshes()) {
-            mesh->move(x, mesh->getPosition().y, z);
+    void createEnemy() {
+        enemy.load("../resources/models/jbs.obj");
+        enemy.getMeshes().at(0)->setDiffuseTexture("../resources/textures/jbs-diffuse.png");
+        enemy.getMeshes().at(0)->setSpecularTexture("../resources/textures/jbs-specular.png");
+        enemy.getMeshes().at(0)->move(2.0f, 0.0f, 2.0f);
+    }
+
+    void setEnemyRandomPos() {
+        glm::vec3 pos = {
+            randomFloat(-9.0f, 9.0f),
+            0.0f,
+            randomFloat(-9.0f, 9.0f)
+        };
+
+        for (auto& mesh : enemy.getMeshes()) {
+            mesh->setPosition(pos);
         }
+    }
 
-        enemies.push_back(model);
+    void updateEnemyRotation(float speed) {
+        for (auto& mesh : enemy.getMeshes()) {
+            glm::vec3 pos = mesh->getPosition();
+            glm::vec3 cam = e.getCamera()->getPosition();
+            glm::vec3 dist = cam - pos;
+            float targetDegrees = glm::degrees(std::atan2(dist.x, dist.z));
+            float oldDegrees = mesh->getRotation().y;
+            float diff = targetDegrees - oldDegrees - 90.0f;
+
+            if (diff < -180.0f) diff += 360.0f;
+            if (diff > 180.0f) diff -= 360.0f;
+
+            float change = std::lerp(0, diff, speed);
+            float newDegrees = oldDegrees + change;
+
+            mesh->setRotation(newDegrees, 0.0f, 1.0f, 0.0f);
+        }
+    }
+
+    void updateEnemyMovement(float speed) {
+        for (auto& mesh : enemy.getMeshes()) {
+            glm::vec3 dir = e.getCamera()->getPosition() - mesh->getPosition();
+            dir = glm::normalize(dir);
+            dir *= speed * e.getDeltaTime();
+            dir.y = 0.0f;
+
+            mesh->setPosition(mesh->getPosition() + dir);
+        }
+    }
+
+    void handleShotCollision() {
+        for (auto& mesh : enemy.getMeshes()) {
+            if (e.getPixelInfo().idObject == mesh->getID()) {
+                setEnemyRandomPos();
+            }
+        }
+    }
+
+    void handleTouchCollision(float maxDist) {
+        glm::vec3 camPos = e.getCamera()->getPosition();
+        glm::vec3 enemyPos = enemy.getMeshes().at(0)->getPosition();
+        float dist = glm::length(camPos - enemyPos);
+
+        if (dist < maxDist)
+            setEnemyRandomPos();
     }
 
     void setup() override {
         createWalls();
         createFloor();
         createRoof();
-        createLight();
         createGun();
+        createEnemy();
+        createLight(0, 5.0f, 5.0f);
+        createLight(1, -5.0f, -5.0f);
+        setEnemyRandomPos();
+
         e.watchPixel(e.getWindowWidth() / 2, e.getWindowHeight() / 2);
+        onMouseClick(GLFW_MOUSE_BUTTON_1, getHandler(&Test::handleShotCollision));
     }
 
     void loop() override {
+        updateEnemyMovement(3.0f);
+        updateEnemyRotation(0.05f);
+        handleTouchCollision(1.5f);
     }
 };
 
