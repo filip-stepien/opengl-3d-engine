@@ -75,45 +75,25 @@ if(NOT obj_loader_POPULATED)
 endif()
 
 add_executable(opengl-3d-engine
-resources/shaders/basic_vertex.glsl
-resources/shaders/basic_fragment.glsl
 src/main.cpp
 src/Engine.cpp
-src/Engine.hpp
 src/callbacks.cpp
-src/callbacks.hpp
 src/Shader.cpp
-src/Shader.hpp
 src/VertexBuffer.cpp
-src/VertexBuffer.hpp
 src/VertexArray.cpp
-src/VertexArray.hpp
 src/ElementBuffer.cpp
-src/ElementBuffer.hpp
 src/Texture.cpp
-src/Texture.hpp
 src/Camera.cpp
-src/Camera.hpp
 src/Mesh.cpp
-src/Mesh.hpp
 src/Light.cpp
-src/Light.hpp
 src/Transformable.cpp
-src/Transformable.hpp
-src/Drawable.hpp
-src/Updatable.hpp
-src/EngineObject.hpp
 src/EngineObject.cpp
 src/App.cpp
-src/App.hpp
 src/Model.cpp
-src/Model.cpp
-src/Model.hpp
-src/Model.hpp
-src/FrameBuffer.hpp
 src/FrameBuffer.cpp
-src/Plane3D.hpp
 src/Plane3D.cpp
 )
 
 target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm stb_image obj_loader gl_text)
+
+target_include_directories(opengl-3d-engine PRIVATE ${CMAKE_SOURCE_DIR}/src/include)

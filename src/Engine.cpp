@@ -316,7 +316,7 @@ bool Engine::build() {
 
     FrameBuffer fbo;
 	Shader shader;
-    Shader pickingShader("C:/Users/user/Desktop/opengl-3d-engine/resources/shaders/picking_fragment.glsl");
+    Shader pickingShader("../resources/shaders/picking_fragment.glsl");
 
     gltInit();
     GLTtext* text = gltCreateText();
