@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 project(opengl-3d-engine)
+set(CMAKE_CXX_STANDARD 20)
 
 include(FetchContent)
 

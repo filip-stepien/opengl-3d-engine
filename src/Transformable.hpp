@@ -12,6 +12,8 @@ class Transformable : public EngineObject {
 protected:
 	glm::mat4 model { 1.0f };
     glm::vec3 position { 0.0f };
+    glm::vec3 rotationFactor { 0.0f };
+    glm::vec3 scaleFactor { 1.0f };
 
     glm::mat4 positionMatrix { 1.0f };
     glm::mat4 rotationMatrix { 1.0f };
@@ -22,6 +24,8 @@ private:
 
 public:
     glm::vec3 getPosition();
+    glm::vec3 getRotation();
+    glm::vec3 getScale();
 
     void setModelMatrix(glm::mat4 model);
     void setPosition(glm::vec3 position);
