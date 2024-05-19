@@ -68,6 +68,12 @@ void Camera::setYAxisLocked(bool locked) {
     this->yAxisLocked = locked;
 }
 
+void Camera::setRestrictMovementBox(GLfloat sizeX, GLfloat sizeY, GLfloat sizeZ) {
+    this->restrictX = sizeX;
+    this->restrictY = sizeY;
+    this->restrictZ = sizeZ;
+}
+
 GLfloat Camera::getYaw() {
 	return yaw;
 }
@@ -108,6 +114,17 @@ bool Camera::isMovementEnabled() {
 	return movementEnabled;
 }
 
+void Camera::restrictMovement() {
+    GLfloat margin = std::nextafter(0.0f, 1.0f);
+    GLfloat wx = restrictX / 2;
+    GLfloat wy = restrictY / 2;
+    GLfloat wz = restrictZ / 2;
+
+    position.x = std::clamp(position.x, -wx + margin, wx - margin);
+    position.y = std::clamp(position.y, -wy + margin, wy - margin);
+    position.z = std::clamp(position.z, -wz + margin, wz - margin);
+}
+
 void Camera::processKeyboard(Direction direction) {
     double dt = Engine::get().getDeltaTime();
 	float velocity = static_cast<float>(speed * dt);
@@ -123,6 +140,8 @@ void Camera::processKeyboard(Direction direction) {
 		position -= leftRightMove;
 	if (direction == RIGHT)
 		position += leftRightMove;
+
+    restrictMovement();
 }
 
 void Camera::handleMouseMove(double mX, double mY) {
