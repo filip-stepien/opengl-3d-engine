@@ -23,8 +23,8 @@ private:
 
 public:
     Shader(
-        std::string fragmentPath = "C:/Users/user/Desktop/opengl-3d-engine/resources/shaders/basic_fragment.glsl",
-        std::string vertexPath = "C:/Users/user/Desktop/opengl-3d-engine/resources/shaders/basic_vertex.glsl"
+        std::string fragmentPath = "../resources/shaders/basic_fragment.glsl",
+        std::string vertexPath = "../resources/shaders/basic_vertex.glsl"
     );
 
     void use();
