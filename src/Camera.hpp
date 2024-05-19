@@ -2,6 +2,9 @@
 #define CAMERA_H
 
 #include <glm/glm.hpp>
+#include <limits>
+#include <cmath>
+#include <algorithm>
 #include "Updatable.hpp"
 #include "Transformable.hpp"
 
@@ -35,6 +38,9 @@ private:
 	glm::vec3 right { 0.0f, 0.0f, 0.0f };
 
     bool yAxisLocked { false };
+    GLfloat restrictX { std::numeric_limits<float>::max() };
+    GLfloat restrictY { std::numeric_limits<float>::max() };
+    GLfloat restrictZ { std::numeric_limits<float>::max() };
 
 	glm::mat4 viewMatrix { glm::mat4(1.0f) };
 	glm::mat4 projectionMatrix { glm::perspective(45.0f, 16.0f / 9.0f, 0.1f, 100.0f) };
@@ -42,6 +48,7 @@ private:
     void updateFocus();
     void updateVectors();
 	void processMovement();
+    void restrictMovement();
 
 public:
 	using Direction = enum DIRECTION { FORWARD, BACKWARD, LEFT, RIGHT };
@@ -56,6 +63,7 @@ public:
 	void setInitialFocus(GLfloat x, GLfloat y, GLfloat z);
 	void setProjection(Projection projection, GLfloat near, GLfloat far, GLfloat fovDegrees = 45.0f);
     void setYAxisLocked(bool locked);
+    void setRestrictMovementBox(GLfloat sizeX, GLfloat sizeY, GLfloat sizeZ);
 
 	GLfloat getYaw();
 	GLfloat getPitch();
