@@ -47,10 +47,12 @@ void Transformable::setRotation(GLfloat angleDegrees, glm::vec3 origin) {
 }
 
 void Transformable::rotate(GLfloat angleDegrees, GLfloat x, GLfloat y, GLfloat z) {
+    rotationFactor += glm::vec3(angleDegrees * x, angleDegrees * y, angleDegrees * z);
     model = glm::rotate(model, glm::radians(angleDegrees), glm::vec3(x, y, z));
 }
 
 void Transformable::rotate(GLfloat angleDegrees, glm::vec3 origin) {
+    rotationFactor += glm::vec3(angleDegrees * origin);
     model = glm::rotate(model, glm::radians(angleDegrees), origin);
 }
 
@@ -67,10 +69,12 @@ void Transformable::setScale(glm::vec3 scale) {
 }
 
 void Transformable::scale(GLfloat x, GLfloat y, GLfloat z) {
+    scaleFactor += glm::vec3(x, y, z);
     model = glm::scale(model, glm::vec3(x, y, z));
 }
 
 void Transformable::scale(glm::vec3 scale) {
+    scaleFactor += scale;
     model = glm::scale({ 1.0f }, scale);
 }
 
