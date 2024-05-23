@@ -4,7 +4,6 @@
 
 #include <random>
 #include <cmath>
-#include <iostream>
 
 class Test : public App {
     Engine& e = Engine::get();
@@ -15,6 +14,10 @@ class Test : public App {
     Plane3D walls[4];
     Plane3D lightSource[2];
     Light light[2];
+
+    bool gunHasShot { false };
+    float recoilDirection = -1.0f;
+    float recoilAngle = 20.0f;
 
     void createLight(int i, float x, float z) {
         light[i].setPosition(x, 2.0f, z);
@@ -58,14 +61,15 @@ class Test : public App {
     }
 
     void createGun() {
-        gun.load("../resources/models/gun.obj");
+        gun.load("../resources/models/doublebarrel.obj");
+        gun.getMeshes().at(0)->setDiffuseTexture("../resources/textures/doublebarrel_diffuse.png");
+        gun.getMeshes().at(0)->setSpecularTexture("../resources/textures/doublebarrel_specular.png");
 
         for (auto mesh : gun.getMeshes()) {
             mesh->setViewIndependant(true);
-            mesh->move(0.5f, -0.3f, -1.0f);
-            mesh->scale(0.05f, 0.05f, 0.05f);
-            mesh->rotate(90.0f, 0.0f, 1.0f, 0.0f);
-            mesh->rotate(90.0f, 1.0f, 0.0f, 0.0f);
+            mesh->move(0.65f, -0.55f, -1.3f);
+            mesh->scale(0.6f, 0.6f, 0.6f);
+            mesh->rotate(-95.0f, 0.0f, 1.0f, 0.0f);
         }
     }
 
@@ -125,12 +129,34 @@ class Test : public App {
         }
     }
 
-    void handleShotCollision() {
+    void handleShot() {
+        gunHasShot = true;
+
         for (auto& mesh : enemy.getMeshes()) {
             if (e.getPixelInfo().idObject == mesh->getID()) {
                 setEnemyRandomPos();
             }
         }
+    }
+
+    void handleShotAnimation(float degreesPerFrame) {
+        if (!gunHasShot)
+            return;
+
+        Mesh* mesh = gun.getMeshes().at(0);
+        float rotation = mesh->getRotation().z;
+
+        if (rotation <= -recoilAngle)
+            recoilDirection = 1.0f;
+
+        if (rotation > 0) {
+            gunHasShot = false;
+            recoilDirection = -1.0f;
+            mesh->rotate(-rotation, 0.0f, 0.0f, 1.0f);
+            return;
+        }
+
+        mesh->rotate(degreesPerFrame * recoilDirection, 0.0f, 0.0f, 1.0f);
     }
 
     void handleTouchCollision(float maxDist) {
@@ -153,13 +179,14 @@ class Test : public App {
         setEnemyRandomPos();
 
         e.watchPixel(e.getWindowWidth() / 2, e.getWindowHeight() / 2);
-        onMouseClick(GLFW_MOUSE_BUTTON_1, getHandler(&Test::handleShotCollision));
+        onMouseClick(GLFW_MOUSE_BUTTON_1, getHandler(&Test::handleShot));
     }
 
     void loop() override {
         updateEnemyMovement(3.0f);
         updateEnemyRotation(0.05f);
         handleTouchCollision(1.5f);
+        handleShotAnimation(2.0f);
     }
 };
 
