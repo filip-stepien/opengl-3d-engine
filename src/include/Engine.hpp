@@ -22,6 +22,7 @@
 #include "Light.hpp"
 #include "App.hpp"
 #include "FrameBuffer.hpp"
+#include "Text2D.hpp"
 
 class Engine {
 public:
@@ -45,6 +46,7 @@ private:
 
 	std::vector<Light*> lights {};
     std::vector<Mesh*> meshes {};
+    std::vector<Text2D*> texts {};
 
 	GLdouble currentFrame { 0 };
 	GLdouble lastFrame { 0 };
@@ -69,6 +71,7 @@ private:
 	void createWindow();
 	void initGlfw();
 	void initGlad();
+    void initGlText();
 	void checkAppState();
 	void setViewport();
 	void setupGl();
@@ -78,6 +81,7 @@ private:
     void initEngineObjects();
     void updateEngineObjects(Shader& shader);
     void drawEngineObjects(Shader& shader);
+    void drawText();
     void updatePixelInfo(FrameBuffer& fbo, Shader& shader);
 
 	friend class App;
@@ -114,6 +118,7 @@ public:
 
 	void addLight(Light* light);
     void addMesh(Mesh* mesh);
+    void addText(Text2D* text);
 
 	bool isRunning();
 	void close();

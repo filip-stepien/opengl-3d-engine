@@ -27,6 +27,7 @@ class Test : public App {
     Plane3D walls[WALL_COUNT];
     Plane3D lightSource[LIGHT_COUNT];
     Light light[LIGHT_COUNT];
+    Text2D crosshair;
 
     bool gunHasShot { false };
     float recoilDirection = -1.0f;
@@ -139,6 +140,11 @@ class Test : public App {
         gun.move(0.65f, -0.55f, -1.3f);
         gun.scale(0.6f, 0.6f, 0.6f);
         gun.rotate(-95.0f, 0.0f, 1.0f, 0.0f);
+    }
+
+    void createCrosshair() {
+        crosshair.setContent("+");
+        crosshair.setPosition(e.getWindowWidth() / 2 - 6.0f, e.getWindowHeight() / 2 + 1.0f);
     }
 
     void createEnemies() {
@@ -272,6 +278,7 @@ class Test : public App {
         createRoof();
         createVents();
         createGun();
+        createCrosshair();
         createEnemies();
         createLight(0, LEVEL_RADIUS / 2, LEVEL_RADIUS / 2);
         createLight(1, -LEVEL_RADIUS / 2, -LEVEL_RADIUS / 2);

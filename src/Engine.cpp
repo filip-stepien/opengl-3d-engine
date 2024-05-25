@@ -1,14 +1,15 @@
 #include "Engine.hpp"
-#include "Model.hpp"
-
-#define GLT_IMPLEMENTATION
-#include "gltext.h"
 
 Engine::Engine() = default;
 
 Engine::~Engine() {
+    for (auto text : texts) {
+        gltDestroyText(text->getGLText());
+    }
+
 	glfwDestroyWindow(window);
 	glfwTerminate();
+    gltTerminate();
 }
 
 Engine& Engine::get() {
@@ -118,6 +119,10 @@ void Engine::addMesh(Mesh *mesh) {
     meshes.push_back(mesh);
 }
 
+void Engine::addText(Text2D *text) {
+    texts.push_back(text);
+}
+
 void Engine::onResize(GLFWwindow* window, int width, int height) {
 	windowWidth = width;
 	windowHeight = height;
@@ -146,6 +151,15 @@ void Engine::initGlad() {
 		glfwTerminate();
 	}
 }
+
+void Engine::initGlText() {
+    gltInit();
+
+    for (auto& text : texts) {
+        text->setGLText(gltCreateText());
+    }
+};
+
 void Engine::checkAppState() {
 	if (app == nullptr) {
 		std::cout << "APP ERROR" << std::endl;
@@ -291,10 +305,21 @@ void Engine::updateEngineObjects(Shader& shader) {
 
 void Engine::drawEngineObjects(Shader &shader) {
     for (Mesh* mesh : meshes) {
-        // debug
-        // shader.setInt("selected", mesh->getID() == pixelInfo.idObject ? 1 : 0);
-        //
         mesh->draw(shader);
+    }
+}
+
+void Engine::drawText() {
+    for (auto text : texts) {
+        glm::vec2 pos = text->getPosition();
+        glm::vec4 color = text->getColor();
+        float scale = text->getScale();
+
+        gltSetText(text->getGLText(), text->getContent().c_str());
+        gltBeginDraw();
+        gltColor(color.r, color.g, color.b, color.a);
+        gltDrawText2D(text->getGLText(), pos.x, pos.y, scale);
+        gltEndDraw();
     }
 }
 
@@ -313,14 +338,11 @@ bool Engine::build() {
 	checkAppState();
 	setCallbacks();
     initEngineObjects();
+    initGlText();
 
     FrameBuffer fbo;
 	Shader shader;
     Shader pickingShader("../resources/shaders/picking_fragment.glsl");
-
-    gltInit();
-    GLTtext* text = gltCreateText();
-    gltSetText(text, "+");
 
 	while (isRunning()) {
         updateDeltaTime();
@@ -328,17 +350,9 @@ bool Engine::build() {
 		clearWindow(0.3f, 0.3f, 0.3f, 1.0f);
         updateEngineObjects(shader);
         drawEngineObjects(shader);
-
-        gltBeginDraw();
-        gltColor(1.0f, 1.0f, 1.0f, 1.0f);
-        gltDrawText2D(text, windowWidth / 2, windowHeight / 2, 3.0f);
-        gltEndDraw();
-
+        drawText();
 		endFrame();
 	}
-
-    gltDeleteText(text);
-    gltTerminate();
 
 	return true;
 }
