@@ -23,7 +23,7 @@ in vec2 TexCoord;
 uniform vec3 viewPos;
 uniform Material material;
 uniform Light light[MAX_LIGHTS];
-uniform bool isLightSource;
+uniform bool ignoreLight;
 
 vec3 calcLight(Light light, vec3 norm, vec3 viewDir) {
     vec3 lightDir = normalize(light.position - FragPos);
@@ -39,7 +39,7 @@ vec3 calcLight(Light light, vec3 norm, vec3 viewDir) {
 }
 
 void main() {
-    if (isLightSource) {
+    if (ignoreLight) {
         FragColor = vec4(vec3(texture(material.diffuse, TexCoord)), 1.0f);
         return;
     }

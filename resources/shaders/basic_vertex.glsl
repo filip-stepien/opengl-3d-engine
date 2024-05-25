@@ -12,12 +12,12 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform float textureScaleX;
 uniform float textureScaleY;
-uniform bool viewIndependant;
+uniform bool viewIndependent;
 
 void main() {
     FragPos = vec3(model * vec4(aPos, 1.0));
     Normal = mat3(transpose(inverse(model))) * aNormal;  
     TexCoord = vec2(aTexCoord.x * textureScaleX, aTexCoord.y * textureScaleY);
 
-    gl_Position = viewIndependant ? projection * vec4(FragPos, 1.0) : projection * view * vec4(FragPos, 1.0);
+    gl_Position = viewIndependent ? projection * vec4(FragPos, 1.0) : projection * view * vec4(FragPos, 1.0);
 }

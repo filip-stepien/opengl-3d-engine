@@ -2,65 +2,88 @@
 #include "Model.hpp"
 #include "Plane3D.hpp"
 
-#include <random>
 #include <cmath>
+#include <random>
 
 class Test : public App {
+    static constexpr int ENEMY_COUNT = 8;
+    static constexpr int VENT_COUNT = 4;
+    static constexpr int WALL_COUNT = 4;
+    static constexpr int LIGHT_COUNT = 2;
+    static constexpr float INITIAL_SPAWN_RADIUS = 5.0f;
+    static constexpr float LEVEL_RADIUS = 10.0f;
+
+    static constexpr float ENEMY_MOV_SPEED = 3.0f;
+    static constexpr float ENEMY_ROT_SPEED = 0.05f;
+    static constexpr float ENEMY_TOUCH_RADIUS = 1.5f;
+
     Engine& e = Engine::get();
     Model gun;
-    Model enemy;
-    Model vents[4];
-    Plane3D ventPlanes[4];
+    Model enemies[ENEMY_COUNT];
+    Model vents[VENT_COUNT];
+    Plane3D ventPlanes[VENT_COUNT];
     Plane3D floor;
     Plane3D roof;
-    Plane3D walls[4];
-    Plane3D lightSource[2];
-    Light light[2];
+    Plane3D walls[WALL_COUNT];
+    Plane3D lightSource[LIGHT_COUNT];
+    Light light[LIGHT_COUNT];
 
     bool gunHasShot { false };
     float recoilDirection = -1.0f;
     float recoilAngle = 20.0f;
 
+    glm::vec3 spawnPoints[VENT_COUNT] {
+        { LEVEL_RADIUS + 2.0f, 0, 0 },
+        { -LEVEL_RADIUS - 2.0f, 0, 0 },
+        { 0, 0, LEVEL_RADIUS + 2.0f },
+        { 0, 0, -LEVEL_RADIUS - 2.0f }
+    };
+
+    glm::vec3 spawnDirections[VENT_COUNT] {
+        { -1.0f, 0.0f, 0.0f },
+        { 1.0f, 0.0f, 0.0f },
+        { 0.0f, 0.0f, -1.0f },
+        { 0.0f, 0.0f, 1.0f }
+    };
+
     void createVents() {
         float rotation = 0.0f;
-        float r = 10.5f;
+        float r = LEVEL_RADIUS + 0.5f;
+        float vr = LEVEL_RADIUS - 0.1f;
         float y = 0.8f;
-        float vr = 9.9f;
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < VENT_COUNT; i++) {
             vents[i].load("../resources/models/vent.obj");
-
-            Mesh* mesh = vents[i].getMeshes().at(0);
 
             switch (i) {
                 case 0:
-                    mesh->setPosition(-r, y, 0);
+                    vents[i].setPosition(-r, y, 0);
                     ventPlanes[i].setPosition(-vr, y, 0);
                     break;
                 case 1:
-                    mesh->setPosition(0, y, -r);
+                    vents[i].setPosition(0, y, -r);
                     ventPlanes[i].setPosition(0, y, vr);
                     break;
                 case 2:
-                    mesh->setPosition(r, y, 0);
+                    vents[i].setPosition(r, y, 0);
                     ventPlanes[i].setPosition(vr, y, 0);
                     break;
                 default:
-                    mesh->setPosition(0, y, r);
+                    vents[i].setPosition(0, y, r);
                     ventPlanes[i].setPosition(0, y, -vr);
                     break;
             }
 
-            mesh->setScale(0.8f, 0.8f, 0.8f);
-            mesh->rotate(90.0f, 1.0f, 0.0f, 0.0f);
-            mesh->rotate(rotation, 0.0f, 0.0f, 1.0f);
-            mesh->setDiffuseTexture("../resources/textures/vent_diffuse.png");
-            mesh->setSpecularTexture("../resources/textures/vent_specular.png");
+            vents[i].setScale(0.8f, 0.8f, 0.8f);
+            vents[i].rotate(90.0f, 1.0f, 0.0f, 0.0f);
+            vents[i].rotate(rotation, 0.0f, 0.0f, 1.0f);
+            vents[i].setDiffuseTexture("../resources/textures/vent_diffuse.png");
+            vents[i].setSpecularTexture("../resources/textures/vent_specular.png");
 
             ventPlanes[i].setScale(0.79f, 0.79f, 0.79f);
             ventPlanes[i].setRotation(rotation + 90.0f, 0.0f, 1.0f, 0.0f);
             ventPlanes[i].setDiffuseTexture("../resources/textures/black.png");
-            ventPlanes[i].setIsLightSource(true);
+            ventPlanes[i].setIgnoreLight(true);
 
             rotation += 90.0f;
         }
@@ -71,18 +94,18 @@ class Test : public App {
         light[i].setAmbient(0.15f, 0.15f, 0.15f);
         light[i].setDiffuse(0.7f, 0.7f, 0.7f);
 
-        lightSource[i].setIsLightSource(true);
+        lightSource[i].setIgnoreLight(true);
         lightSource[i].setRotation(90.0f, 1.0f, 0.0f, 0.0f);
         lightSource[i].setPosition(x, 2.99f, z);
         lightSource[i].setScale(0.5f, 0.5f, 0.5f);
     }
 
     void createWalls() {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < WALL_COUNT; i++) {
             walls[i].rotate(90.0f * i, 0.0f, 1.0f, 0.0f);
-            walls[i].scale(10.0f, 1.5f, 1.0f);
+            walls[i].scale(LEVEL_RADIUS, 1.5f, 1.0f);
             walls[i].setTextureScale(10.0f, 2.0f);
-            walls[i].move(0.0f, 1.0f, -10.0f);
+            walls[i].move(0.0f, 1.0f, -LEVEL_RADIUS);
             walls[i].setDiffuseTexture("../resources/textures/wall_diffuse.png");
             walls[i].setSpecularTexture("../resources/textures/wall_specular.png");
             walls[i].setShininess(20.0f);
@@ -91,7 +114,7 @@ class Test : public App {
 
     void createFloor() {
         floor.rotate(270.0f, 1.0f, 0.0f, 0.0f);
-        floor.scale(10.0f, 10.0f, 1.0f);
+        floor.scale(LEVEL_RADIUS, LEVEL_RADIUS, 1.0f);
         floor.setTextureScale(2.0f, 2.0f);
         floor.setDiffuseTexture("../resources/textures/concrete_diffuse.png");
         floor.setSpecularTexture("../resources/textures/concrete_specular.png");
@@ -100,7 +123,7 @@ class Test : public App {
     void createRoof() {
         roof.rotate(90.0f, 1.0f, 0.0f, 0.0f);
         roof.move(0.0f, 0.0f, -3.0f);
-        roof.scale(10.0f, 10.0f, 1.0f);
+        roof.scale(LEVEL_RADIUS, LEVEL_RADIUS, 1.0f);
         roof.setTextureScale(2.0f, 2.0f);
         roof.setDiffuseTexture("../resources/textures/wall_diffuse.png");
         roof.setSpecularTexture("../resources/textures/wall_specular.png");
@@ -109,14 +132,30 @@ class Test : public App {
 
     void createGun() {
         gun.load("../resources/models/doublebarrel.obj");
-        gun.getMeshes().at(0)->setDiffuseTexture("../resources/textures/doublebarrel_diffuse.png");
-        gun.getMeshes().at(0)->setSpecularTexture("../resources/textures/doublebarrel_specular.png");
+        gun.setDiffuseTexture("../resources/textures/doublebarrel_diffuse.png");
+        gun.setSpecularTexture("../resources/textures/doublebarrel_specular.png");
+        gun.setViewIndependent(true);
 
-        for (auto mesh : gun.getMeshes()) {
-            mesh->setViewIndependant(true);
-            mesh->move(0.65f, -0.55f, -1.3f);
-            mesh->scale(0.6f, 0.6f, 0.6f);
-            mesh->rotate(-95.0f, 0.0f, 1.0f, 0.0f);
+        gun.move(0.65f, -0.55f, -1.3f);
+        gun.scale(0.6f, 0.6f, 0.6f);
+        gun.rotate(-95.0f, 0.0f, 1.0f, 0.0f);
+    }
+
+    void createEnemies() {
+        for (auto& enemy : enemies) {
+            enemy.load("../resources/models/jbs.obj");
+            enemy.setDiffuseTexture("../resources/textures/jbs-diffuse.png");
+            enemy.setSpecularTexture("../resources/textures/jbs-specular.png");
+            enemy.move(2.0f, 0.0f, 2.0f);
+        }
+    }
+
+    void resetEnemyPos(unsigned int id) {
+        for (int i = 0; i < ENEMY_COUNT; i++) {
+            Mesh* mesh = enemies[i].getMeshes().at(0);
+
+            if (mesh->getID() == id)
+                mesh->setPosition(spawnPoints[i % VENT_COUNT]);
         }
     }
 
@@ -127,27 +166,26 @@ class Test : public App {
         return distrib(generator);
     }
 
-    void createEnemy() {
-        enemy.load("../resources/models/jbs.obj");
-        enemy.getMeshes().at(0)->setDiffuseTexture("../resources/textures/jbs-diffuse.png");
-        enemy.getMeshes().at(0)->setSpecularTexture("../resources/textures/jbs-specular.png");
-        enemy.getMeshes().at(0)->move(2.0f, 0.0f, 2.0f);
+    float randomDir() {
+        std::random_device rd;
+        std::mt19937 generator { rd() };
+        std::uniform_int_distribution<> distrib(0, 1);
+        return distrib(generator) ? 1.0f : -1.0f;
     }
 
-    void setEnemyRandomPos() {
-        glm::vec3 pos = {
-            randomFloat(-9.0f, 9.0f),
-            0.0f,
-            randomFloat(-9.0f, 9.0f)
-        };
-
-        for (auto& mesh : enemy.getMeshes()) {
-            mesh->setPosition(pos);
+    void handleInitialSpawn() {
+        for (auto& enemy : enemies) {
+            enemy.setPosition(
+                randomFloat(INITIAL_SPAWN_RADIUS, 9.0f) * randomDir(),
+                0,
+                randomFloat(INITIAL_SPAWN_RADIUS, 9.0f) * randomDir()
+            );
         }
     }
 
-    void updateEnemyRotation(float speed) {
-        for (auto& mesh : enemy.getMeshes()) {
+    void updateEnemyRotation() {
+        for (auto& enemy : enemies) {
+            Mesh* mesh = enemy.getMeshes().at(0);
             glm::vec3 pos = mesh->getPosition();
             glm::vec3 cam = e.getCamera()->getPosition();
             glm::vec3 dist = cam - pos;
@@ -158,35 +196,45 @@ class Test : public App {
             if (diff < -180.0f) diff += 360.0f;
             if (diff > 180.0f) diff -= 360.0f;
 
-            float change = std::lerp(0, diff, speed);
+            float change = std::lerp(0, diff, ENEMY_ROT_SPEED);
             float newDegrees = oldDegrees + change;
 
-            mesh->setRotation(newDegrees, 0.0f, 1.0f, 0.0f);
+            enemy.setRotation(newDegrees, 0.0f, 1.0f, 0.0f);
         }
     }
 
-    void updateEnemyMovement(float speed) {
-        for (auto& mesh : enemy.getMeshes()) {
-            glm::vec3 dir = e.getCamera()->getPosition() - mesh->getPosition();
-            dir = glm::normalize(dir);
-            dir *= speed * e.getDeltaTime();
-            dir.y = 0.0f;
+    void updateEnemyMovement() {
+        for (int i = 0; i < ENEMY_COUNT; i++) {
+            Mesh* mesh = enemies[i].getMeshes().at(0);
+            glm::vec3 pos = mesh->getPosition();
+            glm::vec3 dir;
 
-            mesh->setPosition(mesh->getPosition() + dir);
+            if ((pos.x > LEVEL_RADIUS - 1.0f || pos.x < -LEVEL_RADIUS + 1.0f) ||
+                (pos.z > LEVEL_RADIUS - 1.0f || pos.z < -LEVEL_RADIUS + 1.0f)) {
+                dir = spawnDirections[i % VENT_COUNT];
+            } else {
+                dir = e.getCamera()->getPosition() - pos;
+                dir = glm::normalize(dir);
+                dir.y = 0.0f;
+            }
+
+            dir *= ENEMY_MOV_SPEED * e.getDeltaTime();
+            enemies[i].setPosition(pos + dir);
         }
     }
 
     void handleShot() {
         gunHasShot = true;
 
-        for (auto& mesh : enemy.getMeshes()) {
-            if (e.getPixelInfo().idObject == mesh->getID()) {
-                setEnemyRandomPos();
+        for (auto& enemy : enemies) {
+            unsigned int id = enemy.getMeshes().at(0)->getID();
+            if (e.getPixelInfo().idObject == id) {
+                resetEnemyPos(id);
             }
         }
     }
 
-    void handleShotAnimation(float degreesPerFrame) {
+    void handleShotAnimation() {
         if (!gunHasShot)
             return;
 
@@ -199,20 +247,23 @@ class Test : public App {
         if (rotation > 0) {
             gunHasShot = false;
             recoilDirection = -1.0f;
-            mesh->rotate(-rotation, 0.0f, 0.0f, 1.0f);
+            gun.rotate(-rotation, 0.0f, 0.0f, 1.0f);
             return;
         }
 
-        mesh->rotate(degreesPerFrame * recoilDirection, 0.0f, 0.0f, 1.0f);
+        gun.rotate(2.0f * recoilDirection, 0.0f, 0.0f, 1.0f);
     }
 
-    void handleTouchCollision(float maxDist) {
-        glm::vec3 camPos = e.getCamera()->getPosition();
-        glm::vec3 enemyPos = enemy.getMeshes().at(0)->getPosition();
-        float dist = glm::length(camPos - enemyPos);
+    void handleTouchCollision() {
+        for (auto& enemy : enemies) {
+            Mesh* mesh = enemy.getMeshes().at(0);
+            glm::vec3 camPos = e.getCamera()->getPosition();
+            glm::vec3 enemyPos = mesh->getPosition();
+            float dist = glm::length(camPos - enemyPos);
 
-        if (dist < maxDist)
-            setEnemyRandomPos();
+            if (dist < ENEMY_TOUCH_RADIUS)
+                resetEnemyPos(mesh->getID());
+        }
     }
 
     void setup() override {
@@ -221,20 +272,20 @@ class Test : public App {
         createRoof();
         createVents();
         createGun();
-        createEnemy();
-        createLight(0, 5.0f, 5.0f);
-        createLight(1, -5.0f, -5.0f);
-        setEnemyRandomPos();
+        createEnemies();
+        createLight(0, LEVEL_RADIUS / 2, LEVEL_RADIUS / 2);
+        createLight(1, -LEVEL_RADIUS / 2, -LEVEL_RADIUS / 2);
+        handleInitialSpawn();
 
         e.watchPixel(e.getWindowWidth() / 2, e.getWindowHeight() / 2);
         onMouseClick(GLFW_MOUSE_BUTTON_1, getHandler(&Test::handleShot));
     }
 
     void loop() override {
-        //updateEnemyMovement(3.0f);
-        //updateEnemyRotation(0.05f);
-        handleTouchCollision(1.5f);
-        handleShotAnimation(2.0f);
+        updateEnemyMovement();
+        updateEnemyRotation();
+        handleTouchCollision();
+        handleShotAnimation();
     }
 };
 
