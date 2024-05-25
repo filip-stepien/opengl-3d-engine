@@ -19,15 +19,18 @@ class Test : public App {
 
     Engine& e = Engine::get();
     Model gun;
+    Model dummyEnemy;
     Model enemies[ENEMY_COUNT];
     Model vents[VENT_COUNT];
+    Light light[LIGHT_COUNT];
     Plane3D ventPlanes[VENT_COUNT];
     Plane3D floor;
     Plane3D roof;
     Plane3D walls[WALL_COUNT];
     Plane3D lightSource[LIGHT_COUNT];
-    Light light[LIGHT_COUNT];
+    Plane3D menuBackground;
     Text2D crosshair;
+    Text2D title;
 
     bool gunHasShot { false };
     float recoilDirection = -1.0f;
@@ -137,9 +140,9 @@ class Test : public App {
         gun.setSpecularTexture("../resources/textures/doublebarrel_specular.png");
         gun.setViewIndependent(true);
 
-        gun.move(0.65f, -0.55f, -1.3f);
-        gun.scale(0.6f, 0.6f, 0.6f);
-        gun.rotate(-95.0f, 0.0f, 1.0f, 0.0f);
+        gun.setPosition(0.65f, -0.55f, -1.3f);
+        gun.setScale(0.6f, 0.6f, 0.6f);
+        gun.setRotation(-95.0f, 0.0f, 1.0f, 0.0f);
     }
 
     void createCrosshair() {
@@ -272,27 +275,58 @@ class Test : public App {
         }
     }
 
+    void createMenu() {
+        e.getCamera()->move(-5.0f, 0.0f, 0.0f);
+        dummyEnemy.load("../resources/models/jbs.obj");
+        dummyEnemy.setDiffuseTexture("../resources/textures/jbs-diffuse.png");
+        dummyEnemy.setSpecularTexture("../resources/textures/jbs-specular.png");
+        dummyEnemy.setPosition(-8.0f, 0.0f, 0.0f);
+        gun.setViewIndependent(false);
+        gun.setPosition(-8.0f, 0.5f, 0.47f);
+        gun.setScale(0.2f, 0.2f, 0.2f);
+        gun.setRotation(-90.0f, 0.3f, 0.0f, 1.0f);
+        title.setContent("Press any key to START");
+        title.setPosition(e.getWindowWidth() / 2, e.getWindowHeight() / 2);
+        title.setCentered(true);
+        title.setScale(4.0f);
+        menuBackground.setScale(5.0f, 5.0f, 1.0f);
+        menuBackground.setPosition(0.0f, 0.0f, -20.0f);
+        menuBackground.setDiffuseTexture("../resources/textures/vent_diffuse.png");
+        menuBackground.setSpecularTexture("../resources/textures/vent_specular.png");
+    }
+
+    void displayMenu() {
+        float x = sin(e.getFramesCount() / 500.0f) * e.getDeltaTime() * 0.5f;
+        float z = cos(e.getFramesCount() / 500.0f) * e.getDeltaTime() * 0.7f;
+        float textY = sin(e.getFramesCount() / 100.0f) * 30.0f;
+
+        title.setPosition(title.getPosition().x, textY + 800.0f);
+        e.getCamera()->move(x, 0.0f, z);
+    }
+
     void setup() override {
         createWalls();
         createFloor();
         createRoof();
         createVents();
         createGun();
-        createCrosshair();
-        createEnemies();
+        //createCrosshair();
+        //createEnemies();
         createLight(0, LEVEL_RADIUS / 2, LEVEL_RADIUS / 2);
         createLight(1, -LEVEL_RADIUS / 2, -LEVEL_RADIUS / 2);
-        handleInitialSpawn();
+        createMenu();
+        //handleInitialSpawn();
 
         e.watchPixel(e.getWindowWidth() / 2, e.getWindowHeight() / 2);
         onMouseClick(GLFW_MOUSE_BUTTON_1, getHandler(&Test::handleShot));
     }
 
     void loop() override {
-        updateEnemyMovement();
-        updateEnemyRotation();
-        handleTouchCollision();
-        handleShotAnimation();
+        //updateEnemyMovement();
+        //updateEnemyRotation();
+        //handleTouchCollision();
+        //handleShotAnimation();
+        displayMenu();
     }
 };
 
@@ -301,12 +335,12 @@ int main() {
 
 	Camera cam;
 	cam.setProjection(Camera::PERSPECTIVE, 0.1f, 100.0f);
-	cam.setInitialFocus(0.0f, 0.0f, 0.0f);
-	cam.move(1.0f, 1.0f, 1.0f);
+	cam.setPosition(0.0f, 1.0f, 0.0f);
 	cam.setSpeed(2.5f);
 	cam.setMovementEnabled(true);
     cam.setYAxisLocked(true);
-    //cam.setRestrictMovementBox(19.5f, 19.5f, 19.5f);
+    cam.setRestrictMovementBox(19.5f, 19.5f, 19.5f);
+    cam.setInitialFocus(-8.0f, 0.5f, 0.0f);
 
 	Engine::get()
 	.setWindowDimensions(800, 800)

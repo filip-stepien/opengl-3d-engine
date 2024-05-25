@@ -33,6 +33,10 @@ void Text2D::setGLText(GLTtext* glText) {
     text = glText;
 }
 
+void Text2D::setCentered(bool textCentered) {
+    centered = textCentered;
+}
+
 std::string Text2D::getContent() const {
     return content;
 }
@@ -51,5 +55,9 @@ float Text2D::getScale() const {
 
 GLTtext* Text2D::getGLText() const {
     return text;
+}
+
+bool Text2D::isCentered() const {
+    return centered;
 }
 

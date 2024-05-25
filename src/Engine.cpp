@@ -3,10 +3,6 @@
 Engine::Engine() = default;
 
 Engine::~Engine() {
-    for (auto text : texts) {
-        gltDestroyText(text->getGLText());
-    }
-
 	glfwDestroyWindow(window);
 	glfwTerminate();
     gltTerminate();
@@ -311,14 +307,21 @@ void Engine::drawEngineObjects(Shader &shader) {
 
 void Engine::drawText() {
     for (auto text : texts) {
+        GLTtext* textObj = text->getGLText();
         glm::vec2 pos = text->getPosition();
         glm::vec4 color = text->getColor();
         float scale = text->getScale();
+        std::string content = text->getContent();
 
-        gltSetText(text->getGLText(), text->getContent().c_str());
+        gltSetText(textObj, content.c_str());
         gltBeginDraw();
         gltColor(color.r, color.g, color.b, color.a);
-        gltDrawText2D(text->getGLText(), pos.x, pos.y, scale);
+
+        if (text->isCentered())
+            gltDrawText2DAligned(textObj, pos.x, pos.y, scale, GLT_CENTER, GLT_CENTER);
+        else
+            gltDrawText2D(textObj, pos.x, pos.y, scale);
+
         gltEndDraw();
     }
 }

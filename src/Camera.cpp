@@ -223,7 +223,7 @@ void Camera::update(Shader& shader) {
     if (movementEnabled)
         processMovement();
 
-	viewMatrix = glm::lookAt(position, position + front, up);
+	viewMatrix = glm::lookAt(position, firstMouse ? initialFocus : position + front, up);
 
     shader.use();
 	shader.setMat4("projection", projectionMatrix);
