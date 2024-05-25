@@ -39,13 +39,18 @@ vec3 calcLight(Light light, vec3 norm, vec3 viewDir) {
 }
 
 void main() {
+    if (isLightSource) {
+        FragColor = vec4(vec3(texture(material.diffuse, TexCoord)), 1.0f);
+        return;
+    }
+
     vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
     vec3 result = vec3(0.0);
 
-    for(int i = 0; i < MAX_LIGHTS; i++) {
+    for (int i = 0; i < MAX_LIGHTS; i++) {
         result += calcLight(light[i], norm, viewDir);
     }
 
-    FragColor = isLightSource ? vec4(255.0, 255.0, 255.0, 1.0) : vec4(result, 1.0);
+    FragColor = vec4(result, 1.0);
 } 
