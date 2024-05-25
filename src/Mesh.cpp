@@ -74,8 +74,8 @@ void Mesh::draw(Shader& shader) {
 	shader.use();
     shader.setFloat("textureScaleX", textureScaleX);
     shader.setFloat("textureScaleY", textureScaleY);
-    shader.setBool("isLightSource", isLightSource);
-    shader.setBool("viewIndependant", viewIndependant);
+    shader.setBool("ignoreLight", ignoreLight);
+    shader.setBool("viewIndependent", viewIndependent);
 	shader.setMat4("model", model);
 	shader.setInt("material.diffuse", 0);
 	shader.setInt("material.specular", 1);
@@ -99,10 +99,10 @@ void Mesh::setTextureScale(float scaleX, float scaleY) {
     this->textureScaleY = scaleY;
 }
 
-void Mesh::setIsLightSource(bool isLightSource) {
-    this->isLightSource = isLightSource;
+void Mesh::setIgnoreLight(bool ignore) {
+    this->ignoreLight = ignore;
 }
 
-void Mesh::setViewIndependant(bool independant) {
-    this->viewIndependant = independant;
+void Mesh::setViewIndependent(bool independent) {
+    this->viewIndependent = independent;
 }

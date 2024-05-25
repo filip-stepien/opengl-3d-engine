@@ -29,8 +29,8 @@ protected:
     GLfloat textureScaleX { 1.0f };
     GLfloat textureScaleY { 1.0f };
 
-    bool viewIndependant { false };
-    bool isLightSource { false };
+    bool viewIndependent { false };
+    bool ignoreLight { false };
 
 public:
 	Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices);
@@ -40,8 +40,8 @@ public:
 	void setSpecularTexture(const char* path);
 	void setShininess(GLfloat shininess);
     void setTextureScale(float scaleX, float scaleY);
-    void setIsLightSource(bool isLightSource);
-    void setViewIndependant(bool independant);
+    void setIgnoreLight(bool ignore);
+    void setViewIndependent(bool independent);
 
 	Texture* getDiffuseTexture();
 	Texture* getSpecularTexture();
