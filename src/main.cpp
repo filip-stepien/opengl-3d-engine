@@ -9,6 +9,8 @@ class Test : public App {
     Engine& e = Engine::get();
     Model gun;
     Model enemy;
+    Model vents[4];
+    Plane3D ventPlanes[4];
     Plane3D floor;
     Plane3D roof;
     Plane3D walls[4];
@@ -18,6 +20,51 @@ class Test : public App {
     bool gunHasShot { false };
     float recoilDirection = -1.0f;
     float recoilAngle = 20.0f;
+
+    void createVents() {
+        float rotation = 0.0f;
+        float r = 10.5f;
+        float y = 0.8f;
+        float vr = 9.9f;
+
+        for (int i = 0; i < 4; i++) {
+            vents[i].load("../resources/models/vent.obj");
+
+            Mesh* mesh = vents[i].getMeshes().at(0);
+
+            switch (i) {
+                case 0:
+                    mesh->setPosition(-r, y, 0);
+                    ventPlanes[i].setPosition(-vr, y, 0);
+                    break;
+                case 1:
+                    mesh->setPosition(0, y, -r);
+                    ventPlanes[i].setPosition(0, y, vr);
+                    break;
+                case 2:
+                    mesh->setPosition(r, y, 0);
+                    ventPlanes[i].setPosition(vr, y, 0);
+                    break;
+                default:
+                    mesh->setPosition(0, y, r);
+                    ventPlanes[i].setPosition(0, y, -vr);
+                    break;
+            }
+
+            mesh->setScale(0.8f, 0.8f, 0.8f);
+            mesh->rotate(90.0f, 1.0f, 0.0f, 0.0f);
+            mesh->rotate(rotation, 0.0f, 0.0f, 1.0f);
+            mesh->setDiffuseTexture("../resources/textures/vent_diffuse.png");
+            mesh->setSpecularTexture("../resources/textures/vent_specular.png");
+
+            ventPlanes[i].setScale(0.79f, 0.79f, 0.79f);
+            ventPlanes[i].setRotation(rotation + 90.0f, 0.0f, 1.0f, 0.0f);
+            ventPlanes[i].setDiffuseTexture("../resources/textures/black.png");
+            ventPlanes[i].setIsLightSource(true);
+
+            rotation += 90.0f;
+        }
+    }
 
     void createLight(int i, float x, float z) {
         light[i].setPosition(x, 2.0f, z);
@@ -172,6 +219,7 @@ class Test : public App {
         createWalls();
         createFloor();
         createRoof();
+        createVents();
         createGun();
         createEnemy();
         createLight(0, 5.0f, 5.0f);
@@ -183,8 +231,8 @@ class Test : public App {
     }
 
     void loop() override {
-        updateEnemyMovement(3.0f);
-        updateEnemyRotation(0.05f);
+        //updateEnemyMovement(3.0f);
+        //updateEnemyRotation(0.05f);
         handleTouchCollision(1.5f);
         handleShotAnimation(2.0f);
     }
@@ -200,7 +248,7 @@ int main() {
 	cam.setSpeed(2.5f);
 	cam.setMovementEnabled(true);
     cam.setYAxisLocked(true);
-    cam.setRestrictMovementBox(19.5f, 19.5f, 19.5f);
+    //cam.setRestrictMovementBox(19.5f, 19.5f, 19.5f);
 
 	Engine::get()
 	.setWindowDimensions(800, 800)
