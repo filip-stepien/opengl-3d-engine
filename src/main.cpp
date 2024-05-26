@@ -29,12 +29,14 @@ class Test : public App {
     Plane3D walls[WALL_COUNT];
     Plane3D lightSource[LIGHT_COUNT];
     Text2D crosshair;
-    Text2D title;
+    Text2D gameTitle;
+    Text2D startTitle;
+    Text2D scoreboard;
 
+    unsigned int score { 0 };
     bool gunHasShot { false };
     float recoilDirection = -1.0f;
     float recoilAngle = 20.0f;
-
     bool gameStarted { false };
 
     glm::vec3 spawnPoints[VENT_COUNT] {
@@ -157,6 +159,18 @@ class Test : public App {
         }
     }
 
+    void createScoreBoard() {
+        scoreboard.setContent("Score: 0");
+        scoreboard.setScale(4.0f);
+        scoreboard.setPosition(50.0f, e.getWindowHeight() - 100.0f);
+        scoreboard.setVisible(false);
+    }
+
+    void updateScore() {
+        score++;
+        scoreboard.setContent("Score: " + std::to_string(score));
+    }
+
     void resetEnemyPos(unsigned int id) {
         for (int i = 0; i < ENEMY_COUNT; i++) {
             Mesh* mesh = enemies[i].getMeshes().at(0);
@@ -237,6 +251,7 @@ class Test : public App {
             unsigned int id = enemy.getMeshes().at(0)->getID();
             if (e.getPixelInfo().idObject == id) {
                 resetEnemyPos(id);
+                updateScore();
             }
         }
     }
@@ -275,18 +290,26 @@ class Test : public App {
 
     void createMenu() {
         e.getCamera()->move(-5.0f, 0.0f, 0.0f);
+
         dummyEnemy.load("../resources/models/jbs.obj");
         dummyEnemy.setDiffuseTexture("../resources/textures/jbs-diffuse.png");
         dummyEnemy.setSpecularTexture("../resources/textures/jbs-specular.png");
         dummyEnemy.setPosition(-8.0f, 0.0f, 0.0f);
+
         gun.setViewIndependent(false);
         gun.setPosition(-8.0f, 0.5f, 0.47f);
         gun.setScale(0.2f, 0.2f, 0.2f);
         gun.setRotation(-90.0f, 0.3f, 0.0f, 1.0f);
-        title.setContent("Press SPACE to START");
-        title.setPosition(e.getWindowWidth() / 2, e.getWindowHeight() / 2);
-        title.setCentered(true);
-        title.setScale(4.0f);
+
+        gameTitle.setPosition(e.getWindowWidth() / 2, 200.0f);
+        gameTitle.setContent("RoboShooter");
+        gameTitle.setScale(8.0f);
+        gameTitle.setCentered(true);
+
+        startTitle.setPosition(e.getWindowWidth() / 2, e.getWindowHeight() / 2);
+        startTitle.setContent("Press SPACE to START");
+        startTitle.setScale(3.0f);
+        startTitle.setCentered(true);
     }
 
     void displayMenu() {
@@ -294,7 +317,7 @@ class Test : public App {
         float z = cos(e.getFramesCount() / 500.0f) * e.getDeltaTime() * 0.7f;
         float textY = sin(e.getFramesCount() / 50.0f) * 30.0f;
 
-        title.setPosition(title.getPosition().x, textY + 800.0f);
+        startTitle.setPosition(startTitle.getPosition().x, textY + 800.0f);
         e.getCamera()->move(x, 0.0f, z);
     }
 
@@ -314,8 +337,10 @@ class Test : public App {
 
         dummyEnemy.move(0.0f, 10.0f, 0.0f);
 
+        startTitle.setVisible(false);
+        gameTitle.setVisible(false);
         crosshair.setVisible(true);
-        title.setVisible(false);
+        scoreboard.setVisible(true);
 
         gameStarted = true;
         handleInitialSpawn();
@@ -329,6 +354,7 @@ class Test : public App {
         createGun();
         createEnemies();
         createCrosshair();
+        createScoreBoard();
         createLight(0, LEVEL_RADIUS / 2, LEVEL_RADIUS / 2);
         createLight(1, -LEVEL_RADIUS / 2, -LEVEL_RADIUS / 2);
         createMenu();

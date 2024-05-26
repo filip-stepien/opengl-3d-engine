@@ -13,7 +13,7 @@ class Text2D {
 private:
     GLTtext* text { nullptr };
     std::string content {};
-    glm::vec2 position { 200.0f, 200.0f };
+    glm::vec2 position { 0.0f, 0.0f };
     glm::vec4 color { 1.0f, 1.0f, 1.0f, 1.0f };
     float scale { 1.0f };
     bool centered { false };
