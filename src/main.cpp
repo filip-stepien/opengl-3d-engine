@@ -38,6 +38,7 @@ class Test : public App {
     float recoilDirection = -1.0f;
     float recoilAngle = 20.0f;
     bool gameStarted { false };
+    bool playerDead { false };
 
     glm::vec3 spawnPoints[VENT_COUNT] {
         { LEVEL_RADIUS + 2.0f, 0, 0 },
@@ -245,6 +246,9 @@ class Test : public App {
     }
 
     void handleShot() {
+        if (playerDead)
+            return;
+
         gunHasShot = true;
 
         for (auto& enemy : enemies) {
@@ -284,7 +288,7 @@ class Test : public App {
             float dist = glm::length(camPos - enemyPos);
 
             if (dist < ENEMY_TOUCH_RADIUS)
-                resetEnemyPos(mesh->getID());
+                endGame();
         }
     }
 
@@ -318,10 +322,34 @@ class Test : public App {
         float textY = sin(e.getFramesCount() / 50.0f) * 30.0f;
 
         startTitle.setPosition(startTitle.getPosition().x, textY + 800.0f);
-        e.getCamera()->move(x, 0.0f, z);
+
+        if (!playerDead)
+            e.getCamera()->move(x, 0.0f, z);
+    }
+
+    void restartGame() {
+        playerDead = false;
+
+        startTitle.setVisible(false);
+        gameTitle.setVisible(false);
+        crosshair.setVisible(true);
+
+        scoreboard.setPosition(50.0f, e.getWindowHeight() - 100.0f);
+        scoreboard.setCentered(false);
+
+        e.getCamera()->setPosition(0.0f, 1.0f, 0.0f);
+        e.getCamera()->setMovementEnabled(true);
+
+        score = -1;
+        updateScore();
+
+        handleInitialSpawn();
     }
 
     void startGame() {
+        if (playerDead)
+            restartGame();
+
         if (gameStarted)
             return;
 
@@ -346,6 +374,20 @@ class Test : public App {
         handleInitialSpawn();
     }
 
+    void endGame() {
+        playerDead = true;
+
+        gameTitle.setContent("Game over!");
+        gameTitle.setVisible(true);
+        startTitle.setVisible(true);
+        crosshair.setVisible(false);
+
+        scoreboard.setCentered(true);
+        scoreboard.setPosition(e.getWindowWidth() / 2, e.getWindowHeight() / 2);
+
+        e.getCamera()->setMovementEnabled(false);
+    }
+
     void setup() override {
         createWalls();
         createFloor();
@@ -365,7 +407,7 @@ class Test : public App {
     }
 
     void loop() override {
-        if (gameStarted) {
+        if (gameStarted && !playerDead) {
             updateEnemyMovement();
             updateEnemyRotation();
             handleTouchCollision();
@@ -390,7 +432,7 @@ int main() {
 
 	Engine::get()
 	.setWindowDimensions(800, 800)
-	.setWindowTitle("Demo")
+	.setWindowTitle("RoboShooter")
 	.setWindowMaximized(true)
 	.setMouseCapture(true)
 	.setApp(&app)

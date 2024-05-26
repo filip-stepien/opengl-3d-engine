@@ -49,6 +49,7 @@ private:
     void updateVectors();
 	void processMovement();
     void restrictMovement();
+    void resetMousePosition();
 
 public:
 	using Direction = enum DIRECTION { FORWARD, BACKWARD, LEFT, RIGHT };

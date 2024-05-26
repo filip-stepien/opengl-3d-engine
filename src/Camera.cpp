@@ -54,6 +54,7 @@ void Camera::setZoom(GLfloat zoom) {
 
 void Camera::setMovementEnabled(bool movementEnabled) {
 	this->movementEnabled = movementEnabled;
+    resetMousePosition();
 }
 
 void Camera::setInitialFocus(glm::vec3 initalFocus) {
@@ -80,12 +81,8 @@ void Camera::setCursorPosition(GLfloat x, GLfloat y) {
 }
 
 void Camera::disperseInitialFocus() {
-    double x, y;
-    glfwGetCursorPos(Engine::get().getWindow(), &x, &y);
-
-    lastX = static_cast<GLfloat>(x);
-    lastY = static_cast<GLfloat>(y);
     firstMouse = false;
+    resetMousePosition();
 }
 
 GLfloat Camera::getYaw() {
@@ -126,6 +123,14 @@ glm::vec3 Camera::getRaycast() {
 
 bool Camera::isMovementEnabled() {
 	return movementEnabled;
+}
+
+void Camera::resetMousePosition() {
+    double x, y;
+    glfwGetCursorPos(Engine::get().getWindow(), &x, &y);
+
+    lastX = static_cast<GLfloat>(x);
+    lastY = static_cast<GLfloat>(y);
 }
 
 void Camera::restrictMovement() {
