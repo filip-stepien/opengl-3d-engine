@@ -64,6 +64,8 @@ public:
 	void setProjection(Projection projection, GLfloat near, GLfloat far, GLfloat fovDegrees = 45.0f);
     void setYAxisLocked(bool locked);
     void setRestrictMovementBox(GLfloat sizeX, GLfloat sizeY, GLfloat sizeZ);
+    void setCursorPosition(GLfloat x, GLfloat y);
+    void disperseInitialFocus();
 
 	GLfloat getYaw();
 	GLfloat getPitch();

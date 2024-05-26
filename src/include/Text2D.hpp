@@ -17,6 +17,7 @@ private:
     glm::vec4 color { 1.0f, 1.0f, 1.0f, 1.0f };
     float scale { 1.0f };
     bool centered { false };
+    bool visible { true };
 
 public:
     Text2D();
@@ -29,6 +30,7 @@ public:
     void setScale(float textScale);
     void setGLText(GLTtext* glText);
     void setCentered(bool textCentered);
+    void setVisible(bool textVisible);
 
     std::string getContent() const;
     glm::vec2 getPosition() const;
@@ -36,6 +38,7 @@ public:
     float getScale() const;
     GLTtext* getGLText() const;
     bool isCentered() const;
+    bool isVisible() const;
 };
 
 #endif //TEXT_H

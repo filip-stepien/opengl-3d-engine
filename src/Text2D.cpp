@@ -37,6 +37,10 @@ void Text2D::setCentered(bool textCentered) {
     centered = textCentered;
 }
 
+void Text2D::setVisible(bool textVisible) {
+    visible = textVisible;
+}
+
 std::string Text2D::getContent() const {
     return content;
 }
@@ -59,5 +63,9 @@ GLTtext* Text2D::getGLText() const {
 
 bool Text2D::isCentered() const {
     return centered;
+}
+
+bool Text2D::isVisible() const {
+    return visible;
 }
 

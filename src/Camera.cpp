@@ -74,6 +74,20 @@ void Camera::setRestrictMovementBox(GLfloat sizeX, GLfloat sizeY, GLfloat sizeZ)
     this->restrictZ = sizeZ;
 }
 
+void Camera::setCursorPosition(GLfloat x, GLfloat y) {
+    mouseX = x;
+    mouseY = y;
+}
+
+void Camera::disperseInitialFocus() {
+    double x, y;
+    glfwGetCursorPos(Engine::get().getWindow(), &x, &y);
+
+    lastX = static_cast<GLfloat>(x);
+    lastY = static_cast<GLfloat>(y);
+    firstMouse = false;
+}
+
 GLfloat Camera::getYaw() {
 	return yaw;
 }

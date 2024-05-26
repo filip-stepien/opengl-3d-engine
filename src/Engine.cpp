@@ -307,6 +307,9 @@ void Engine::drawEngineObjects(Shader &shader) {
 
 void Engine::drawText() {
     for (auto text : texts) {
+        if (!text->isVisible())
+            continue;
+
         GLTtext* textObj = text->getGLText();
         glm::vec2 pos = text->getPosition();
         glm::vec4 color = text->getColor();
