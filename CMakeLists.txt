@@ -68,10 +68,33 @@ FetchContent_Declare(
     GIT_TAG master
 )
 
+FetchContent_GetProperties(obj_loader)
 if(NOT obj_loader_POPULATED)
     FetchContent_Populate(obj_loader)
     add_library(obj_loader INTERFACE)
     target_include_directories(obj_loader INTERFACE ${obj_loader_SOURCE_DIR}/Source)
+endif()
+
+FetchContent_Declare(
+    irrklang
+    GIT_REPOSITORY https://github.com/jonas2602/irrKlang.git
+    GIT_TAG master
+)
+
+FetchContent_GetProperties(irrklang)
+if(NOT irrklang_POPULATED)
+    FetchContent_Populate(irrklang)
+    add_library(irrklang INTERFACE)
+
+    set(IRRKLANG_DLL_PATH ${irrklang_SOURCE_DIR}/bin/winx64-visualStudio)
+    set(IRRKLANG_LIB ${irrklang_SOURCE_DIR}/lib/Winx64-visualStudio/irrKlang.lib)
+
+    target_include_directories(irrklang INTERFACE ${irrklang_SOURCE_DIR}/include)
+    target_link_libraries(irrklang INTERFACE ${IRRKLANG_LIB})
+
+    file(COPY ${IRRKLANG_DLL_PATH}/irrKlang.dll DESTINATION ${CMAKE_BINARY_DIR})
+    file(COPY ${IRRKLANG_DLL_PATH}/ikpMP3.dll DESTINATION ${CMAKE_BINARY_DIR})
+    file(COPY ${IRRKLANG_DLL_PATH}/ikpFlac.dll DESTINATION ${CMAKE_BINARY_DIR})
 endif()
 
 add_executable(opengl-3d-engine
@@ -95,6 +118,6 @@ src/Plane3D.cpp
 src/Text2D.cpp
 )
 
-target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm stb_image obj_loader gl_text)
+target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm stb_image obj_loader gl_text irrklang)
 
 target_include_directories(opengl-3d-engine PRIVATE ${CMAKE_SOURCE_DIR}/src/include)

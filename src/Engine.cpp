@@ -335,6 +335,8 @@ void Engine::endFrame() {
     framesCount++;
 }
 
+#include <irrKlang.h>
+
 bool Engine::build() {
 	initGlfw();
 	createWindow();
@@ -346,9 +348,15 @@ bool Engine::build() {
     initEngineObjects();
     initGlText();
 
+	using namespace irrklang;
+
+	ISoundEngine* engine = createIrrKlangDevice();
+
     FrameBuffer fbo;
 	Shader shader;
     Shader pickingShader("../resources/shaders/picking_fragment.glsl");
+
+	engine->play2D("../resources/sounds/menu.wav", true);
 
 	while (isRunning()) {
         updateDeltaTime();
