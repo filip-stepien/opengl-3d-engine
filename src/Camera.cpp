@@ -118,7 +118,7 @@ glm::vec3 Camera::getInitalFocus() {
 }
 
 glm::vec3 Camera::getRaycast() {
-    return front;
+    return -front;
 }
 
 bool Camera::isMovementEnabled() {

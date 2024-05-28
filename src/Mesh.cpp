@@ -106,3 +106,11 @@ void Mesh::setIgnoreLight(bool ignore) {
 void Mesh::setViewIndependent(bool independent) {
     this->viewIndependent = independent;
 }
+
+void Mesh::setOnForeground(bool isOnForeground) {
+	this->foreground = isOnForeground;
+}
+
+bool Mesh::isOnForeground() {
+	return foreground;
+}

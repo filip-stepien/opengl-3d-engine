@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <irrKlang.h>
 #include <iostream>
 #include <vector>
 #include <set>
@@ -24,6 +25,10 @@
 #include "FrameBuffer.hpp"
 #include "Text2D.hpp"
 
+using irrklang::ISoundEngine, irrklang::ISound;
+using SoundPlayer = ISoundEngine;
+using Sound = ISound;
+
 class Engine {
 public:
 	using WindowMode = enum WINDOW_MODE { DEFAULT, FULLSCREEN };
@@ -38,34 +43,35 @@ private:
 
 	App* app { nullptr };
 	Camera* camera { nullptr };
-	GLuint windowWidth = 800;
-	GLuint windowHeight = 600;
-	const char* windowTitle = nullptr;
-	WindowMode windowMode = DEFAULT;
-	GLFWwindow* window = nullptr;
+	GLuint windowWidth { 800 };
+	GLuint windowHeight { 600 };
+	const char* windowTitle { nullptr };
+	WindowMode windowMode { DEFAULT };
+	GLFWwindow* window { nullptr };
+	ISoundEngine* soundPlayer { nullptr };
 
 	std::vector<Light*> lights {};
-    std::vector<Mesh*> meshes {};
-    std::vector<Text2D*> texts {};
+	std::vector<Mesh*> meshes {};
+	std::vector<Text2D*> texts {};
 
 	GLdouble currentFrame { 0 };
 	GLdouble lastFrame { 0 };
 	GLdouble deltaTime { 0 };
-    unsigned long long framesCount { 0 };
+	unsigned long long framesCount { 0 };
 
 	bool maximized { false };
 	bool fullscreen { false };
-    bool mouseCapture { true };
+	bool mouseCapture { true };
 
-    GLuint pixelX { 0 };
-    GLuint pixelY { 0 };
-    PixelInfo pixelInfo { 0 };
+	GLuint pixelX { 0 };
+	GLuint pixelY { 0 };
+	PixelInfo pixelInfo { 0 };
 
 	Handler keyClickHandlers[GLFW_KEY_LAST] = { nullptr };
 	Handler keyReleaseHandlers[GLFW_KEY_LAST] = { nullptr };
 	Handler mouseClickHandlers[GLFW_MOUSE_BUTTON_LAST] = { nullptr };
 	Handler mouseReleaseHandlers[GLFW_MOUSE_BUTTON_LAST] = { nullptr };
-	Handler mouseMoveHandler = nullptr;
+	Handler mouseMoveHandler { nullptr };
 
 	void setWindowHints();
 	void createWindow();
@@ -106,6 +112,7 @@ public:
 	GLFWwindow* getWindow();
 	App* getApp();
 	Camera* getCamera();
+	ISoundEngine* getSoundPlayer();
 	GLdouble getDeltaTime();
     unsigned long long getFramesCount();
 

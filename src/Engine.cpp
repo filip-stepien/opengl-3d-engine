@@ -1,11 +1,15 @@
 #include "Engine.hpp"
 
-Engine::Engine() = default;
+Engine::Engine() {
+	soundPlayer = irrklang::createIrrKlangDevice();
+}
 
 Engine::~Engine() {
 	glfwDestroyWindow(window);
 	glfwTerminate();
     gltTerminate();
+
+	soundPlayer->drop();
 }
 
 Engine& Engine::get() {
@@ -84,6 +88,10 @@ App* Engine::getApp() {
 
 Camera* Engine::getCamera() {
 	return camera;
+}
+
+ISoundEngine* Engine::getSoundPlayer() {
+	return soundPlayer;
 }
 
 GLdouble Engine::getDeltaTime() {
@@ -285,8 +293,13 @@ void Engine::initEngineObjects() {
     camera->initialize();
     app->setup();
 
-    for (Mesh* mesh : meshes) {
-        mesh->initialize();
+	for (auto& mesh : meshes) {
+		mesh->initialize();
+	}
+
+	for (int i = 0; i < meshes.size(); i++) {
+		if (meshes[i]->isOnForeground())
+			std::swap(meshes[i], meshes.back());
     }
 }
 
@@ -301,6 +314,9 @@ void Engine::updateEngineObjects(Shader& shader) {
 
 void Engine::drawEngineObjects(Shader &shader) {
     for (Mesh* mesh : meshes) {
+		if (mesh->isOnForeground())
+			glClear(GL_DEPTH_BUFFER_BIT);
+
         mesh->draw(shader);
     }
 }
@@ -335,8 +351,6 @@ void Engine::endFrame() {
     framesCount++;
 }
 
-#include <irrKlang.h>
-
 bool Engine::build() {
 	initGlfw();
 	createWindow();
@@ -346,17 +360,11 @@ bool Engine::build() {
 	checkAppState();
 	setCallbacks();
     initEngineObjects();
-    initGlText();
-
-	using namespace irrklang;
-
-	ISoundEngine* engine = createIrrKlangDevice();
+	initGlText();
 
     FrameBuffer fbo;
 	Shader shader;
     Shader pickingShader("../resources/shaders/picking_fragment.glsl");
-
-	engine->play2D("../resources/sounds/menu.wav", true);
 
 	while (isRunning()) {
         updateDeltaTime();

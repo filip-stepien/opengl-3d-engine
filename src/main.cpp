@@ -54,6 +54,62 @@ class Test : public App {
         { 0.0f, 0.0f, 1.0f }
     };
 
+    Sound* sounds[ENEMY_COUNT] = { nullptr };
+    Sound* gunSound = nullptr;
+    Sound* gameSound = nullptr;
+    Sound* endSound = nullptr;
+    Sound* menuSound = nullptr;
+
+    void initializeMusic() {
+        gameSound = e.getSoundPlayer()->play2D("../resources/sounds/game.wav", true, true, true);
+        gameSound->setVolume(0.1f);
+
+        menuSound = e.getSoundPlayer()->play2D("../resources/sounds/menu.wav", true, false, true);
+        menuSound->setVolume(0.35f);
+    }
+
+    void playGameMusic() {
+        if (menuSound)
+            menuSound->stop();
+
+        gameSound->setIsPaused(false);
+    }
+
+    void playGunSound() {
+        gunSound = e.getSoundPlayer()->play2D("../resources/sounds/shot.wav", false, false, true);
+        gunSound->setVolume(0.3f);
+    }
+
+    void playEndGameSound() {
+        e.getSoundPlayer()->setAllSoundsPaused(true);
+
+        endSound = e.getSoundPlayer()->play2D("../resources/sounds/end.wav", false, false, true);
+        endSound->setVolume(0.1f);
+    }
+
+    void initializeEnemySound() {
+        for (int i = 0; i < ENEMY_COUNT; i++) {
+            if (sounds[i]) {
+                sounds[i]->setIsPaused(false);
+                continue;
+            }
+
+            sounds[i] = e.getSoundPlayer()->play3D("../resources/sounds/enemy.wav", { 10.0f, 10.0f, 10.0f }, true, false, true);
+            sounds[i]->setVolume(2.0f);
+            sounds[i]->setMinDistance(1.0f);
+        }
+    }
+
+    void updateSoundListener() {
+        glm::vec3 camPos = e.getCamera()->getPosition();
+        glm::vec3 ray = e.getCamera()->getRaycast();
+
+        e.getSoundPlayer()->setListenerPosition(
+            { camPos.x, camPos.y, camPos.z },
+            { ray.x, ray.y, ray.z }
+        );
+    }
+
     void createVents() {
         float rotation = 0.0f;
         float r = LEVEL_RADIUS + 0.5f;
@@ -143,6 +199,7 @@ class Test : public App {
         gun.setDiffuseTexture("../resources/textures/doublebarrel_diffuse.png");
         gun.setSpecularTexture("../resources/textures/doublebarrel_specular.png");
         gun.setViewIndependent(true);
+        gun.getMeshes().at(0)->setOnForeground(true);
     }
 
     void createCrosshair() {
@@ -229,7 +286,7 @@ class Test : public App {
         for (int i = 0; i < ENEMY_COUNT; i++) {
             Mesh* mesh = enemies[i].getMeshes().at(0);
             glm::vec3 pos = mesh->getPosition();
-            glm::vec3 dir;
+            glm::vec3 dir, newPos;
 
             if ((pos.x > LEVEL_RADIUS - 1.0f || pos.x < -LEVEL_RADIUS + 1.0f) ||
                 (pos.z > LEVEL_RADIUS - 1.0f || pos.z < -LEVEL_RADIUS + 1.0f)) {
@@ -241,12 +298,14 @@ class Test : public App {
             }
 
             dir *= ENEMY_MOV_SPEED * e.getDeltaTime();
-            enemies[i].setPosition(pos + dir);
+            newPos = pos + dir;
+            enemies[i].setPosition(newPos);
+            sounds[i]->setPosition({ newPos.x, newPos.y, newPos.z });
         }
     }
 
     void handleShot() {
-        if (playerDead)
+        if (playerDead || !gameStarted)
             return;
 
         gunHasShot = true;
@@ -258,6 +317,8 @@ class Test : public App {
                 updateScore();
             }
         }
+
+        playGunSound();
     }
 
     void handleShotAnimation() {
@@ -314,6 +375,8 @@ class Test : public App {
         startTitle.setContent("Press SPACE to START");
         startTitle.setScale(3.0f);
         startTitle.setCentered(true);
+
+        initializeMusic();
     }
 
     void displayMenu() {
@@ -344,6 +407,8 @@ class Test : public App {
         updateScore();
 
         handleInitialSpawn();
+        playGameMusic();
+        initializeEnemySound();
     }
 
     void startGame() {
@@ -371,7 +436,10 @@ class Test : public App {
         scoreboard.setVisible(true);
 
         gameStarted = true;
+
         handleInitialSpawn();
+        playGameMusic();
+        initializeEnemySound();
     }
 
     void endGame() {
@@ -386,6 +454,7 @@ class Test : public App {
         scoreboard.setPosition(e.getWindowWidth() / 2, e.getWindowHeight() / 2);
 
         e.getCamera()->setMovementEnabled(false);
+        playEndGameSound();
     }
 
     void setup() override {
@@ -412,6 +481,7 @@ class Test : public App {
             updateEnemyRotation();
             handleTouchCollision();
             handleShotAnimation();
+            updateSoundListener();
         } else {
             displayMenu();
         }
