@@ -7,12 +7,6 @@ using namespace demo;
 
 class Test : public App {
     static constexpr int ENEMY_COUNT = 8;
-    static constexpr int VENT_COUNT = 4;
-    static constexpr int WALL_COUNT = 4;
-    static constexpr int LIGHT_COUNT = 2;
-    static constexpr float INITIAL_SPAWN_RADIUS = 5.0f;
-    static constexpr float LEVEL_RADIUS = 10.0f;
-
     static constexpr float ENEMY_MOV_SPEED = 3.0f;
     static constexpr float ENEMY_ROT_SPEED = 0.05f;
     static constexpr float ENEMY_TOUCH_RADIUS = 1.5f;
@@ -22,11 +16,11 @@ class Test : public App {
     Model enemies[ENEMY_COUNT];
     Text2D gameTitle;
     Text2D startTitle;
-    Text2D scoreboard;
+
     Level level;
     Gun gun;
+    Scoreboard scoreboard;
 
-    unsigned int score { 0 };
     bool gameStarted { false };
     bool playerDead { false };
 
@@ -51,18 +45,6 @@ class Test : public App {
             enemy.setSpecularTexture("../resources/textures/jbs-specular.png");
             enemy.move(2.0f, 0.0f, 2.0f);
         }
-    }
-
-    void createScoreBoard() {
-        scoreboard.setContent("Score: 0");
-        scoreboard.setScale(4.0f);
-        scoreboard.setPosition(50.0f, e.getWindowHeight() - 100.0f);
-        scoreboard.setVisible(false);
-    }
-
-    void updateScore() {
-        score++;
-        scoreboard.setContent("Score: " + std::to_string(score));
     }
 
     void resetEnemyPos(unsigned int id) {
@@ -134,7 +116,7 @@ class Test : public App {
             unsigned int id = enemy.getMeshes().at(0)->getID();
             if (e.getPixelInfo().idObject == id) {
                 resetEnemyPos(id);
-                updateScore();
+                scoreboard.updateScore();
             }
         }
     }
@@ -191,14 +173,11 @@ class Test : public App {
 
         gun.setCrosshairVisible(true);
 
-        scoreboard.setPosition(50.0f, e.getWindowHeight() - 100.0f);
-        scoreboard.setCentered(false);
+        scoreboard.setDefaultPosition();
+        scoreboard.resetScore();
 
         e.getCamera()->setPosition(0.0f, 1.0f, 0.0f);
         e.getCamera()->setMovementEnabled(true);
-
-        score = -1;
-        updateScore();
 
         handleInitialSpawn();
     }
@@ -223,7 +202,6 @@ class Test : public App {
         gameTitle.setVisible(false);
 
         gun.setCrosshairVisible(true);
-
         scoreboard.setVisible(true);
 
         gameStarted = true;
@@ -238,8 +216,7 @@ class Test : public App {
         startTitle.setVisible(true);
         gun.setCrosshairVisible(false);
 
-        scoreboard.setCentered(true);
-        scoreboard.setPosition(e.getWindowWidth() / 2, e.getWindowHeight() / 2);
+        scoreboard.setEndGamePosition();
 
         e.getCamera()->setMovementEnabled(false);
     }
@@ -247,9 +224,10 @@ class Test : public App {
     void setup() override {
         level.create();
         gun.create();
+        scoreboard.create();
+        scoreboard.setVisible(false);
 
         createEnemies();
-        createScoreBoard();
         createMenu();
 
         e.watchPixel(e.getWindowWidth() / 2, e.getWindowHeight() / 2);

@@ -88,8 +88,9 @@ add_executable(opengl-3d-engine
     demo/Level.cpp
     demo/Random.cpp
     demo/Enemy.cpp
-    demo/TextManager.cpp
+    demo/SceneManager.cpp
     demo/Gun.cpp
+    demo/Scoreboard.cpp
     demo/main.cpp
 )
 

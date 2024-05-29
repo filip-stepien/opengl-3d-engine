@@ -5,8 +5,9 @@
 #include "Enemy.hpp"
 #include "Level.hpp"
 #include "Random.hpp"
-#include "TextManager.hpp"
+#include "SceneManager.hpp"
 #include "Gun.hpp"
+#include "Scoreboard.hpp"
 
 class Demo : public App {
 
