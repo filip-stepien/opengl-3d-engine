@@ -1,20 +1,16 @@
 #include "Demo.hpp"
 
-#include <cmath>
-#include <random>
-
 using namespace demo;
 
 class Test : public App {
+private:
     Engine& e = Engine::get();
-    Model dummyEnemy;
-    Text2D gameTitle;
-    Text2D startTitle;
 
+    Scoreboard scoreboard;
+    SceneManager sceneManager;
     Enemy enemies[ENEMY_COUNT];
     Level level;
     Gun gun;
-    Scoreboard scoreboard;
 
     bool gameStarted { false };
     bool playerDead { false };
@@ -59,51 +55,13 @@ class Test : public App {
     }
 
     void createMenu() {
-        e.getCamera()->move(-5.0f, 0.0f, 0.0f);
-
-        dummyEnemy.load("../resources/models/jbs.obj");
-        dummyEnemy.setDiffuseTexture("../resources/textures/jbs-diffuse.png");
-        dummyEnemy.setSpecularTexture("../resources/textures/jbs-specular.png");
-        dummyEnemy.setPosition(-8.0f, 0.0f, 0.0f);
-
-        gun.setMenuView();
-
-        gameTitle.setPosition(e.getWindowWidth() / 2, 200.0f);
-        gameTitle.setContent("RoboShooter");
-        gameTitle.setScale(8.0f);
-        gameTitle.setCentered(true);
-
-        startTitle.setPosition(e.getWindowWidth() / 2, e.getWindowHeight() / 2);
-        startTitle.setContent("Press SPACE to START");
-        startTitle.setScale(3.0f);
-        startTitle.setCentered(true);
-    }
-
-    void displayMenu() {
-        float x = sin(e.getFramesCount() / 500.0f) * e.getDeltaTime() * 0.5f;
-        float z = cos(e.getFramesCount() / 500.0f) * e.getDeltaTime() * 0.7f;
-        float textY = sin(e.getFramesCount() / 50.0f) * 30.0f;
-
-        startTitle.setPosition(startTitle.getPosition().x, textY + 800.0f);
-
-        if (!playerDead)
-            e.getCamera()->move(x, 0.0f, z);
+        sceneManager.createMenu();
+        sceneManager.arrangeAssetsOnMenu(gun);
     }
 
     void restartGame() {
         playerDead = false;
-
-        startTitle.setVisible(false);
-        gameTitle.setVisible(false);
-
-        gun.setCrosshairVisible(true);
-
-        scoreboard.setDefaultPosition();
-        scoreboard.resetScore();
-
-        e.getCamera()->setPosition(0.0f, 1.0f, 0.0f);
-        e.getCamera()->setMovementEnabled(true);
-
+        sceneManager.arrangeAssetsOnRestart(gun, scoreboard);
         handleInitialSpawn();
     }
 
@@ -114,37 +72,14 @@ class Test : public App {
         if (gameStarted)
             return;
 
-        Camera* cam = e.getCamera();
-        cam->setMovementEnabled(true);
-        cam->setPosition(0.0f, 1.0f, 0.0f);
-        cam->disperseInitialFocus();
-
-        gun.setGameView();
-
-        dummyEnemy.move(0.0f, 10.0f, 0.0f);
-
-        startTitle.setVisible(false);
-        gameTitle.setVisible(false);
-
-        gun.setCrosshairVisible(true);
-        scoreboard.setVisible(true);
-
         gameStarted = true;
-
+        sceneManager.arrangeAssetsOnStart(gun, scoreboard);
         handleInitialSpawn();
     }
 
     void endGame() {
         playerDead = true;
-
-        gameTitle.setContent("Game over!");
-        gameTitle.setVisible(true);
-        startTitle.setVisible(true);
-        gun.setCrosshairVisible(false);
-
-        scoreboard.setEndGamePosition();
-
-        e.getCamera()->setMovementEnabled(false);
+        sceneManager.arrangeAssetsOnEnd(gun, scoreboard);
     }
 
     void setup() override {
@@ -165,10 +100,9 @@ class Test : public App {
         if (gameStarted && !playerDead) {
             updateEnemies();
             handleTouchCollision();
-
             gun.handleShotAnimation();
         } else {
-            displayMenu();
+            sceneManager.displayMenu(playerDead);
         }
     }
 };
