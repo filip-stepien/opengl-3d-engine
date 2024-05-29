@@ -66,6 +66,14 @@ GLfloat Mesh::getShininess() {
 	return shininess;
 }
 
+bool Mesh::isViewIndependent() {
+    return viewIndependent;
+}
+
+bool Mesh::isOnForeground() {
+    return foreground;
+}
+
 void Mesh::draw(Shader& shader) {
 	vao->bind();
 	diffuse->bind();
@@ -105,4 +113,8 @@ void Mesh::setIgnoreLight(bool ignore) {
 
 void Mesh::setViewIndependent(bool independent) {
     this->viewIndependent = independent;
+}
+
+void Mesh::setOnForegrond(bool foreground) {
+    this->foreground = foreground;
 }

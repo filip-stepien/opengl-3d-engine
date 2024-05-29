@@ -32,5 +32,6 @@ void demo::Scoreboard::setVisible(bool visible) {
 void demo::Scoreboard::create() {
     scoreboard.setContent("Score: 0");
     scoreboard.setScale(4.0f);
+    scoreboard.setVisible(false);
     setDefaultPosition();
 }

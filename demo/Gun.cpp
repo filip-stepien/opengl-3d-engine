@@ -7,6 +7,7 @@ void demo::Gun::createGun() {
     gun.setSpecularTexture("../resources/textures/doublebarrel_specular.png");
 
     gun.setViewIndependent(false);
+    gun.setOnForeground(true);
     gun.setPosition(-8.0f, 0.5f, 0.47f);
     gun.setScale(0.2f, 0.2f, 0.2f);
     gun.setRotation(-90.0f, 0.3f, 0.0f, 1.0f);

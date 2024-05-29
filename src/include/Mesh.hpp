@@ -31,6 +31,7 @@ protected:
 
     bool viewIndependent { false };
     bool ignoreLight { false };
+    bool foreground { false };
 
 public:
 	Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices);
@@ -42,10 +43,13 @@ public:
     void setTextureScale(float scaleX, float scaleY);
     void setIgnoreLight(bool ignore);
     void setViewIndependent(bool independent);
+    void setOnForegrond(bool foreground);
 
 	Texture* getDiffuseTexture();
 	Texture* getSpecularTexture();
 	GLfloat getShininess();
+    bool isViewIndependent();
+    bool isOnForeground();
 
 	virtual void initialize();
 	void draw(Shader& shader) override;

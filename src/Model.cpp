@@ -46,6 +46,7 @@ void Model::load(const std::string& path) {
     }
 }
 
+
 void Model::setPosition(glm::vec3 position) {
     for (auto mesh : meshes)
         mesh->setPosition(position);
@@ -135,3 +136,8 @@ void Model::setViewIndependent(bool independent) {
     for (auto& mesh : meshes)
         mesh->setViewIndependent(independent);
 }
+void Model::setOnForeground(bool foreground) {
+    for (auto& mesh : meshes)
+        mesh->setOnForegrond(foreground);
+}
+

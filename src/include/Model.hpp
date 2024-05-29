@@ -24,6 +24,7 @@ public:
     void setTextureScale(float scaleX, float scaleY);
     void setIgnoreLight(bool ignore);
     void setViewIndependent(bool independent);
+    void setOnForeground(bool foreground);
 
     void setPosition(glm::vec3 position);
     void setPosition(GLfloat x, GLfloat y, GLfloat z);

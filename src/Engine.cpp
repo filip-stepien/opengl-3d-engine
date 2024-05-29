@@ -288,6 +288,11 @@ void Engine::initEngineObjects() {
     for (Mesh* mesh : meshes) {
         mesh->initialize();
     }
+
+    for (int i = 0; i < meshes.size(); i++) {
+        if (meshes[i]->isOnForeground())
+            std::swap(meshes[i], meshes.back());
+    }
 }
 
 void Engine::updateEngineObjects(Shader& shader) {
@@ -301,6 +306,9 @@ void Engine::updateEngineObjects(Shader& shader) {
 
 void Engine::drawEngineObjects(Shader &shader) {
     for (Mesh* mesh : meshes) {
+        if (mesh->isOnForeground())
+            glClear(GL_DEPTH_BUFFER_BIT);
+
         mesh->draw(shader);
     }
 }
