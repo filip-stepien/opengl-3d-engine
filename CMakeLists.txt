@@ -28,14 +28,6 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(glm)
 
 FetchContent_Declare(
-    glm
-    GIT_REPOSITORY https://github.com/g-truc/glm.git
-    GIT_TAG        master
-)
-
-FetchContent_MakeAvailable(glm)
-
-FetchContent_Declare(
     gl_text
     GIT_REPOSITORY https://github.com/vallentin/glText.git
     GIT_TAG        master
@@ -75,26 +67,34 @@ if(NOT obj_loader_POPULATED)
 endif()
 
 add_executable(opengl-3d-engine
-src/main.cpp
-src/Engine.cpp
-src/callbacks.cpp
-src/Shader.cpp
-src/VertexBuffer.cpp
-src/VertexArray.cpp
-src/ElementBuffer.cpp
-src/Texture.cpp
-src/Camera.cpp
-src/Mesh.cpp
-src/Light.cpp
-src/Transformable.cpp
-src/EngineObject.cpp
-src/App.cpp
-src/Model.cpp
-src/FrameBuffer.cpp
-src/Plane3D.cpp
-src/Text2D.cpp
+    src/Engine.cpp
+    src/callbacks.cpp
+    src/Shader.cpp
+    src/VertexBuffer.cpp
+    src/VertexArray.cpp
+    src/ElementBuffer.cpp
+    src/Texture.cpp
+    src/Camera.cpp
+    src/Mesh.cpp
+    src/Light.cpp
+    src/Transformable.cpp
+    src/EngineObject.cpp
+    src/App.cpp
+    src/Model.cpp
+    src/FrameBuffer.cpp
+    src/Plane3D.cpp
+    src/Text2D.cpp
+    demo/Demo.cpp
+    demo/Level.cpp
+    demo/Random.cpp
+    demo/Enemy.cpp
+    demo/TextManager.cpp
+    demo/main.cpp
 )
 
 target_link_libraries(opengl-3d-engine PRIVATE glfw glad glm stb_image obj_loader gl_text)
+target_include_directories(opengl-3d-engine PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/include
+    ${CMAKE_SOURCE_DIR}/demo/include
+)
 
-target_include_directories(opengl-3d-engine PRIVATE ${CMAKE_SOURCE_DIR}/src/include)

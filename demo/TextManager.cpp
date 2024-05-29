@@ -1,0 +1,1 @@
+#include "TextManager.hpp"

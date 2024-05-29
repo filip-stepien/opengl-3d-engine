@@ -11,6 +11,7 @@ public:
 
     virtual void setup() {};
 	virtual void loop() {};
+    virtual void cleanup() {};
 
 	void onKeyClick(int key, Handler handler);
     void onKeyRelease(int key, Handler handler);

@@ -1,9 +1,10 @@
-#include "Engine.hpp"
-#include "Model.hpp"
-#include "Plane3D.hpp"
+
+#include "Demo.hpp"
 
 #include <cmath>
 #include <random>
+
+using namespace demo;
 
 class Test : public App {
     static constexpr int ENEMY_COUNT = 8;
@@ -21,17 +22,11 @@ class Test : public App {
     Model gun;
     Model dummyEnemy;
     Model enemies[ENEMY_COUNT];
-    Model vents[VENT_COUNT];
-    Light light[LIGHT_COUNT];
-    Plane3D ventPlanes[VENT_COUNT];
-    Plane3D floor;
-    Plane3D roof;
-    Plane3D walls[WALL_COUNT];
-    Plane3D lightSource[LIGHT_COUNT];
     Text2D crosshair;
     Text2D gameTitle;
     Text2D startTitle;
     Text2D scoreboard;
+    Level level;
 
     unsigned int score { 0 };
     bool gunHasShot { false };
@@ -53,90 +48,6 @@ class Test : public App {
         { 0.0f, 0.0f, -1.0f },
         { 0.0f, 0.0f, 1.0f }
     };
-
-    void createVents() {
-        float rotation = 0.0f;
-        float r = LEVEL_RADIUS + 0.5f;
-        float vr = LEVEL_RADIUS - 0.1f;
-        float y = 0.8f;
-
-        for (int i = 0; i < VENT_COUNT; i++) {
-            vents[i].load("../resources/models/vent.obj");
-
-            switch (i) {
-                case 0:
-                    vents[i].setPosition(-r, y, 0);
-                    ventPlanes[i].setPosition(-vr, y, 0);
-                    break;
-                case 1:
-                    vents[i].setPosition(0, y, -r);
-                    ventPlanes[i].setPosition(0, y, vr);
-                    break;
-                case 2:
-                    vents[i].setPosition(r, y, 0);
-                    ventPlanes[i].setPosition(vr, y, 0);
-                    break;
-                default:
-                    vents[i].setPosition(0, y, r);
-                    ventPlanes[i].setPosition(0, y, -vr);
-                    break;
-            }
-
-            vents[i].setScale(0.8f, 0.8f, 0.8f);
-            vents[i].rotate(90.0f, 1.0f, 0.0f, 0.0f);
-            vents[i].rotate(rotation, 0.0f, 0.0f, 1.0f);
-            vents[i].setDiffuseTexture("../resources/textures/vent_diffuse.png");
-            vents[i].setSpecularTexture("../resources/textures/vent_specular.png");
-
-            ventPlanes[i].setScale(0.79f, 0.79f, 0.79f);
-            ventPlanes[i].setRotation(rotation + 90.0f, 0.0f, 1.0f, 0.0f);
-            ventPlanes[i].setDiffuseTexture("../resources/textures/black.png");
-            ventPlanes[i].setIgnoreLight(true);
-
-            rotation += 90.0f;
-        }
-    }
-
-    void createLight(int i, float x, float z) {
-        light[i].setPosition(x, 2.0f, z);
-        light[i].setAmbient(0.15f, 0.15f, 0.15f);
-        light[i].setDiffuse(0.7f, 0.7f, 0.7f);
-
-        lightSource[i].setIgnoreLight(true);
-        lightSource[i].setRotation(90.0f, 1.0f, 0.0f, 0.0f);
-        lightSource[i].setPosition(x, 2.99f, z);
-        lightSource[i].setScale(0.5f, 0.5f, 0.5f);
-    }
-
-    void createWalls() {
-        for (int i = 0; i < WALL_COUNT; i++) {
-            walls[i].rotate(90.0f * i, 0.0f, 1.0f, 0.0f);
-            walls[i].scale(LEVEL_RADIUS, 1.5f, 1.0f);
-            walls[i].setTextureScale(10.0f, 2.0f);
-            walls[i].move(0.0f, 1.0f, -LEVEL_RADIUS);
-            walls[i].setDiffuseTexture("../resources/textures/wall_diffuse.png");
-            walls[i].setSpecularTexture("../resources/textures/wall_specular.png");
-            walls[i].setShininess(20.0f);
-        }
-    }
-
-    void createFloor() {
-        floor.rotate(270.0f, 1.0f, 0.0f, 0.0f);
-        floor.scale(LEVEL_RADIUS, LEVEL_RADIUS, 1.0f);
-        floor.setTextureScale(2.0f, 2.0f);
-        floor.setDiffuseTexture("../resources/textures/concrete_diffuse.png");
-        floor.setSpecularTexture("../resources/textures/concrete_specular.png");
-    }
-
-    void createRoof() {
-        roof.rotate(90.0f, 1.0f, 0.0f, 0.0f);
-        roof.move(0.0f, 0.0f, -3.0f);
-        roof.scale(LEVEL_RADIUS, LEVEL_RADIUS, 1.0f);
-        roof.setTextureScale(2.0f, 2.0f);
-        roof.setDiffuseTexture("../resources/textures/wall_diffuse.png");
-        roof.setSpecularTexture("../resources/textures/wall_specular.png");
-        roof.setShininess(1.0f);
-    }
 
     void createGun() {
         gun.load("../resources/models/doublebarrel.obj");
@@ -181,26 +92,12 @@ class Test : public App {
         }
     }
 
-    float randomFloat(float min, float max) {
-        std::random_device rd;
-        std::mt19937 generator { rd() };
-        std::uniform_real_distribution<> distrib(min, max);
-        return distrib(generator);
-    }
-
-    float randomDir() {
-        std::random_device rd;
-        std::mt19937 generator { rd() };
-        std::uniform_int_distribution<> distrib(0, 1);
-        return distrib(generator) ? 1.0f : -1.0f;
-    }
-
     void handleInitialSpawn() {
         for (auto& enemy : enemies) {
             enemy.setPosition(
-                randomFloat(INITIAL_SPAWN_RADIUS, 9.0f) * randomDir(),
+                Random::randomFloat(INITIAL_SPAWN_RADIUS, 9.0f) * Random::randomDir(),
                 0,
-                randomFloat(INITIAL_SPAWN_RADIUS, 9.0f) * randomDir()
+                Random::randomFloat(INITIAL_SPAWN_RADIUS, 9.0f) * Random::randomDir()
             );
         }
     }
@@ -371,7 +268,7 @@ class Test : public App {
         scoreboard.setVisible(true);
 
         gameStarted = true;
-        handleInitialSpawn();
+        //handleInitialSpawn();
     }
 
     void endGame() {
@@ -389,16 +286,11 @@ class Test : public App {
     }
 
     void setup() override {
-        createWalls();
-        createFloor();
-        createRoof();
-        createVents();
+        level.create();
         createGun();
         createEnemies();
         createCrosshair();
         createScoreBoard();
-        createLight(0, LEVEL_RADIUS / 2, LEVEL_RADIUS / 2);
-        createLight(1, -LEVEL_RADIUS / 2, -LEVEL_RADIUS / 2);
         createMenu();
 
         e.watchPixel(e.getWindowWidth() / 2, e.getWindowHeight() / 2);
@@ -427,7 +319,7 @@ int main() {
 	cam.setSpeed(2.5f);
 	cam.setMovementEnabled(false);
     cam.setYAxisLocked(true);
-    cam.setRestrictMovementBox(19.5f, 19.5f, 19.5f);
+    //cam.setRestrictMovementBox(19.5f, 19.5f, 19.5f);
     cam.setInitialFocus(-8.0f, 0.5f, 0.0f);
 
 	Engine::get()

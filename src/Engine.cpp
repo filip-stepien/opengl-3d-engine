@@ -360,5 +360,7 @@ bool Engine::build() {
 		endFrame();
 	}
 
+    app->cleanup();
+
 	return true;
 }

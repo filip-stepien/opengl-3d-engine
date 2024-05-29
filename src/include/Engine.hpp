@@ -23,6 +23,8 @@
 #include "App.hpp"
 #include "FrameBuffer.hpp"
 #include "Text2D.hpp"
+#include "Model.hpp"
+#include "Plane3D.hpp"
 
 class Engine {
 public:
