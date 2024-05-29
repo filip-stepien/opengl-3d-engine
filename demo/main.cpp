@@ -1,4 +1,3 @@
-
 #include "Demo.hpp"
 
 #include <cmath>
@@ -19,19 +18,15 @@ class Test : public App {
     static constexpr float ENEMY_TOUCH_RADIUS = 1.5f;
 
     Engine& e = Engine::get();
-    Model gun;
     Model dummyEnemy;
     Model enemies[ENEMY_COUNT];
-    Text2D crosshair;
     Text2D gameTitle;
     Text2D startTitle;
     Text2D scoreboard;
     Level level;
+    Gun gun;
 
     unsigned int score { 0 };
-    bool gunHasShot { false };
-    float recoilDirection = -1.0f;
-    float recoilAngle = 20.0f;
     bool gameStarted { false };
     bool playerDead { false };
 
@@ -48,19 +43,6 @@ class Test : public App {
         { 0.0f, 0.0f, -1.0f },
         { 0.0f, 0.0f, 1.0f }
     };
-
-    void createGun() {
-        gun.load("../resources/models/doublebarrel.obj");
-        gun.setDiffuseTexture("../resources/textures/doublebarrel_diffuse.png");
-        gun.setSpecularTexture("../resources/textures/doublebarrel_specular.png");
-        gun.setViewIndependent(true);
-    }
-
-    void createCrosshair() {
-        crosshair.setContent("+");
-        crosshair.setPosition(e.getWindowWidth() / 2 - 6.0f, e.getWindowHeight() / 2 + 1.0f);
-        crosshair.setVisible(false);
-    }
 
     void createEnemies() {
         for (auto& enemy : enemies) {
@@ -146,7 +128,7 @@ class Test : public App {
         if (playerDead)
             return;
 
-        gunHasShot = true;
+        gun.setGunShot();
 
         for (auto& enemy : enemies) {
             unsigned int id = enemy.getMeshes().at(0)->getID();
@@ -155,26 +137,6 @@ class Test : public App {
                 updateScore();
             }
         }
-    }
-
-    void handleShotAnimation() {
-        if (!gunHasShot)
-            return;
-
-        Mesh* mesh = gun.getMeshes().at(0);
-        float rotation = mesh->getRotation().z;
-
-        if (rotation <= -recoilAngle)
-            recoilDirection = 1.0f;
-
-        if (rotation > 0) {
-            gunHasShot = false;
-            recoilDirection = -1.0f;
-            gun.rotate(-rotation, 0.0f, 0.0f, 1.0f);
-            return;
-        }
-
-        gun.rotate(2.0f * recoilDirection, 0.0f, 0.0f, 1.0f);
     }
 
     void handleTouchCollision() {
@@ -197,10 +159,7 @@ class Test : public App {
         dummyEnemy.setSpecularTexture("../resources/textures/jbs-specular.png");
         dummyEnemy.setPosition(-8.0f, 0.0f, 0.0f);
 
-        gun.setViewIndependent(false);
-        gun.setPosition(-8.0f, 0.5f, 0.47f);
-        gun.setScale(0.2f, 0.2f, 0.2f);
-        gun.setRotation(-90.0f, 0.3f, 0.0f, 1.0f);
+        gun.setMenuView();
 
         gameTitle.setPosition(e.getWindowWidth() / 2, 200.0f);
         gameTitle.setContent("RoboShooter");
@@ -229,7 +188,8 @@ class Test : public App {
 
         startTitle.setVisible(false);
         gameTitle.setVisible(false);
-        crosshair.setVisible(true);
+
+        gun.setCrosshairVisible(true);
 
         scoreboard.setPosition(50.0f, e.getWindowHeight() - 100.0f);
         scoreboard.setCentered(false);
@@ -255,16 +215,15 @@ class Test : public App {
         cam->setPosition(0.0f, 1.0f, 0.0f);
         cam->disperseInitialFocus();
 
-        gun.setViewIndependent(true);
-        gun.setPosition(0.65f, -0.55f, -1.3f);
-        gun.setScale(0.6f, 0.6f, 0.6f);
-        gun.setRotation(-95.0f, 0.0f, 1.0f, 0.0f);
+        gun.setGameView();
 
         dummyEnemy.move(0.0f, 10.0f, 0.0f);
 
         startTitle.setVisible(false);
         gameTitle.setVisible(false);
-        crosshair.setVisible(true);
+
+        gun.setCrosshairVisible(true);
+
         scoreboard.setVisible(true);
 
         gameStarted = true;
@@ -277,7 +236,7 @@ class Test : public App {
         gameTitle.setContent("Game over!");
         gameTitle.setVisible(true);
         startTitle.setVisible(true);
-        crosshair.setVisible(false);
+        gun.setCrosshairVisible(false);
 
         scoreboard.setCentered(true);
         scoreboard.setPosition(e.getWindowWidth() / 2, e.getWindowHeight() / 2);
@@ -287,9 +246,9 @@ class Test : public App {
 
     void setup() override {
         level.create();
-        createGun();
+        gun.create();
+
         createEnemies();
-        createCrosshair();
         createScoreBoard();
         createMenu();
 
@@ -303,7 +262,8 @@ class Test : public App {
             updateEnemyMovement();
             updateEnemyRotation();
             handleTouchCollision();
-            handleShotAnimation();
+
+            gun.handleShotAnimation();
         } else {
             displayMenu();
         }

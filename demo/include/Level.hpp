@@ -12,22 +12,22 @@ namespace demo {
     const float LEVEL_RADIUS = 10.0f;
 
     class Level : public Asset {
-        private:
-            Model vents[VENT_COUNT];
-            Light light[LIGHT_COUNT];
-            Plane3D ventPlanes[VENT_COUNT];
-            Plane3D walls[WALL_COUNT];
-            Plane3D lightSource[LIGHT_COUNT];
-            Plane3D floor;
-            Plane3D roof;
+    private:
+        Model vents[VENT_COUNT];
+        Light light[LIGHT_COUNT];
+        Plane3D ventPlanes[VENT_COUNT];
+        Plane3D walls[WALL_COUNT];
+        Plane3D lightSource[LIGHT_COUNT];
+        Plane3D floor;
+        Plane3D roof;
 
-        public:
-            void createVents();
-            void createLight(int index, float x, float z);
-            void createWalls();
-            void createFloor();
-            void createRoof();
-            void create() override;
+    public:
+        void createVents();
+        void createLight(int index, float x, float z);
+        void createWalls();
+        void createFloor();
+        void createRoof();
+        void create() override;
     };
 }
 #endif

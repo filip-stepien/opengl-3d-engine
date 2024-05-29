@@ -6,6 +6,7 @@
 #include "Level.hpp"
 #include "Random.hpp"
 #include "TextManager.hpp"
+#include "Gun.hpp"
 
 class Demo : public App {
 
