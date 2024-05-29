@@ -6,105 +6,18 @@
 using namespace demo;
 
 class Test : public App {
-    static constexpr int ENEMY_COUNT = 8;
-    static constexpr float ENEMY_MOV_SPEED = 3.0f;
-    static constexpr float ENEMY_ROT_SPEED = 0.05f;
-    static constexpr float ENEMY_TOUCH_RADIUS = 1.5f;
-
     Engine& e = Engine::get();
     Model dummyEnemy;
-    Model enemies[ENEMY_COUNT];
     Text2D gameTitle;
     Text2D startTitle;
 
+    Enemy enemies[ENEMY_COUNT];
     Level level;
     Gun gun;
     Scoreboard scoreboard;
 
     bool gameStarted { false };
     bool playerDead { false };
-
-    glm::vec3 spawnPoints[VENT_COUNT] {
-        { LEVEL_RADIUS + 2.0f, 0, 0 },
-        { -LEVEL_RADIUS - 2.0f, 0, 0 },
-        { 0, 0, LEVEL_RADIUS + 2.0f },
-        { 0, 0, -LEVEL_RADIUS - 2.0f }
-    };
-
-    glm::vec3 spawnDirections[VENT_COUNT] {
-        { -1.0f, 0.0f, 0.0f },
-        { 1.0f, 0.0f, 0.0f },
-        { 0.0f, 0.0f, -1.0f },
-        { 0.0f, 0.0f, 1.0f }
-    };
-
-    void createEnemies() {
-        for (auto& enemy : enemies) {
-            enemy.load("../resources/models/jbs.obj");
-            enemy.setDiffuseTexture("../resources/textures/jbs-diffuse.png");
-            enemy.setSpecularTexture("../resources/textures/jbs-specular.png");
-            enemy.move(2.0f, 0.0f, 2.0f);
-        }
-    }
-
-    void resetEnemyPos(unsigned int id) {
-        for (int i = 0; i < ENEMY_COUNT; i++) {
-            Mesh* mesh = enemies[i].getMeshes().at(0);
-
-            if (mesh->getID() == id)
-                mesh->setPosition(spawnPoints[i % VENT_COUNT]);
-        }
-    }
-
-    void handleInitialSpawn() {
-        for (auto& enemy : enemies) {
-            enemy.setPosition(
-                Random::randomFloat(INITIAL_SPAWN_RADIUS, 9.0f) * Random::randomDir(),
-                0,
-                Random::randomFloat(INITIAL_SPAWN_RADIUS, 9.0f) * Random::randomDir()
-            );
-        }
-    }
-
-    void updateEnemyRotation() {
-        for (auto& enemy : enemies) {
-            Mesh* mesh = enemy.getMeshes().at(0);
-            glm::vec3 pos = mesh->getPosition();
-            glm::vec3 cam = e.getCamera()->getPosition();
-            glm::vec3 dist = cam - pos;
-            float targetDegrees = glm::degrees(std::atan2(dist.x, dist.z));
-            float oldDegrees = mesh->getRotation().y;
-            float diff = targetDegrees - oldDegrees - 90.0f;
-
-            if (diff < -180.0f) diff += 360.0f;
-            if (diff > 180.0f) diff -= 360.0f;
-
-            float change = std::lerp(0, diff, ENEMY_ROT_SPEED);
-            float newDegrees = oldDegrees + change;
-
-            enemy.setRotation(newDegrees, 0.0f, 1.0f, 0.0f);
-        }
-    }
-
-    void updateEnemyMovement() {
-        for (int i = 0; i < ENEMY_COUNT; i++) {
-            Mesh* mesh = enemies[i].getMeshes().at(0);
-            glm::vec3 pos = mesh->getPosition();
-            glm::vec3 dir;
-
-            if ((pos.x > LEVEL_RADIUS - 1.0f || pos.x < -LEVEL_RADIUS + 1.0f) ||
-                (pos.z > LEVEL_RADIUS - 1.0f || pos.z < -LEVEL_RADIUS + 1.0f)) {
-                dir = spawnDirections[i % VENT_COUNT];
-            } else {
-                dir = e.getCamera()->getPosition() - pos;
-                dir = glm::normalize(dir);
-                dir.y = 0.0f;
-            }
-
-            dir *= ENEMY_MOV_SPEED * e.getDeltaTime();
-            enemies[i].setPosition(pos + dir);
-        }
-    }
 
     void handleShot() {
         if (playerDead)
@@ -113,9 +26,8 @@ class Test : public App {
         gun.setGunShot();
 
         for (auto& enemy : enemies) {
-            unsigned int id = enemy.getMeshes().at(0)->getID();
-            if (e.getPixelInfo().idObject == id) {
-                resetEnemyPos(id);
+            if (e.getPixelInfo().idObject == enemy.getID()) {
+                enemy.resetPosition();
                 scoreboard.updateScore();
             }
         }
@@ -123,13 +35,26 @@ class Test : public App {
 
     void handleTouchCollision() {
         for (auto& enemy : enemies) {
-            Mesh* mesh = enemy.getMeshes().at(0);
-            glm::vec3 camPos = e.getCamera()->getPosition();
-            glm::vec3 enemyPos = mesh->getPosition();
-            float dist = glm::length(camPos - enemyPos);
-
-            if (dist < ENEMY_TOUCH_RADIUS)
+            if (enemy.didCollide())
                 endGame();
+        }
+    }
+
+    void handleInitialSpawn() {
+        for (auto& enemy : enemies) {
+            enemy.setInitialPosition();
+        }
+    }
+
+    void createEnemies() {
+        for (auto& enemy : enemies) {
+            enemy.create();
+        }
+    }
+
+    void updateEnemies() {
+        for (auto& enemy : enemies) {
+            enemy.updateMovement();
         }
     }
 
@@ -205,7 +130,8 @@ class Test : public App {
         scoreboard.setVisible(true);
 
         gameStarted = true;
-        //handleInitialSpawn();
+
+        handleInitialSpawn();
     }
 
     void endGame() {
@@ -237,8 +163,7 @@ class Test : public App {
 
     void loop() override {
         if (gameStarted && !playerDead) {
-            updateEnemyMovement();
-            updateEnemyRotation();
+            updateEnemies();
             handleTouchCollision();
 
             gun.handleShotAnimation();
