@@ -28,7 +28,7 @@
 
 /**
  * @class Engine
- * @brief The main engine for the application.
+ * @brief Main engine for the application.
  *
  * Class follows singleton pattern.
  * There cannot be more than one instance representing Engine in the program.

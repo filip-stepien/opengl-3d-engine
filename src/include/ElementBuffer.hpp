@@ -7,7 +7,7 @@
 
 /**
  * @class ElementBuffer
- * @brief A class representing an OpenGL Element Buffer Object (EBO).
+ * @brief OpenGL Element Buffer Object.
  */
 class ElementBuffer {
 private:

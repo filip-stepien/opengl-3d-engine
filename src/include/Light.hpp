@@ -12,7 +12,7 @@
 
 /**
  * @class Light
- * @brief A point light present in the scene.
+ * @brief Point light present in the scene.
  *
  * It implements simple [Phong lighting model](https://en.wikipedia.org/wiki/Phong_reflection_model).
  */

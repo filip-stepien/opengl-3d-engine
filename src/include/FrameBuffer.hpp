@@ -29,7 +29,7 @@ struct PixelInfo {
 
 /**
  * @class FrameBuffer
- * @brief A class representing an OpenGL Frame Buffer Object (FBO).
+ * @brief OpenGL Frame Buffer Object.
  */
 class FrameBuffer {
 private:

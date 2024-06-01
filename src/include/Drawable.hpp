@@ -5,9 +5,9 @@
 
 /**
  * @class Drawable
- * @brief An abstract class representing a drawable object.
+ * @brief Abstract class representing a drawable object.
  */
-class Drawable {
+class Drawable : public EngineObject {
 public:
     /**
      * @brief Draws the object using the provided shader.
