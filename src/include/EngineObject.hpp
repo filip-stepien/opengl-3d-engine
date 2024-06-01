@@ -3,7 +3,7 @@
 
 /**
  * @class EngineObject
- * @brief A base class for objects within the engine.
+ * @brief Base class for objects within the engine.
  */
 class EngineObject {
 protected:

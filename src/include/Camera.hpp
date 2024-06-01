@@ -10,7 +10,7 @@
 
 /**
  * @class Camera
- * @brief A camera which makes an eye of the 3D space.
+ * @brief Camera which makes an eye of the 3D space.
  */
 class Camera : public Updatable, public Transformable {
 public:

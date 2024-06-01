@@ -10,7 +10,7 @@
 
 /**
  * @class Transformable
- * @brief Transformations for objects.
+ * @brief Abstract class defining transformations for objects.
  *
  * @note Every type of transformation have a set method.
  * The difference is the set method will transform object once,

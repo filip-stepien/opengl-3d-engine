@@ -7,7 +7,7 @@
 
 /**
  * @class App
- * @brief A wrapper for an Engine application.
+ * @brief Wrapper for an Engine application.
  *
  * This class provides a basic structure for setting up, running, and
  * cleaning up the application, as well as handling input events.

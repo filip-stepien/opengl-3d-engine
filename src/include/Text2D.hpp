@@ -11,7 +11,7 @@
 
 /**
  * @class Text2D
- * @brief Text on the screen.
+ * @brief Text rendered on the screen.
  */
 class Text2D {
 private:
