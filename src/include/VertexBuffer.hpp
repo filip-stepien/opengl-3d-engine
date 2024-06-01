@@ -6,23 +6,59 @@
 #include <glm/glm.hpp>
 #include <vector>
 
+/**
+ * @struct Vertex
+ * @brief Structure to hold vertex data.
+ */
 struct Vertex {
-	glm::vec3 position;
-	glm::vec3 normal;
-	glm::vec2 texture;
+    /// Position of the vertex.
+    glm::vec3 position;
+
+    /// Normal of the vertex.
+    glm::vec3 normal;
+
+    /// Texture coordinates of the vertex.
+    glm::vec2 texture;
 };
 
+/**
+ * @class VertexBuffer
+ * @brief OpenGL Vertex Buffer Object.
+ */
 class VertexBuffer {
 private:
-	GLuint id;
+    /// ID of the Vertex Buffer Object.
+    GLuint id;
 
 public:
-	VertexBuffer();
-	~VertexBuffer();
+    /**
+     * @brief Constructor for VertexBuffer.
+     * Generates the VBO.
+     */
+    VertexBuffer();
 
-	void setData(std::vector<Vertex>& vertices, GLenum usage = GL_STATIC_DRAW);
-	void bind();
-	void unbind();
+    /**
+     * @brief Destructor for VertexBuffer.
+     * Deletes the VBO.
+     */
+    ~VertexBuffer();
+
+    /**
+     * @brief Sets the data for the vertex buffer.
+     * @param vertices A vector of vertices to be stored in the buffer.
+     * @param usage The usage pattern of the buffer. Defaults to GL_STATIC_DRAW.
+     */
+    void setData(std::vector<Vertex>& vertices, GLenum usage = GL_STATIC_DRAW);
+
+    /**
+     * @brief Binds the vertex buffer.
+     */
+    void bind();
+
+    /**
+     * @brief Unbinds the vertex buffer.
+     */
+    void unbind();
 };
 
 #endif
