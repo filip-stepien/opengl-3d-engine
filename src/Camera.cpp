@@ -135,13 +135,10 @@ void Camera::resetMousePosition() {
 
 void Camera::restrictMovement() {
     GLfloat margin = std::nextafter(0.0f, 1.0f);
-    GLfloat wx = restrictX / 2;
-    GLfloat wy = restrictY / 2;
-    GLfloat wz = restrictZ / 2;
 
-    position.x = std::clamp(position.x, -wx + margin, wx - margin);
-    position.y = std::clamp(position.y, -wy + margin, wy - margin);
-    position.z = std::clamp(position.z, -wz + margin, wz - margin);
+    position.x = std::clamp(position.x, -restrictX + margin, restrictX - margin);
+    position.y = std::clamp(position.y, -restrictY + margin, restrictY - margin);
+    position.z = std::clamp(position.z, -restrictZ + margin, restrictZ - margin);
 }
 
 void Camera::processKeyboard(Direction direction) {
@@ -254,19 +251,4 @@ void Camera::update(Shader& shader) {
 void Camera::initialize() {
     updateProjection();
     updateFocus();
-}
-
-glm::mat4 Camera::getBillboardMatrix(glm::vec3 position) {
-    glm::vec3 up = { 0.0f, 1.0f, 0.0f };
-    glm::vec3 front = glm::normalize(this->position - position);
-    glm::vec3 right = glm::normalize(glm::cross(up, front));
-    glm::vec3 newUp = glm::cross(front, right);
-
-    glm::mat4 matrix = { 1.0f };
-    matrix[0] = { right, 0.0f };
-    matrix[1] = { newUp, 0.0f };
-    matrix[2] = { -front, 0.0f };
-    matrix[3] = { position, 1.0f };
-
-    return matrix;
 }

@@ -100,7 +100,7 @@ public:
     /**
      * @brief Get the current mouse position.
      *
-     * @return The current mouse position as a glm::vec2.
+     * @return The current mouse position as a 2D vector.
      */
     glm::vec2 getMousePosition();
 
