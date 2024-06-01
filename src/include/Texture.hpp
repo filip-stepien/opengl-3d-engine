@@ -5,29 +5,73 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+/**
+ * @class Texture
+ * @brief OpenGL texture.
+ */
 class Texture {
 public:
-	using TextureType = enum TEXTURE { DIFFUSE, SPECULAR };
+    /// Texture type.
+    using TextureType = enum TEXTURE {
+        DIFFUSE,
+        SPECULAR
+    };
 
 private:
-	TextureType type { DIFFUSE };
-	GLuint id { 0 };
-	GLenum wrapping { GL_REPEAT };
-	const char* path { "../resources/textures/default.png" };
+    /// Type of the texture.
+    TextureType type { DIFFUSE };
 
-	void loadImage(const char* path);
+    /// ID of the texture.
+    GLuint id { 0 };
+
+    /// Wrapping mode for the texture.
+    GLenum wrapping { GL_REPEAT };
+
+    /// Path to the texture file.
+    const char* path { "../resources/textures/default.png" };
+
+    /**
+     * @brief Loads the image from the specified path.
+     * @param path The path to the image file.
+     *
+     * @note Image loading supports multiple formats.
+     */
+    void loadImage(const char* path);
 
 public:
-	Texture(
-		TextureType type = DIFFUSE,
-		const char* path = "../resources/textures/default.png",
-		GLenum wrapping = GL_REPEAT
-	);
-	~Texture();
+    /**
+     * @brief Constructor for Texture.
+     * @param type The type of the texture (DIFFUSE or SPECULAR).
+     * @param path The path to the texture file.
+     * @param wrapping The wrapping mode for the texture.
+     */
+    Texture(
+        TextureType type = DIFFUSE,
+        const char* path = "../resources/textures/default.png",
+        GLenum wrapping = GL_REPEAT
+    );
 
-	void initialize();
-	void bind();
-	void unbind();
+    /**
+     * @brief Destructor for Texture.
+     * Deletes texture.
+     */
+    ~Texture();
+
+    /**
+     * @brief Initializes the texture.
+     * Loads an image and generates the texture.
+     */
+    void initialize();
+
+    /**
+     * @brief Binds the texture.
+     */
+    void bind();
+
+    /**
+     * @brief Unbinds the texture.
+     */
+    void unbind();
 };
 
 #endif
