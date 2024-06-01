@@ -96,7 +96,7 @@ void Mesh::drawToBuffer(Shader &shader) {
     vao->bind();
 
     shader.use();
-    shader.setUInt("objectIndex", 200);
+    shader.setUInt("objectIndex", getID());
     shader.setMat4("model", model);
 
     vao->drawIndices(indices.size());
@@ -115,6 +115,6 @@ void Mesh::setViewIndependent(bool independent) {
     this->viewIndependent = independent;
 }
 
-void Mesh::setOnForegrond(bool foreground) {
+void Mesh::setOnForeground(bool foreground) {
     this->foreground = foreground;
 }

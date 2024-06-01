@@ -489,10 +489,10 @@ public:
 
     /**
      * @brief Clears the window with the specified RGBA color.
-     * @param r Red.
-     * @param g Green.
-     * @param b Blue.
-     * @param a Alpha.
+     * @param r Red component of the color.
+     * @param g Green component of the color.
+     * @param b Blue component of the color.
+     * @param a Alpha component of the color.
      *
      * Defaults to black: (0, 0, 0, 1).
      */

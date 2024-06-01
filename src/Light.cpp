@@ -42,9 +42,11 @@ glm::vec3 Light::getSpecular() {
 }
 
 void Light::update(Shader& shader, int index) {
-	if (index >= 8 || index < 0) {
+	if (index > MAX_LIGHTS || index < 0) {
 		std::cout << "SHADER ERROR" << std::endl;
-		std::cout << "Light index out of range. This value should be between 0 and 7." << std::endl;
+		std::cout << "Light index out of range.";
+        std::cout << "This value should be between 0 and ";
+        std::cout << MAX_LIGHTS << std::endl;
 		return;
 	}
 
