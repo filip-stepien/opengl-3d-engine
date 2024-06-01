@@ -16,7 +16,7 @@
  * The difference is the set method will transform object once,
  * while the regular one will perform transformation every frame.
  */
-class Transformable : public EngineObject {
+class Transformable : public virtual EngineObject {
 protected:
     /// Model matrix for the object.
     glm::mat4 model { 1.0f };
@@ -70,13 +70,13 @@ public:
      */
     void setModelMatrix(glm::mat4 model);
 
-    /**
+    virtual /**
      * @brief Sets the position of the object.
      * @param position The new position.
      */
     void setPosition(glm::vec3 position);
 
-    /**
+    virtual /**
      * @brief Sets the position of the object.
      * @param x The X coordinate of the new position.
      * @param y The Y coordinate of the new position.
@@ -84,7 +84,7 @@ public:
      */
     void setPosition(GLfloat x, GLfloat y, GLfloat z);
 
-    /**
+    virtual /**
      * @brief Moves the object by the specified amount.
      * @param x The amount to move in the X direction.
      * @param y The amount to move in the Y direction.
@@ -92,13 +92,13 @@ public:
      */
     void move(GLfloat x, GLfloat y, GLfloat z);
 
-    /**
+    virtual /**
      * @brief Moves the object by the specified amount.
      * @param translation The translation vector.
      */
     void move(glm::vec3 translation);
 
-    /**
+    virtual /**
      * @brief Sets the rotation of the object.
      * @param angleDegrees The angle of rotation in degrees.
      * @param x The X component of the rotation axis.
@@ -107,14 +107,14 @@ public:
      */
     void setRotation(GLfloat angleDegrees, GLfloat x, GLfloat y, GLfloat z);
 
-    /**
+    virtual /**
      * @brief Sets the rotation of the object.
      * @param angleDegrees The angle of rotation in degrees.
      * @param origin The rotation axis.
      */
     void setRotation(GLfloat angleDegrees, glm::vec3 origin);
 
-    /**
+    virtual /**
      * @brief Rotates the object.
      * @param angleDegrees The angle of rotation in degrees.
      * @param x The X component of the rotation axis.
@@ -123,14 +123,14 @@ public:
      */
     void rotate(GLfloat angleDegrees, GLfloat x, GLfloat y, GLfloat z);
 
-    /**
+    virtual /**
      * @brief Rotates the object.
      * @param angleDegrees The angle of rotation in degrees.
      * @param origin The rotation axis.
      */
     void rotate(GLfloat angleDegrees, glm::vec3 origin);
 
-    /**
+    virtual /**
      * @brief Sets the scale of the object.
      * @param x The scale factor in the X direction.
      * @param y The scale factor in the Y direction.
@@ -138,13 +138,13 @@ public:
      */
     void setScale(GLfloat x, GLfloat y, GLfloat z);
 
-    /**
+    virtual /**
      * @brief Sets the scale of the object.
      * @param scale The scale vector.
      */
     void setScale(glm::vec3 scale);
 
-    /**
+    virtual /**
      * @brief Scales the object.
      * @param x The scale factor in the X direction.
      * @param y The scale factor in the Y direction.
@@ -152,7 +152,7 @@ public:
      */
     void scale(GLfloat x, GLfloat y, GLfloat z);
 
-    /**
+    virtual /**
      * @brief Scales the object.
      * @param scale The scale vector.
      */

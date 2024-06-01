@@ -1,12 +1,13 @@
 #pragma once
 
 #include "Shader.hpp"
+#include "EngineObject.hpp"
 
 /**
  * @class Updatable
  * @brief Abstract class for updatable object.
  */
-class Updatable {
+class Updatable : public virtual EngineObject {
 public:
     /**
      * @brief Updates the object using the provided shader.

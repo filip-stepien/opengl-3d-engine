@@ -2,12 +2,13 @@
 #define DRAWABLE_H
 
 #include "Shader.hpp"
+#include "EngineObject.hpp"
 
 /**
  * @class Drawable
  * @brief Abstract class representing a drawable object.
  */
-class Drawable : public EngineObject {
+class Drawable : public virtual EngineObject {
 public:
     /**
      * @brief Draws the object using the provided shader.

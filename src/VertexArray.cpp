@@ -16,7 +16,7 @@ void VertexArray::unbind() {
 	glBindVertexArray(0);
 }
 
-void VertexArray::setAttribPointer(GLuint layout, GLint numOfValues, GLuint pointerVal) {
+void VertexArray::setAttribPointer(GLuint layout, GLuint numOfValues, GLuint pointerVal) {
 	glVertexAttribPointer(
 		layout, 
 		numOfValues,

@@ -8,12 +8,13 @@
 
 #define GLT_IMPLEMENTATION
 #include "gltext.h"
+#include "EngineObject.hpp"
 
 /**
  * @class Text2D
  * @brief Text rendered on the screen.
  */
-class Text2D {
+class Text2D : public EngineObject {
 private:
     /// Pointer to the GLT text object.
     GLTtext* text { nullptr };

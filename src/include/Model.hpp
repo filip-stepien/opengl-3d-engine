@@ -12,7 +12,7 @@
  * @class Model
  * @brief Model consisting of multiple meshes.
  */
-class Model {
+class Model : public Transformable {
 private:
     /// A vector containing pointers to the meshes of the model.
     std::vector<Mesh*> meshes;
@@ -85,7 +85,7 @@ public:
      * @brief Sets the position of the model.
      * @param position The new position as 3D vector.
      */
-    void setPosition(glm::vec3 position);
+    void setPosition(glm::vec3 position) override;
 
     /**
      * @brief Sets the position of all model meshes.
@@ -93,7 +93,7 @@ public:
      * @param y The Y coordinate of the new position.
      * @param z The Z coordinate of the new position.
      */
-    void setPosition(GLfloat x, GLfloat y, GLfloat z);
+    void setPosition(GLfloat x, GLfloat y, GLfloat z) override;
 
     /**
      * @brief Moves all model meshes by a given translation.
@@ -101,13 +101,13 @@ public:
      * @param y The translation in the Y direction.
      * @param z The translation in the Z direction.
      */
-    void move(GLfloat x, GLfloat y, GLfloat z);
+    void move(GLfloat x, GLfloat y, GLfloat z) override;
 
     /**
      * @brief Moves all model meshes by a given translation.
      * @param translation The translation as 3D vector.
      */
-    void move(glm::vec3 translation);
+    void move(glm::vec3 translation) override;
 
     /**
      * @brief Sets the rotation of all model meshes.
@@ -116,14 +116,14 @@ public:
      * @param y The Y component of the rotation axis.
      * @param z The Z component of the rotation axis.
      */
-    void setRotation(GLfloat angleDegrees, GLfloat x, GLfloat y, GLfloat z);
+    void setRotation(GLfloat angleDegrees, GLfloat x, GLfloat y, GLfloat z) override;
 
     /**
      * @brief Sets the rotation of all model meshes.
      * @param angleDegrees The rotation angle in degrees.
      * @param origin The rotation axis as 3D vector.
      */
-    void setRotation(GLfloat angleDegrees, glm::vec3 origin);
+    void setRotation(GLfloat angleDegrees, glm::vec3 origin) override;
 
     /**
      * @brief Rotates all model meshes.
@@ -132,14 +132,14 @@ public:
      * @param y The Y component of the rotation axis.
      * @param z The Z component of the rotation axis.
      */
-    void rotate(GLfloat angleDegrees, GLfloat x, GLfloat y, GLfloat z);
+    void rotate(GLfloat angleDegrees, GLfloat x, GLfloat y, GLfloat z) override;
 
     /**
      * @brief Rotates all model meshes.
      * @param angleDegrees The rotation angle in degrees.
      * @param origin The rotation axis as 3D vector.
      */
-    void rotate(GLfloat angleDegrees, glm::vec3 origin);
+    void rotate(GLfloat angleDegrees, glm::vec3 origin) override;
 
     /**
      * @brief Sets the scale of all model meshes.
@@ -147,13 +147,13 @@ public:
      * @param y The scale factor in the Y direction.
      * @param z The scale factor in the Z direction.
      */
-    void setScale(GLfloat x, GLfloat y, GLfloat z);
+    void setScale(GLfloat x, GLfloat y, GLfloat z) override;
 
     /**
      * @brief Sets the scale of all model meshes.
      * @param scale The scale factors as 3D vector.
      */
-    void setScale(glm::vec3 scale);
+    void setScale(glm::vec3 scale) override;
 
     /**
      * @brief Scales the all model meshes.
@@ -161,13 +161,13 @@ public:
      * @param y The scale factor in the Y direction.
      * @param z The scale factor in the Z direction.
      */
-    void scale(GLfloat x, GLfloat y, GLfloat z);
+    void scale(GLfloat x, GLfloat y, GLfloat z) override;
 
     /**
      * @brief Scales all model meshes.
      * @param scale The scale factors as 3D vector.
      */
-    void scale(glm::vec3 scale);
+    void scale(glm::vec3 scale) override;
 };
 
 #endif
