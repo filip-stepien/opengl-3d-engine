@@ -6,7 +6,7 @@ find_package(Doxygen)
 
 if(DOXYGEN_FOUND)
     set(DOXYFILE_IN ${CMAKE_SOURCE_DIR}/docs/Doxyfile)
-    set(DOXYFILE_OUT ${CMAKE_SOURCE_DIR}/docs/html/Doxyfile)
+    set(DOXYFILE_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
 
     configure_file(${DOXYFILE_IN} ${DOXYFILE_OUT} @ONLY)
 
