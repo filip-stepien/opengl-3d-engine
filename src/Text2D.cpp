@@ -1,4 +1,6 @@
 #include "Text2D.hpp"
+
+#include <utility>
 #include "Engine.hpp"
 
 Text2D::Text2D() {
@@ -6,7 +8,7 @@ Text2D::Text2D() {
 }
 
 void Text2D::setContent(std::string textContent) {
-    content = textContent;
+    content = std::move(textContent);
 }
 
 void Text2D::setPosition(glm::vec2 textPosition) {
