@@ -33,7 +33,7 @@ Make sure you have [Python](https://www.python.org/) installed so [GLAD](https:/
 ```cpp
 using namespace engine;
 
-class Test : public App {![example1](https://github.com/filip-stepien/opengl-3d-engine/assets/105590352/bf44146a-264f-4103-a91c-316b1e528c6b)
+class Test : public App {
 
   void setup() override {
     std::cout << "This will print only once." << std::endl;
