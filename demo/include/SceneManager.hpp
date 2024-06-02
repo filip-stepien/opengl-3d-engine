@@ -7,7 +7,7 @@
 #include "Scoreboard.hpp"
 
 namespace demo {
-    class SceneManager {
+    class SceneManager : public Asset {
     private:
         Model dummyEnemy;
         Text2D gameTitle;
@@ -22,7 +22,7 @@ namespace demo {
         void arrangeAssetsOnStart(Gun& gun, Scoreboard& scoreboard);
         void arrangeAssetsOnRestart(Gun& gun, Scoreboard& scoreboard);
         void arrangeAssetsOnEnd(Gun& gun, Scoreboard& scoreboard);
-        void createMenu();
+        void create() override;
     };
 }
 

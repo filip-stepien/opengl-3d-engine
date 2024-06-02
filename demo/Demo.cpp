@@ -1,8 +1,9 @@
 #include "Demo.hpp"
 
 void demo::Demo::createMenu() {
-    sceneManager.createMenu();
+    sceneManager.create();
     sceneManager.arrangeAssetsOnMenu(gun);
+    soundPlayer.playMenuSound();
 }
 
 void demo::Demo::createEnemies() {
@@ -27,16 +28,23 @@ void demo::Demo::handleTouchCollision() {
 }
 
 void demo::Demo::handleShot() {
-    if (playerDead)
+    if (playerDead || !gameStarted)
         return;
 
     gun.setGunShot();
+    soundPlayer.playGunSound();
 
-    for (auto& enemy : enemies)
+    for (auto& enemy : enemies) {
         if (e.getPixelInfo().idObject == enemy.getID()) {
             enemy.resetPosition();
             scoreboard.updateScore();
         }
+    }
+}
+
+void demo::Demo::updateEnemySounds() {
+    for (int i = 0; i < ENEMY_COUNT; i++)
+        soundPlayer.updateSoundEmitter(i, enemies[i].getPosition());
 }
 
 void demo::Demo::startGame() {
@@ -49,6 +57,10 @@ void demo::Demo::startGame() {
     gameStarted = true;
     sceneManager.arrangeAssetsOnStart(gun, scoreboard);
 
+    soundPlayer.stopSounds();
+    soundPlayer.playGameSound();
+    soundPlayer.playEnemySounds();
+
     handleInitialSpawn();
 }
 
@@ -56,18 +68,25 @@ void demo::Demo::restartGame() {
     playerDead = false;
     sceneManager.arrangeAssetsOnRestart(gun, scoreboard);
 
+    soundPlayer.playGameSound();
+    soundPlayer.playEnemySounds();
+
     handleInitialSpawn();
 }
 
 void demo::Demo::endGame() {
     playerDead = true;
     sceneManager.arrangeAssetsOnEnd(gun, scoreboard);
+
+    soundPlayer.stopSounds();
+    soundPlayer.playEndSound();
 }
 
 void demo::Demo::setup() {
     level.create();
     gun.create();
     scoreboard.create();
+    soundPlayer.create();
 
     createEnemies();
     createMenu();
@@ -80,9 +99,11 @@ void demo::Demo::setup() {
 
 void demo::Demo::loop() {
     if (gameStarted && !playerDead) {
-        updateEnemies();
-        handleTouchCollision();
         gun.handleShotAnimation();
+        soundPlayer.updateSoundListener();
+        handleTouchCollision();
+        updateEnemies();
+        updateEnemySounds();
     } else {
         sceneManager.displayMenu(playerDead);
     }

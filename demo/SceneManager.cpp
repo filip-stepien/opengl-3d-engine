@@ -84,7 +84,7 @@ void demo::SceneManager::arrangeAssetsOnEnd(Gun& gun, Scoreboard& scoreboard) {
     Engine::get().getCamera()->setMovementEnabled(false);
 }
 
-void demo::SceneManager::createMenu() {
+void demo::SceneManager::create() {
     createDummyEnemy();
     createTitles();
 }

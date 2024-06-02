@@ -1,11 +1,14 @@
 #include "Engine.hpp"
 
-Engine::Engine() = default;
+Engine::Engine() {
+    soundPlayer = createIrrKlangDevice();
+}
 
 Engine::~Engine() {
 	glfwDestroyWindow(window);
 	glfwTerminate();
     gltTerminate();
+    soundPlayer->drop();
 }
 
 Engine& Engine::get() {
@@ -84,6 +87,10 @@ App* Engine::getApp() {
 
 Camera* Engine::getCamera() {
 	return camera;
+}
+
+ISoundEngine* Engine::getSoundPlayer() {
+    return soundPlayer;
 }
 
 GLdouble Engine::getDeltaTime() {

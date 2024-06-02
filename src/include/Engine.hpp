@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <irrKlang.h>
 #include <iostream>
 #include <vector>
 #include <set>
@@ -25,6 +26,8 @@
 #include "Text2D.hpp"
 #include "Model.hpp"
 #include "Plane3D.hpp"
+
+using namespace irrklang;
 
 /**
  * @class Engine
@@ -99,6 +102,9 @@ private:
 
     /// Pointer to the GLFW window instance.
     GLFWwindow* window { nullptr };
+
+    /// Pointer to the [sound player](https://www.ambiera.com/irrklang/docu/index.html#concept) instance.
+    ISoundEngine* soundPlayer { nullptr };
 
     /// Vector of light objects present in the scene.
     std::vector<Light*> lights {};
@@ -404,6 +410,15 @@ public:
      * @return Pointer to the camera instance.
      */
     Camera* getCamera();
+
+    /**
+     * @brief Gets the sound player instance.
+     * @return Pointer to the sound player instance.
+     *
+     * @note Engine uses [irrklang](https://www.ambiera.com/irrklang/) library.
+     *       Sound player instance originate from irrklang namespace.
+     */
+    ISoundEngine* getSoundPlayer();
 
     /**
      * @brief Gets the delta time between frames.

@@ -14,18 +14,19 @@ void demo::Enemy::create() {
 }
 
 void demo::Enemy::setInitialPosition() {
-    model.setPosition(
+    position = {
         Random::randomFloat(INITIAL_SPAWN_RADIUS, 9.0f) * Random::randomDir(),
         0,
         Random::randomFloat(INITIAL_SPAWN_RADIUS, 9.0f) * Random::randomDir()
-    );
+    };
+
+    model.setPosition(position);
 }
 
 void demo::Enemy::updateRotation() {
     Mesh* mesh = model.getMeshes().at(0);
-    glm::vec3 pos = mesh->getPosition();
     glm::vec3 cam = Engine::get().getCamera()->getPosition();
-    glm::vec3 dist = cam - pos;
+    glm::vec3 dist = cam - position;
     float targetDegrees = glm::degrees(std::atan2(dist.x, dist.z));
     float oldDegrees = mesh->getRotation().y;
     float diff = targetDegrees - oldDegrees - 90.0f;
@@ -41,25 +42,27 @@ void demo::Enemy::updateRotation() {
 
 void demo::Enemy::updatePosition() {
     Mesh* mesh = model.getMeshes().at(0);
-    glm::vec3 pos = mesh->getPosition();
     glm::vec3 dir;
 
-    if ((pos.x > LEVEL_RADIUS - 1.0f || pos.x < -LEVEL_RADIUS + 1.0f) ||
-        (pos.z > LEVEL_RADIUS - 1.0f || pos.z < -LEVEL_RADIUS + 1.0f)) {
+    if ((position.x > LEVEL_RADIUS - 1.0f || position.x < -LEVEL_RADIUS + 1.0f) ||
+        (position.z > LEVEL_RADIUS - 1.0f || position.z < -LEVEL_RADIUS + 1.0f)) {
         dir = spawnDirections[spawnPosition];
     } else {
-        dir = Engine::get().getCamera()->getPosition() - pos;
+        dir = Engine::get().getCamera()->getPosition() - position;
         dir = glm::normalize(dir);
         dir.y = 0.0f;
     }
 
     dir *= ENEMY_MOV_SPEED * Engine::get().getDeltaTime();
-    model.setPosition(pos + dir);
+    position += dir;
+
+    model.setPosition(position);
 }
 
 void demo::Enemy::resetPosition() {
     setRandomSpawnPos();
-    model.setPosition(spawnPoints[spawnPosition]);
+    position = spawnPoints[spawnPosition];
+    model.setPosition(position);
 }
 
 bool demo::Enemy::didCollide() {
@@ -78,4 +81,8 @@ unsigned int demo::Enemy::getID() {
 void demo::Enemy::updateMovement() {
     updateRotation();
     updatePosition();
+}
+
+glm::vec3 demo::Enemy::getPosition() {
+    return position;
 }

@@ -8,12 +8,14 @@
 #include "SceneManager.hpp"
 #include "Gun.hpp"
 #include "Scoreboard.hpp"
+#include "SoundPlayer.hpp"
 
 namespace demo {
     class Demo : public App {
         Engine& e = Engine::get();
         Scoreboard scoreboard;
         SceneManager sceneManager;
+        SoundPlayer soundPlayer;
         Enemy enemies[ENEMY_COUNT];
         Level level;
         Gun gun;
@@ -26,6 +28,7 @@ namespace demo {
         void handleInitialSpawn();
         void handleTouchCollision();
         void handleShot();
+        void updateEnemySounds();
         void startGame();
         void restartGame();
         void endGame();

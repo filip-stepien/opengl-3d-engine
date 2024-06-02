@@ -15,6 +15,7 @@ namespace demo {
     class Enemy : public Asset {
     private:
         Model model;
+        glm::vec3 position;
         int spawnPosition;
 
         glm::vec3 const spawnPoints[VENT_COUNT] {
@@ -36,6 +37,7 @@ namespace demo {
         void setRandomSpawnPos();
 
     public:
+        glm::vec3 getPosition();
         bool didCollide();
         void setInitialPosition();
         void resetPosition();

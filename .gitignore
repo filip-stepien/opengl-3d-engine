@@ -1,4 +1,5 @@
 build
 cmake-build-debug
 .idea
-docs/html
+.vs
+x64-Debug

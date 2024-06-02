@@ -11,7 +11,7 @@ int main() {
 	cam.setSpeed(2.5f);
 	cam.setMovementEnabled(false);
     cam.setYAxisLocked(true);
-    cam.setRestrictMovementBox(19.5f, 19.5f, 19.5f);
+    cam.setRestrictMovementBox(9.5f, 9.5f, 9.5f);
     cam.setInitialFocus(-8.0f, 0.5f, 0.0f);
 
 	Engine::get()

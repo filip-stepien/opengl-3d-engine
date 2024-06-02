@@ -130,6 +130,7 @@ add_executable(opengl-3d-engine
     demo/SceneManager.cpp
     demo/Gun.cpp
     demo/Scoreboard.cpp
+    demo/SoundPlayer.cpp
     demo/main.cpp
 )
 
