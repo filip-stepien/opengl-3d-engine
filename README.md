@@ -140,7 +140,7 @@ class Test : public App {
 
 You should see your model well-lit:
 
-![Example model](https://github.com/filip-stepien/opengl-3d-engine/example/media/example1.png)
+![Example model](https://github.com/filip-stepien/opengl-3d-engine/assets/105590352/ecd626bc-ca3c-4b0f-a6f6-14ec6e012dc6)
 
 Let's apply some transformations:
 
@@ -166,7 +166,7 @@ class Test : public App {
 
 Your model should spin 90 degrees per second along the Y axis:
 
-![Example transformation](https://github.com/filip-stepien/opengl-3d-engine/example/media/example2.mp4)
+![Example transformation](https://github.com/filip-stepien/opengl-3d-engine/assets/105590352/0b17d10d-5678-4540-809f-94d4dbfb6296)
 
 See documentation to explore other capabilities.
 
