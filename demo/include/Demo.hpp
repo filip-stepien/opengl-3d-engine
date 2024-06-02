@@ -32,6 +32,7 @@ namespace demo {
         void startGame();
         void restartGame();
         void endGame();
+        void closeGame();
         void setup() override;
         void loop() override;
     };

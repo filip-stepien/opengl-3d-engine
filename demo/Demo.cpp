@@ -82,6 +82,10 @@ void demo::Demo::endGame() {
     soundPlayer.playEndSound();
 }
 
+void demo::Demo::closeGame() {
+    Engine::get().close();
+}
+
 void demo::Demo::setup() {
     level.create();
     gun.create();
@@ -95,6 +99,7 @@ void demo::Demo::setup() {
 
     onMouseClick(GLFW_MOUSE_BUTTON_1, getHandler(&Demo::handleShot));
     onKeyClick(GLFW_KEY_SPACE, getHandler(&Demo::startGame));
+    onKeyClick(GLFW_KEY_ESCAPE, getHandler(&Demo::closeGame));
 }
 
 void demo::Demo::loop() {
