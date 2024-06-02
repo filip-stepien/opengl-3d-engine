@@ -7,6 +7,8 @@
 #include "Scoreboard.hpp"
 
 namespace demo {
+    using namespace engine;
+
     class SceneManager {
     private:
         Model dummyEnemy;

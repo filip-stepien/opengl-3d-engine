@@ -7,6 +7,8 @@
 #include "Random.hpp"
 
 namespace demo {
+    using namespace engine;
+
     const int ENEMY_COUNT = 8;
     const float ENEMY_MOV_SPEED = 3.0f;
     const float ENEMY_ROT_SPEED = 0.05f;

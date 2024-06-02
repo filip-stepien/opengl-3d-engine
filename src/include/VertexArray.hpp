@@ -5,59 +5,61 @@
 #include <glfw/glfw3.h>
 #include "VertexBuffer.hpp"
 
-/**
- * @class VertexArray
- * @brief OpenGL Vertex Array Object.
- */
-class VertexArray {
-private:
-    /// ID of the Vertex Array Object.
-    GLuint id { 0 };
-
-public:
+namespace engine {
     /**
-     * @brief Constructor for VertexArray.
-     * Generates the VAO.
+     * @class VertexArray
+     * @brief OpenGL Vertex Array Object.
      */
-    VertexArray();
+    class VertexArray {
+    private:
+        /// ID of the Vertex Array Object.
+        GLuint id { 0 };
 
-    /**
-     * @brief Destructor for VertexArray.
-     * Deletes the VAO.
-     */
-    ~VertexArray();
+    public:
+        /**
+         * @brief Constructor for VertexArray.
+         * Generates the VAO.
+         */
+        VertexArray();
 
-    /**
-     * @brief Sets the attribute pointer for the vertex array.
-     * @param layout The layout location of the attribute.
-     * @param numOfValues The number of values in the attribute.
-     * @param pointerVal The offset of the first component of the attribute.
-     */
-    void setAttribPointer(GLuint layout, GLuint numOfValues, GLuint pointerVal);
+        /**
+         * @brief Destructor for VertexArray.
+         * Deletes the VAO.
+         */
+        ~VertexArray();
 
-    /**
-     * @brief Binds the VAO.
-     */
-    void bind();
+        /**
+         * @brief Sets the attribute pointer for the vertex array.
+         * @param layout The layout location of the attribute.
+         * @param numOfValues The number of values in the attribute.
+         * @param pointerVal The offset of the first component of the attribute.
+         */
+        void setAttribPointer(GLuint layout, GLuint numOfValues, GLuint pointerVal);
 
-    /**
-     * @brief Unbinds the VAO.
-     */
-    void unbind();
+        /**
+         * @brief Binds the VAO.
+         */
+        void bind();
 
-    /**
-     * @brief Draws the vertices in the VAO.
-     * @param numOfVertices The number of vertices to draw.
-     * @param primitive The type of primitive to draw. Defaults to GL_TRIANGLES.
-     */
-    void drawVertices(GLuint numOfVertices, GLenum primitive = GL_TRIANGLES);
+        /**
+         * @brief Unbinds the VAO.
+         */
+        void unbind();
 
-    /**
-     * @brief Draws the elements in the VAO.
-     * @param numOfIndices The number of indices to draw.
-     * @param primitive The type of primitive to draw. Defaults to GL_TRIANGLES.
-     */
-    void drawIndices(GLuint numOfIndices, GLenum primitive = GL_TRIANGLES);
-};
+        /**
+         * @brief Draws the vertices in the VAO.
+         * @param numOfVertices The number of vertices to draw.
+         * @param primitive The type of primitive to draw. Defaults to GL_TRIANGLES.
+         */
+        void drawVertices(GLuint numOfVertices, GLenum primitive = GL_TRIANGLES);
+
+        /**
+         * @brief Draws the elements in the VAO.
+         * @param numOfIndices The number of indices to draw.
+         * @param primitive The type of primitive to draw. Defaults to GL_TRIANGLES.
+         */
+        void drawIndices(GLuint numOfIndices, GLenum primitive = GL_TRIANGLES);
+    };
+}
 
 #endif

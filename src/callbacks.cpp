@@ -1,6 +1,6 @@
 #include "callbacks.hpp"
 
-namespace cb {
+namespace engine::cb {
 	void onResize(GLFWwindow* window, int width, int height) {
 		Engine::get().onResize(window, width, height);
 		Engine::get().getCamera()->updateProjection();

@@ -5,6 +5,8 @@
 #include "Asset.hpp"
 
 namespace demo {
+    using namespace engine;
+
     const int VENT_COUNT = 4;
     const int WALL_COUNT = 4;
     const int LIGHT_COUNT = 2;

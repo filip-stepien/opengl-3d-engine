@@ -1,22 +1,22 @@
 #include "VertexArray.hpp"
 
-VertexArray::VertexArray() {
+engine::VertexArray::VertexArray() {
 	glGenVertexArrays(1, &id);
 }
 
-VertexArray::~VertexArray() {
+engine::VertexArray::~VertexArray() {
 	glDeleteVertexArrays(1, &id);
 }
 
-void VertexArray::bind() {
+void engine::VertexArray::bind() {
 	glBindVertexArray(id);
 }
 
-void VertexArray::unbind() {
+void engine::VertexArray::unbind() {
 	glBindVertexArray(0);
 }
 
-void VertexArray::setAttribPointer(GLuint layout, GLuint numOfValues, GLuint pointerVal) {
+void engine::VertexArray::setAttribPointer(GLuint layout, GLuint numOfValues, GLuint pointerVal) {
 	glVertexAttribPointer(
 		layout, 
 		numOfValues,
@@ -28,10 +28,10 @@ void VertexArray::setAttribPointer(GLuint layout, GLuint numOfValues, GLuint poi
 	glEnableVertexAttribArray(layout);
 }
 
-void VertexArray::drawVertices(GLuint numOfVertices, GLenum primitive) {
+void engine::VertexArray::drawVertices(GLuint numOfVertices, GLenum primitive) {
 	glDrawArrays(primitive, 0, numOfVertices);
 }
 
-void VertexArray::drawIndices(GLuint numOfIndices, GLenum primitive) {
+void engine::VertexArray::drawIndices(GLuint numOfIndices, GLenum primitive) {
 	glDrawElements(primitive, numOfIndices, GL_UNSIGNED_INT, 0);
 }

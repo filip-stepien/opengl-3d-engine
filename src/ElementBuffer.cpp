@@ -1,21 +1,21 @@
 #include "ElementBuffer.hpp"
 
-ElementBuffer::ElementBuffer() {
+engine::ElementBuffer::ElementBuffer() {
 	glGenBuffers(1, &id);
 }
 
-ElementBuffer::~ElementBuffer() {
+engine::ElementBuffer::~ElementBuffer() {
 	glDeleteBuffers(1, &id);
 }
 
-void ElementBuffer::setData(std::vector<GLuint>& indices, GLenum usage) {
+void engine::ElementBuffer::setData(std::vector<GLuint>& indices, GLenum usage) {
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), usage);
 }
 
-void ElementBuffer::bind() {
+void engine::ElementBuffer::bind() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
 }
 
-void ElementBuffer::unbind() {
+void engine::ElementBuffer::unbind() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }

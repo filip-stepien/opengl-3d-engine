@@ -3,7 +3,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-void Texture::loadImage(const char* path) {
+void engine::Texture::loadImage(const char* path) {
 	stbi_set_flip_vertically_on_load(true);
 
 	int width, height, nrChannels;
@@ -19,13 +19,13 @@ void Texture::loadImage(const char* path) {
 	stbi_image_free(data);
 }
 
-Texture::Texture(TextureType type, const char* path, GLenum wrapping) {
+engine::Texture::Texture(TextureType type, const char* path, GLenum wrapping) {
 	this->path = path;
 	this->wrapping = wrapping;
 	this->type = type;
 }
 
-void Texture::initialize() {
+void engine::Texture::initialize() {
 	glGenTextures(1, &id);
 	bind();
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapping);
@@ -36,15 +36,15 @@ void Texture::initialize() {
 	unbind();
 }
 
-Texture::~Texture() {
+engine::Texture::~Texture() {
 	glDeleteTextures(1, &id);
 }
 
-void Texture::bind() {
+void engine::Texture::bind() {
 	type == DIFFUSE ? glActiveTexture(GL_TEXTURE0) : glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, id);
 }
 
-void Texture::unbind() {
+void engine::Texture::unbind() {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }

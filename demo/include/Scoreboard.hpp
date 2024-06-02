@@ -5,6 +5,8 @@
 #include "Asset.hpp"
 
 namespace demo {
+    using namespace engine;
+
     class Scoreboard : public Asset {
     private:
         Text2D scoreboard;

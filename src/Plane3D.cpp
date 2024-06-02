@@ -1,6 +1,6 @@
 #include "Plane3D.hpp"
 
-std::vector<Vertex> Plane3D::getVertices() {
+std::vector<engine::Vertex> engine::Plane3D::getVertices() {
     return {
         { {-1.0f, -1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f} },
         { { 1.0f, -1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f} },
@@ -9,7 +9,7 @@ std::vector<Vertex> Plane3D::getVertices() {
     };
 }
 
-std::vector<GLuint> Plane3D::getIndices() {
+std::vector<GLuint> engine::Plane3D::getIndices() {
     return {
         0, 1, 2,
         2, 3, 0

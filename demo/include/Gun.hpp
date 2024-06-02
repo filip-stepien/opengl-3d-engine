@@ -6,6 +6,8 @@
 #include "Text2D.hpp"
 
 namespace demo {
+    using namespace engine;
+
     class Gun : public Asset {
     private:
         Model gun;
