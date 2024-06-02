@@ -2,6 +2,8 @@
 
 Simple graphics engine with a friendly programming interface.
 
+It is rather a toy than an actual 3D engine and was primarily used for learning purposes, but can still be used for simple applications.
+
 On this branch, engine contains audio support.
 
 It currently works under Windows, as the project uses DLL files from [irrklang](https://www.ambiera.com/irrklang/) library.
@@ -30,9 +32,13 @@ This will build the demo and the documentation as well (requires [Doxygen](https
 
 Make sure you have [Python](https://www.python.org/) installed so [GLAD](https://github.com/Dav1dde/glad) can build successfully.
 
+> **NOTE:** The engine assumes that your executable is one directory deep.
+> For example, if your executable is in the `/build` directory, the resources will load properly,
+> but if it sits in `/build/debug` - they won't.
+
 ## Example usage
 
-1. Define your application. It should inherit from the App class. It contains `setup()`, `loop()` and `cleanup()` methods which can be overriden. You can use the `engine` namespace in your project to speed up the process.
+1. **Define your application.** It should inherit from the `App` class. It contains `setup()`, `loop()` and `cleanup()` methods which can be overriden. You can use the `engine` namespace in your project to speed up the process.
 
 ```cpp
 using namespace engine;
@@ -53,7 +59,7 @@ class Test : public App {
 }
 ```
 
-2. Set up your camera. You can set projection type, position, speed, initial focus point etc. You can also specify, if the camera should be able to move.
+2. **Set up your camera.** You can set a projection type, position, speed, initial focus point etc. You can also specify, if the camera should be able to move.
 
 ```cpp
 Camera cam;
@@ -64,7 +70,7 @@ cam.setMovementEnabled(true);
 cam.setInitialFocus(0.0f, 0.0f, 0.0f);
 ```
 
-3.  Build the engine. Note that Engine instance should be access through `get()` method as it follows [singleton pattern](https://en.wikipedia.org/wiki/Singleton_pattern). Here, you can specify setting for your window. You should also pass a pointer to your camera and application. Every engine build operation should end with `build()` method call.
+3. **Build the engine.** Note that the Engine instance should be accessed through the `get()` method as it follows the [singleton pattern](https://en.wikipedia.org/wiki/Singleton_pattern). Here, you can specify all settings for your window. You should also pass a pointer to your camera and application. Every engine build operation should end with a `build()` method call.
 
 ```cpp
 Engine::get()
@@ -123,10 +129,11 @@ int main() {
 ---
 
 If you did everything right, you should see the gray window screen.
-Let's add some objects. Add light and load some objects with textures:
+**Let's add some objects.**
+Add a light and load some objects along with some textures:
 
-> NOTE: Currently for 3D models only .OBJ files are supported.
-> Also, you can only apply diffuse and specular textures at the moment.
+> NOTE: Currently for 3D models only `.obj` files are supported.
+> Also, you can only apply **diffuse** and **specular** textures at the moment.
 
 ```cpp
 class Test : public App {
@@ -173,7 +180,7 @@ Your model should spin 90 degrees per second along the Y axis:
 
 https://github.com/filip-stepien/opengl-3d-engine/assets/105590352/2b78546d-3170-43ff-8642-c1560071cc2b
 
-See documentation to explore other capabilities.
+**_See the documentation to explore other capabilities._**
 
 ## License
 
