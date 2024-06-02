@@ -33,7 +33,8 @@ Make sure you have [Python](https://www.python.org/) installed so [GLAD](https:/
 ```cpp
 using namespace engine;
 
-class Test : public App {
+class Test : public App {![example1](https://github.com/filip-stepien/opengl-3d-engine/assets/105590352/bf44146a-264f-4103-a91c-316b1e528c6b)
+
   void setup() override {
     std::cout << "This will print only once." << std::endl;
   }
@@ -140,7 +141,7 @@ class Test : public App {
 
 You should see your model well-lit:
 
-![Example model](https://github.com/filip-stepien/opengl-3d-engine/assets/105590352/ecd626bc-ca3c-4b0f-a6f6-14ec6e012dc6)
+![Example model](https://raw.githubusercontent.com/filip-stepien/opengl-3d-engine/main/example/media/example1.png)
 
 Let's apply some transformations:
 
@@ -166,7 +167,7 @@ class Test : public App {
 
 Your model should spin 90 degrees per second along the Y axis:
 
-![Example transformation](https://github.com/filip-stepien/opengl-3d-engine/assets/105590352/0b17d10d-5678-4540-809f-94d4dbfb6296)
+https://github.com/filip-stepien/opengl-3d-engine/assets/105590352/2b78546d-3170-43ff-8642-c1560071cc2b
 
 See documentation to explore other capabilities.
 
