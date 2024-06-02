@@ -1,14 +1,14 @@
 #include "Camera.hpp"
 #include "Engine.hpp"
 
-void Camera::setProjection(Projection projection, GLfloat near, GLfloat far, GLfloat fovDegrees) {
+void engine::Camera::setProjection(Projection projection, GLfloat near, GLfloat far, GLfloat fovDegrees) {
 	this->projection = projection;
 	this->near = near;
 	this->far = far;
 	this->fov = fovDegrees;
 }
 
-void Camera::updateProjection() {
+void engine::Camera::updateProjection() {
     float apsect = Engine::get().getAspectRatio();
 
 	if (projection == PERSPECTIVE) {
@@ -30,102 +30,102 @@ void Camera::updateProjection() {
 	}
 }
 
-void Camera::setYaw(GLfloat yaw) {
+void engine::Camera::setYaw(GLfloat yaw) {
 	this->yaw = yaw;
 	updateVectors();
 }
 
-void Camera::setPitch(GLfloat pitch) {
+void engine::Camera::setPitch(GLfloat pitch) {
 	this->pitch = pitch;
 	updateVectors();
 }
 
-void Camera::setSpeed(GLfloat speed) {
+void engine::Camera::setSpeed(GLfloat speed) {
 	this->speed = speed;
 }
 
-void Camera::setSensitivity(GLfloat sensitivity) {
+void engine::Camera::setSensitivity(GLfloat sensitivity) {
 	this->sensitivity = sensitivity;
 }
 
-void Camera::setZoom(GLfloat zoom) {
+void engine::Camera::setZoom(GLfloat zoom) {
 	this->zoom = zoom;
 }
 
-void Camera::setMovementEnabled(bool movementEnabled) {
+void engine::Camera::setMovementEnabled(bool movementEnabled) {
 	this->movementEnabled = movementEnabled;
     resetMousePosition();
 }
 
-void Camera::setInitialFocus(glm::vec3 initalFocus) {
+void engine::Camera::setInitialFocus(glm::vec3 initalFocus) {
 	this->initialFocus = initalFocus;
 }
 
-void Camera::setInitialFocus(GLfloat x, GLfloat y, GLfloat z) {
+void engine::Camera::setInitialFocus(GLfloat x, GLfloat y, GLfloat z) {
 	this->initialFocus = glm::vec3(x, y, z);
 }
 
-void Camera::setYAxisLocked(bool locked) {
+void engine::Camera::setYAxisLocked(bool locked) {
     this->yAxisLocked = locked;
 }
 
-void Camera::setRestrictMovementBox(GLfloat sizeX, GLfloat sizeY, GLfloat sizeZ) {
+void engine::Camera::setRestrictMovementBox(GLfloat sizeX, GLfloat sizeY, GLfloat sizeZ) {
     this->restrictX = sizeX;
     this->restrictY = sizeY;
     this->restrictZ = sizeZ;
 }
 
-void Camera::setCursorPosition(GLfloat x, GLfloat y) {
+void engine::Camera::setCursorPosition(GLfloat x, GLfloat y) {
     mouseX = x;
     mouseY = y;
 }
 
-void Camera::disperseInitialFocus() {
+void engine::Camera::disperseInitialFocus() {
     firstMouse = false;
     resetMousePosition();
 }
 
-GLfloat Camera::getYaw() {
+GLfloat engine::Camera::getYaw() {
 	return yaw;
 }
 
-GLfloat Camera::getPitch() {
+GLfloat engine::Camera::getPitch() {
 	return pitch;
 }
 
-GLfloat Camera::getSpeed() {
+GLfloat engine::Camera::getSpeed() {
 	return speed;
 }
 
-GLfloat Camera::getSensitivity() {
+GLfloat engine::Camera::getSensitivity() {
 	return sensitivity;
 }
 
-GLfloat Camera::getZoom() {
+GLfloat engine::Camera::getZoom() {
 	return zoom;
 }
 
-glm::mat4 Camera::getProjectionMatrix() {
+glm::mat4 engine::Camera::getProjectionMatrix() {
     return projectionMatrix;
 }
 
-glm::mat4 Camera::getViewMatrix() {
+glm::mat4 engine::Camera::getViewMatrix() {
     return viewMatrix;
 }
 
-glm::vec3 Camera::getInitalFocus() {
+glm::vec3 engine::Camera::getInitalFocus() {
 	return initialFocus;
 }
 
-glm::vec3 Camera::getRaycast() {
+glm::vec3 engine::Camera::getRaycast() {
     return -front;
 }
 
-bool Camera::isMovementEnabled() {
+bool engine::Camera::isMovementEnabled() {
 	return movementEnabled;
 }
 
-void Camera::resetMousePosition() {
+void engine::Camera::resetMousePosition() {
     double x, y;
     glfwGetCursorPos(Engine::get().getWindow(), &x, &y);
 
@@ -133,7 +133,7 @@ void Camera::resetMousePosition() {
     lastY = static_cast<GLfloat>(y);
 }
 
-void Camera::restrictMovement() {
+void engine::Camera::restrictMovement() {
     GLfloat margin = std::nextafter(0.0f, 1.0f);
 
     position.x = std::clamp(position.x, -restrictX + margin, restrictX - margin);
@@ -141,7 +141,7 @@ void Camera::restrictMovement() {
     position.z = std::clamp(position.z, -restrictZ + margin, restrictZ - margin);
 }
 
-void Camera::processKeyboard(Direction direction) {
+void engine::Camera::processKeyboard(Direction direction) {
     double dt = Engine::get().getDeltaTime();
 	float velocity = static_cast<float>(speed * dt);
 
@@ -160,7 +160,7 @@ void Camera::processKeyboard(Direction direction) {
     restrictMovement();
 }
 
-void Camera::handleMouseMove(double mX, double mY) {
+void engine::Camera::handleMouseMove(double mX, double mY) {
 	mouseX = static_cast<GLfloat>(mX);
 	mouseY = static_cast<GLfloat>(mY);
 
@@ -179,7 +179,7 @@ void Camera::handleMouseMove(double mX, double mY) {
 	processMouse(offsetX, offsetY);
 }
 
-void Camera::processMouse(GLfloat offsetX, GLfloat offsetY) {
+void engine::Camera::processMouse(GLfloat offsetX, GLfloat offsetY) {
 	offsetX *= sensitivity;
 	offsetY *= sensitivity;
 
@@ -194,7 +194,7 @@ void Camera::processMouse(GLfloat offsetX, GLfloat offsetY) {
 	updateVectors();
 }
 
-void Camera::updateFocus() {
+void engine::Camera::updateFocus() {
     glm::vec3 diff = initialFocus - position;
 
     if (glm::length(diff) <= 0.0)
@@ -210,7 +210,7 @@ void Camera::updateFocus() {
     updateVectors();
 }
 
-void Camera::updateVectors() {
+void engine::Camera::updateVectors() {
     float yawRad = glm::radians(yaw);
     float pitchRad = glm::radians(pitch);
 
@@ -222,20 +222,20 @@ void Camera::updateVectors() {
 	right = glm::normalize(glm::cross(front, up));
 }
 
-void Camera::processMovement() {
+void engine::Camera::processMovement() {
 	GLFWwindow* window = Engine::get().getWindow();
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		processKeyboard(Camera::FORWARD);
+		processKeyboard(engine::Camera::FORWARD);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		processKeyboard(Camera::BACKWARD);
+		processKeyboard(engine::Camera::BACKWARD);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		processKeyboard(Camera::LEFT);
+		processKeyboard(engine::Camera::LEFT);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		processKeyboard(Camera::RIGHT);
+		processKeyboard(engine::Camera::RIGHT);
 }
 
-void Camera::update(Shader& shader) {
+void engine::Camera::update(Shader& shader) {
     if (movementEnabled)
         processMovement();
 
@@ -248,7 +248,7 @@ void Camera::update(Shader& shader) {
     shader.setVec3("viewFront", front);
 }
 
-void Camera::initialize() {
+void engine::Camera::initialize() {
     updateProjection();
     updateFocus();
 }

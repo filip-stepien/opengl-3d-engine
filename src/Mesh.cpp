@@ -3,14 +3,14 @@
 #include <utility>
 #include "Engine.hpp"
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices) {
+engine::Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices) {
 	this->vertices = std::move(vertices);
 	this->indices = std::move(indices);
 
     Engine::get().addMesh(this);
 }
 
-void Mesh::initialize() {
+void engine::Mesh::initialize() {
 	ebo = new ElementBuffer;
     vbo = new VertexBuffer;
 	vao = new VertexArray;
@@ -34,7 +34,7 @@ void Mesh::initialize() {
 	specular->initialize();
 }
 
-Mesh::~Mesh() {
+engine::Mesh::~Mesh() {
 	delete diffuse;
 	delete specular;
     delete vao;
@@ -42,39 +42,39 @@ Mesh::~Mesh() {
     delete ebo;
 }
 
-void Mesh::setDiffuseTexture(const char* path) {
+void engine::Mesh::setDiffuseTexture(const char* path) {
 	diffuse = new Texture(Texture::DIFFUSE, path);
 }
 
-void Mesh::setSpecularTexture(const char* path) {
+void engine::Mesh::setSpecularTexture(const char* path) {
 	specular = new Texture(Texture::SPECULAR, path);
 }
 
-void Mesh::setShininess(GLfloat shininess) {
+void engine::Mesh::setShininess(GLfloat shininess) {
 	this->shininess = shininess;
 }
 
-Texture* Mesh::getDiffuseTexture() {
+engine::Texture* engine::Mesh::getDiffuseTexture() {
 	return diffuse;
 }
 
-Texture* Mesh::getSpecularTexture() {
+engine::Texture* engine::Mesh::getSpecularTexture() {
 	return specular;
 }
 
-GLfloat Mesh::getShininess() {
+GLfloat engine::Mesh::getShininess() {
 	return shininess;
 }
 
-bool Mesh::isViewIndependent() {
+bool engine::Mesh::isViewIndependent() {
     return viewIndependent;
 }
 
-bool Mesh::isOnForeground() {
+bool engine::Mesh::isOnForeground() {
     return foreground;
 }
 
-void Mesh::draw(Shader& shader) {
+void engine::Mesh::draw(Shader& shader) {
 	vao->bind();
 	diffuse->bind();
 	specular->bind();
@@ -92,7 +92,7 @@ void Mesh::draw(Shader& shader) {
 	vao->drawIndices(indices.size());
 }
 
-void Mesh::drawToBuffer(Shader &shader) {
+void engine::Mesh::drawToBuffer(Shader &shader) {
     vao->bind();
 
     shader.use();
@@ -102,19 +102,19 @@ void Mesh::drawToBuffer(Shader &shader) {
     vao->drawIndices(indices.size());
 }
 
-void Mesh::setTextureScale(float scaleX, float scaleY) {
+void engine::Mesh::setTextureScale(float scaleX, float scaleY) {
     this->textureScaleX = scaleX;
     this->textureScaleY = scaleY;
 }
 
-void Mesh::setIgnoreLight(bool ignore) {
+void engine::Mesh::setIgnoreLight(bool ignore) {
     this->ignoreLight = ignore;
 }
 
-void Mesh::setViewIndependent(bool independent) {
+void engine::Mesh::setViewIndependent(bool independent) {
     this->viewIndependent = independent;
 }
 
-void Mesh::setOnForeground(bool foreground) {
+void engine::Mesh::setOnForeground(bool foreground) {
     this->foreground = foreground;
 }

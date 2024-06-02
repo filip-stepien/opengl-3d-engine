@@ -1,33 +1,35 @@
 #ifndef ENGINE_OBJECT_H
 #define ENGINE_OBJECT_H
 
-/**
- * @class EngineObject
- * @brief Base class for objects within the engine.
- */
-class EngineObject {
-protected:
-    /// Unique identifier for the object.
-    unsigned int uid;
-
+namespace engine {
     /**
-     * @brief Gets the ID counter for generating unique IDs.
-     * @return Reference to the static ID counter.
+     * @class EngineObject
+     * @brief Base class for objects within the engine.
      */
-    static unsigned int& getIDCounter();
+    class EngineObject {
+    protected:
+        /// Unique identifier for the object.
+        unsigned int uid;
 
-public:
-    /**
-     * @brief Constructor for EngineObject.
-     * Initializes the unique identifier.
-     */
-    EngineObject();
+        /**
+         * @brief Gets the ID counter for generating unique IDs.
+         * @return Reference to the static ID counter.
+         */
+        static unsigned int &getIDCounter();
 
-    /**
-     * @brief Gets the unique identifier of the object.
-     * @return The unique identifier.
-     */
-    unsigned int getID();
-};
+    public:
+        /**
+         * @brief Constructor for EngineObject.
+         * Initializes the unique identifier.
+         */
+        EngineObject();
+
+        /**
+         * @brief Gets the unique identifier of the object.
+         * @return The unique identifier.
+         */
+        unsigned int getID();
+    };
+}
 
 #endif

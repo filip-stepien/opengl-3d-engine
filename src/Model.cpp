@@ -1,7 +1,7 @@
 #include "Model.hpp"
 #include <OBJ_loader.h>
 
-Model::~Model() {
+engine::Model::~Model() {
     for (Mesh* mesh : meshes) {
         delete mesh;
     }
@@ -9,11 +9,11 @@ Model::~Model() {
     meshes.clear();
 }
 
-std::vector<Mesh *> Model::getMeshes() {
+std::vector<engine::Mesh *> engine::Model::getMeshes() {
     return meshes;
 }
 
-void Model::load(const std::string& path) {
+void engine::Model::load(const std::string& path) {
     objl::Loader loader;
     bool fileLoaded = loader.LoadFile(path);
 
@@ -47,97 +47,97 @@ void Model::load(const std::string& path) {
 }
 
 
-void Model::setPosition(glm::vec3 position) {
+void engine::Model::setPosition(glm::vec3 position) {
     for (auto mesh : meshes)
         mesh->setPosition(position);
 }
 
-void Model::setPosition(GLfloat x, GLfloat y, GLfloat z) {
+void engine::Model::setPosition(GLfloat x, GLfloat y, GLfloat z) {
     for (auto mesh : meshes)
         mesh->setPosition(x, y, z);
 }
 
-void Model::move(GLfloat x, GLfloat y, GLfloat z) {
+void engine::Model::move(GLfloat x, GLfloat y, GLfloat z) {
     for (auto mesh : meshes)
         mesh->move(x, y, z);
 }
 
-void Model::move(glm::vec3 translation) {
+void engine::Model::move(glm::vec3 translation) {
     for (auto& mesh : meshes)
         mesh->move(translation);
 }
 
-void Model::setRotation(GLfloat angleDegrees, GLfloat x, GLfloat y, GLfloat z) {
+void engine::Model::setRotation(GLfloat angleDegrees, GLfloat x, GLfloat y, GLfloat z) {
     for (auto& mesh : meshes)
         mesh->setRotation(angleDegrees, x, y, z);
 }
 
-void Model::setRotation(GLfloat angleDegrees, glm::vec3 origin) {
+void engine::Model::setRotation(GLfloat angleDegrees, glm::vec3 origin) {
     for (auto& mesh : meshes)
         mesh->setRotation(angleDegrees, origin);
 }
 
-void Model::rotate(GLfloat angleDegrees, GLfloat x, GLfloat y, GLfloat z) {
+void engine::Model::rotate(GLfloat angleDegrees, GLfloat x, GLfloat y, GLfloat z) {
     for (auto& mesh : meshes)
         mesh->rotate(angleDegrees, x, y, z);
 }
 
-void Model::rotate(GLfloat angleDegrees, glm::vec3 origin) {
+void engine::Model::rotate(GLfloat angleDegrees, glm::vec3 origin) {
     for (auto& mesh : meshes)
         mesh->rotate(angleDegrees, origin);
 }
 
-void Model::setScale(GLfloat x, GLfloat y, GLfloat z) {
+void engine::Model::setScale(GLfloat x, GLfloat y, GLfloat z) {
     for (auto& mesh : meshes)
         mesh->setScale(x, y, z);
 }
 
-void Model::setScale(glm::vec3 scale) {
+void engine::Model::setScale(glm::vec3 scale) {
     for (auto& mesh : meshes)
         mesh->setScale(scale);
 }
 
-void Model::scale(GLfloat x, GLfloat y, GLfloat z) {
+void engine::Model::scale(GLfloat x, GLfloat y, GLfloat z) {
     for (auto& mesh : meshes)
         mesh->scale(x, y, z);
 }
 
-void Model::scale(glm::vec3 scale) {
+void engine::Model::scale(glm::vec3 scale) {
     for (auto& mesh : meshes)
         mesh->scale(scale);
 }
 
-void Model::setDiffuseTexture(const char* path) {
+void engine::Model::setDiffuseTexture(const char* path) {
     for (auto& mesh : meshes)
         mesh->setDiffuseTexture(path);
 }
 
-void Model::setSpecularTexture(const char* path) {
+void engine::Model::setSpecularTexture(const char* path) {
     for (auto& mesh : meshes)
         mesh->setSpecularTexture(path);
 }
 
-void Model::setShininess(GLfloat shininess) {
+void engine::Model::setShininess(GLfloat shininess) {
     for (auto& mesh : meshes)
         mesh->setShininess(shininess);
 }
 
-void Model::setTextureScale(float scaleX, float scaleY) {
+void engine::Model::setTextureScale(float scaleX, float scaleY) {
     for (auto& mesh : meshes)
         mesh->setTextureScale(scaleX, scaleY);
 }
 
-void Model::setIgnoreLight(bool ignore) {
+void engine::Model::setIgnoreLight(bool ignore) {
     for (auto& mesh : meshes)
         mesh->setIgnoreLight(ignore);
 }
 
-void Model::setViewIndependent(bool independent) {
+void engine::Model::setViewIndependent(bool independent) {
     for (auto& mesh : meshes)
         mesh->setViewIndependent(independent);
 }
 
-void Model::setOnForeground(bool foreground) {
+void engine::Model::setOnForeground(bool foreground) {
     for (auto& mesh : meshes)
         mesh->setOnForeground(foreground);
 }

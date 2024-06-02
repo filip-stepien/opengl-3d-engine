@@ -1,21 +1,21 @@
 #include "VertexBuffer.hpp"
 
-VertexBuffer::VertexBuffer() {
+engine::VertexBuffer::VertexBuffer() {
 	glGenBuffers(1, &id);
 }
 
-void VertexBuffer::setData(std::vector<Vertex>& vertices, GLenum usage) {
+void engine::VertexBuffer::setData(std::vector<Vertex>& vertices, GLenum usage) {
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), usage);
 }
 
-VertexBuffer::~VertexBuffer() {
+engine::VertexBuffer::~VertexBuffer() {
 	glDeleteBuffers(1, &id);
 }
 
-void VertexBuffer::bind() {
+void engine::VertexBuffer::bind() {
 	glBindBuffer(GL_ARRAY_BUFFER, id);
 }
 
-void VertexBuffer::unbind() {
+void engine::VertexBuffer::unbind() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

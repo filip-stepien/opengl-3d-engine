@@ -11,6 +11,8 @@
 #include "SoundPlayer.hpp"
 
 namespace demo {
+    using namespace engine;
+
     class Demo : public App {
         Engine& e = Engine::get();
         Scoreboard scoreboard;

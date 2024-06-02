@@ -12,12 +12,12 @@
  *       For detailed explanation of funtions' parameters see
  *       [GLFW input handling](https://www.glfw.org/docs/3.0/group__input.html).
  */
-namespace cb {
+namespace engine::cb {
     /**
      * @brief Callback function for window resize event.
-     * 
+     *
      * This function is called when the window is resized.
-     * 
+     *
      * @param window The GLFWwindow object.
      * @param width The new width of the window.
      * @param height The new height of the window.
@@ -26,9 +26,9 @@ namespace cb {
 
     /**
      * @brief Callback function for keyboard action event.
-     * 
+     *
      * This function is called when a keyboard key is pressed or released.
-     * 
+     *
      * @param window The GLFWwindow object.
      * @param key The keyboard key that was pressed or released
      *            (accepts [GLFW key tokens](https://www.glfw.org/docs/3.3/group__keys.html)).
@@ -41,9 +41,9 @@ namespace cb {
 
     /**
      * @brief Callback function for mouse button action event.
-     * 
+     *
      * This function is called when a mouse button is pressed or released.
-     * 
+     *
      * @param window The GLFWwindow object.
      * @param key The keyboard key that was pressed or released
      *            (accepts [GLFW key tokens](https://www.glfw.org/docs/3.3/group__keys.html)).
@@ -56,9 +56,9 @@ namespace cb {
 
     /**
      * @brief Callback function for mouse movement event.
-     * 
+     *
      * This function is called when the mouse cursor is moved.
-     * 
+     *
      * @param window The GLFWwindow object.
      * @param xpos The x-coordinate of the cursor.
      * @param ypos The y-coordinate of the cursor.

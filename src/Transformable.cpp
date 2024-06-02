@@ -1,87 +1,87 @@
 #include "Transformable.hpp"
 
-glm::vec3 Transformable::getPosition() {
+glm::vec3 engine::Transformable::getPosition() {
     return position;
 }
 
-glm::vec3 Transformable::getRotation() {
+glm::vec3 engine::Transformable::getRotation() {
     return rotationFactor;
 }
 
-glm::vec3 Transformable::getScale() {
+glm::vec3 engine::Transformable::getScale() {
     return scaleFactor;
 }
 
-void Transformable::setPosition(glm::vec3 position) {
+void engine::Transformable::setPosition(glm::vec3 position) {
     positionMatrix = glm::translate({ 1.0f }, position);
     this->position = position;
     transform();
 }
 
-void Transformable::setPosition(GLfloat x, GLfloat y, GLfloat z) {
+void engine::Transformable::setPosition(GLfloat x, GLfloat y, GLfloat z) {
     positionMatrix = glm::translate({ 1.0f }, glm::vec3(x, y, z));
     this->position = glm::vec3(x, y, z);
     transform();
 }
 
-void Transformable::move(GLfloat x, GLfloat y, GLfloat z) {
+void engine::Transformable::move(GLfloat x, GLfloat y, GLfloat z) {
     model = glm::translate(model, glm::vec3(x, y, z));
     position += glm::vec3(x, y, z);
 }
 
-void Transformable::move(glm::vec3 translation) {
+void engine::Transformable::move(glm::vec3 translation) {
     model = glm::translate(model, translation);
     position += translation;
 }
 
-void Transformable::setRotation(GLfloat angleDegrees, GLfloat x, GLfloat y, GLfloat z) {
+void engine::Transformable::setRotation(GLfloat angleDegrees, GLfloat x, GLfloat y, GLfloat z) {
     rotationFactor = { angleDegrees * x, angleDegrees * y, angleDegrees * z };
     rotationMatrix = glm::rotate({ 1.0f }, glm::radians(angleDegrees), glm::vec3(x, y, z));
     transform();
 }
 
-void Transformable::setRotation(GLfloat angleDegrees, glm::vec3 origin) {
+void engine::Transformable::setRotation(GLfloat angleDegrees, glm::vec3 origin) {
     rotationFactor = { angleDegrees * origin };
     rotationMatrix = glm::rotate({ 1.0f }, glm::radians(angleDegrees), origin);
     transform();
 }
 
-void Transformable::rotate(GLfloat angleDegrees, GLfloat x, GLfloat y, GLfloat z) {
+void engine::Transformable::rotate(GLfloat angleDegrees, GLfloat x, GLfloat y, GLfloat z) {
     rotationFactor += glm::vec3(angleDegrees * x, angleDegrees * y, angleDegrees * z);
     model = glm::rotate(model, glm::radians(angleDegrees), glm::vec3(x, y, z));
 }
 
-void Transformable::rotate(GLfloat angleDegrees, glm::vec3 origin) {
+void engine::Transformable::rotate(GLfloat angleDegrees, glm::vec3 origin) {
     rotationFactor += glm::vec3(angleDegrees * origin);
     model = glm::rotate(model, glm::radians(angleDegrees), origin);
 }
 
-void Transformable::setScale(GLfloat x, GLfloat y, GLfloat z) {
+void engine::Transformable::setScale(GLfloat x, GLfloat y, GLfloat z) {
     scaleFactor = { scaleFactor.x + x, scaleFactor.y + y, scaleFactor.z + z };
     scaleMatrix = glm::scale({ 1.0f }, glm::vec3(x, y, z));
     transform();
 }
 
-void Transformable::setScale(glm::vec3 scale) {
+void engine::Transformable::setScale(glm::vec3 scale) {
     scaleFactor *= scale;
     scaleMatrix = glm::scale({ 1.0f }, scale);
     transform();
 }
 
-void Transformable::scale(GLfloat x, GLfloat y, GLfloat z) {
+void engine::Transformable::scale(GLfloat x, GLfloat y, GLfloat z) {
     scaleFactor += glm::vec3(x, y, z);
     model = glm::scale(model, glm::vec3(x, y, z));
 }
 
-void Transformable::scale(glm::vec3 scale) {
+void engine::Transformable::scale(glm::vec3 scale) {
     scaleFactor += scale;
     model = glm::scale({ 1.0f }, scale);
 }
 
-void Transformable::setModelMatrix(glm::mat4 model) {
+void engine::Transformable::setModelMatrix(glm::mat4 model) {
     this->model = model;
 }
 
-void Transformable::transform() {
+void engine::Transformable::transform() {
     model = positionMatrix * scaleMatrix * rotationMatrix;
 }

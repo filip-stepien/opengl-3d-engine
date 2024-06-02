@@ -1,138 +1,138 @@
 #include "Engine.hpp"
 
-Engine::Engine() {
+engine::Engine::Engine() {
     soundPlayer = createIrrKlangDevice();
 }
 
-Engine::~Engine() {
+engine::Engine::~Engine() {
 	glfwDestroyWindow(window);
 	glfwTerminate();
     gltTerminate();
     soundPlayer->drop();
 }
 
-Engine& Engine::get() {
+engine::Engine& engine::Engine::get() {
 	static Engine engine;
 	return engine;
 }
 
-Engine& Engine::setWindowMaximized(bool maximized) {
+engine::Engine& engine::Engine::setWindowMaximized(bool maximized) {
 	this->maximized = maximized;
 	return *this;
 }
 
-Engine& Engine::setWindowFullscreen(bool fullscreen) {
+engine::Engine& engine::Engine::setWindowFullscreen(bool fullscreen) {
 	this->fullscreen = fullscreen;
 	return *this;
 }
 
-Engine& Engine::setWindowDimensions(int width, int height) {
+engine::Engine& engine::Engine::setWindowDimensions(int width, int height) {
 	windowWidth = width;
 	windowHeight = height;
 	return *this;
 }
 
-Engine& Engine::setWindowTitle(const char* title) {
+engine::Engine& engine::Engine::setWindowTitle(const char* title) {
 	windowTitle = title;
 	return *this;
 }
 
-Engine& Engine::setWindowMode(WindowMode mode) {
+engine::Engine& engine::Engine::setWindowMode(WindowMode mode) {
 	windowMode = mode;
 	return *this;
 }
 
-Engine& Engine::setApp(App* app) {
+engine::Engine& engine::Engine::setApp(App* app) {
 	this->app = app;
 	return *this;
 }
 
-Engine& Engine::setCamera(Camera* camera) {
+engine::Engine& engine::Engine::setCamera(Camera* camera) {
 	this->camera = camera;
 	return *this;
 }
 
-Engine& Engine::setMouseCapture(bool mouseCapture) {
+engine::Engine& engine::Engine::setMouseCapture(bool mouseCapture) {
 	this->mouseCapture = mouseCapture;
 	return *this;
 }
 
-float Engine::getAspectRatio() {
+float engine::Engine::getAspectRatio() {
 	return static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
 }
 
-GLuint Engine::getWindowWidth() {
+GLuint engine::Engine::getWindowWidth() {
 	return windowWidth;
 }
 
-GLuint Engine::getWindowHeight() {
+GLuint engine::Engine::getWindowHeight() {
 	return windowHeight;
 }
 
-const char* Engine::getWindowTitle() {
+const char* engine::Engine::getWindowTitle() {
 	return windowTitle;
 }
 
-Engine::WindowMode Engine::getWindowMode() {
+engine::Engine::WindowMode engine::Engine::getWindowMode() {
 	return windowMode;
 }
 
-GLFWwindow* Engine::getWindow() {
+GLFWwindow* engine::Engine::getWindow() {
 	return window;
 }
 
-App* Engine::getApp() {
+engine::App* engine::Engine::getApp() {
 	return app;
 }
 
-Camera* Engine::getCamera() {
+engine::Camera* engine::Engine::getCamera() {
 	return camera;
 }
 
-ISoundEngine* Engine::getSoundPlayer() {
+engine::ISoundEngine* engine::Engine::getSoundPlayer() {
     return soundPlayer;
 }
 
-GLdouble Engine::getDeltaTime() {
+GLdouble engine::Engine::getDeltaTime() {
 	return deltaTime;
 }
 
-unsigned long long Engine::getFramesCount() {
+unsigned long long engine::Engine::getFramesCount() {
     return framesCount;
 }
 
-void Engine::resetFramesCount() {
+void engine::Engine::resetFramesCount() {
     framesCount = 0;
 }
 
-void Engine::watchPixel(GLuint x, GLuint y) {
+void engine::Engine::watchPixel(GLuint x, GLuint y) {
     pixelX = x;
     pixelY = y;
 }
 
-PixelInfo Engine::getPixelInfo() {
+engine::PixelInfo engine::Engine::getPixelInfo() {
     return pixelInfo;
 }
 
-void Engine::addLight(Light* light) {
+void engine::Engine::addLight(Light* light) {
 	lights.push_back(light);
 }
 
-void Engine::addMesh(Mesh *mesh) {
+void engine::Engine::addMesh(Mesh *mesh) {
     meshes.push_back(mesh);
 }
 
-void Engine::addText(Text2D *text) {
+void engine::Engine::addText(Text2D *text) {
     texts.push_back(text);
 }
 
-void Engine::onResize(GLFWwindow* window, int width, int height) {
+void engine::Engine::onResize(GLFWwindow* window, int width, int height) {
 	windowWidth = width;
 	windowHeight = height;
 	glViewport(0, 0, windowWidth, windowHeight);
 }
 
-void Engine::setWindowHints() {
+void engine::Engine::setWindowHints() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -142,20 +142,20 @@ void Engine::setWindowHints() {
 	#endif
 }
 
-void Engine::initGlfw() {
+void engine::Engine::initGlfw() {
 	if (!glfwInit()) {
 		std::cout << "Failed to init GLFW." << std::endl;
 	}
 }
 
-void Engine::initGlad() {
+void engine::Engine::initGlad() {
 	if (!gladLoadGL()) {
 		std::cout << "Failed to create OpenGL context." << std::endl;
 		glfwTerminate();
 	}
 }
 
-void Engine::initGlText() {
+void engine::Engine::initGlText() {
     gltInit();
 
     for (auto& text : texts) {
@@ -163,7 +163,7 @@ void Engine::initGlText() {
     }
 };
 
-void Engine::checkAppState() {
+void engine::Engine::checkAppState() {
 	if (app == nullptr) {
 		std::cout << "APP ERROR" << std::endl;
 		std::cout << "App class is not defined." << std::endl;
@@ -171,7 +171,7 @@ void Engine::checkAppState() {
 	}
 }
 
-void Engine::createWindow() {
+void engine::Engine::createWindow() {
 	setWindowHints();
 
 	if (fullscreen) {
@@ -200,12 +200,12 @@ void Engine::createWindow() {
 	glfwMakeContextCurrent(window);
 }
 
-void Engine::setViewport() {
+void engine::Engine::setViewport() {
 	glViewport(0, 0, windowWidth, windowHeight);
 	glfwSetFramebufferSizeCallback(window, cb::onResize);
 }
 
-void Engine::setupGl() {
+void engine::Engine::setupGl() {
 	glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
@@ -215,30 +215,30 @@ void Engine::setupGl() {
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-bool Engine::isRunning() {
+bool engine::Engine::isRunning() {
 	return !glfwWindowShouldClose(window);
 }
 
-void Engine::close() {
+void engine::Engine::close() {
 	glfwSetWindowShouldClose(window, true);
 }
 
-void Engine::clearWindow(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
+void engine::Engine::clearWindow(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 	glClearColor(r, g, b, a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Engine::clearBuffer() {
+void engine::Engine::clearBuffer() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Engine::updateDeltaTime() {
+void engine::Engine::updateDeltaTime() {
 	currentFrame = glfwGetTime();
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 }
 
-void Engine::updatePixelInfo(FrameBuffer& fbo, Shader& shader) {
+void engine::Engine::updatePixelInfo(FrameBuffer& fbo, Shader& shader) {
     fbo.enableWriting();
     clearBuffer();
 
@@ -252,7 +252,7 @@ void Engine::updatePixelInfo(FrameBuffer& fbo, Shader& shader) {
     pixelInfo = fbo.readPixel(pixelX, pixelY);
 }
 
-void Engine::handleKeyAction(int key, int action) {
+void engine::Engine::handleKeyAction(int key, int action) {
 	Handler& clickHandler = keyClickHandlers[key];
 	Handler& releaseHandler = keyReleaseHandlers[key];
 
@@ -264,7 +264,7 @@ void Engine::handleKeyAction(int key, int action) {
 	}
 }
 
-void Engine::handleButtonAction(int button, int action) {
+void engine::Engine::handleButtonAction(int button, int action) {
 	Handler& clickHandler = mouseClickHandlers[button];
 	Handler& releaseHandler = mouseReleaseHandlers[button];
 
@@ -276,19 +276,19 @@ void Engine::handleButtonAction(int button, int action) {
 	}
 }
 
-void Engine::handleMouseMove() {
+void engine::Engine::handleMouseMove() {
 	if (mouseMoveHandler != nullptr) {
 		std::invoke(mouseMoveHandler, app);
 	}
 }
 
-void Engine::setCallbacks() {
+void engine::Engine::setCallbacks() {
 	glfwSetKeyCallback(window, cb::onKeyAction);
 	glfwSetMouseButtonCallback(window, cb::onButtonAction);
 	glfwSetCursorPosCallback(window, cb::onMouseMove);
 }
 
-void Engine::initEngineObjects() {
+void engine::Engine::initEngineObjects() {
     camera->initialize();
     app->setup();
 
@@ -302,7 +302,7 @@ void Engine::initEngineObjects() {
     }
 }
 
-void Engine::updateEngineObjects(Shader& shader) {
+void engine::Engine::updateEngineObjects(Shader& shader) {
     for (int i = 0; i < lights.size(); i++) {
         lights[i]->update(shader, i);
     }
@@ -311,7 +311,7 @@ void Engine::updateEngineObjects(Shader& shader) {
     app->loop();
 }
 
-void Engine::drawEngineObjects(Shader &shader) {
+void engine::Engine::drawEngineObjects(Shader &shader) {
     for (Mesh* mesh : meshes) {
         if (mesh->isOnForeground())
             glClear(GL_DEPTH_BUFFER_BIT);
@@ -320,7 +320,7 @@ void Engine::drawEngineObjects(Shader &shader) {
     }
 }
 
-void Engine::drawText() {
+void engine::Engine::drawText() {
     for (auto text : texts) {
         if (!text->isVisible())
             continue;
@@ -344,13 +344,13 @@ void Engine::drawText() {
     }
 }
 
-void Engine::endFrame() {
+void engine::Engine::endFrame() {
     glfwSwapBuffers(window);
     glfwPollEvents();
     framesCount++;
 }
 
-bool Engine::build() {
+bool engine::Engine::build() {
 	initGlfw();
 	createWindow();
 	initGlad();

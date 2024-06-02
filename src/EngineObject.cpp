@@ -1,14 +1,14 @@
 #include "EngineObject.hpp"
 
-EngineObject::EngineObject() {
+engine::EngineObject::EngineObject() {
 	uid = getIDCounter()++;
 }
 
-unsigned int& EngineObject::getIDCounter() {
+unsigned int& engine::EngineObject::getIDCounter() {
 	static unsigned int counter = 0;
 	return counter;
 }
 
-unsigned int EngineObject::getID() {
+unsigned int engine::EngineObject::getID() {
 	return uid;
 }
