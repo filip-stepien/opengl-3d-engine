@@ -2,23 +2,6 @@ cmake_minimum_required(VERSION 3.12)
 project(opengl-3d-engine)
 set(CMAKE_CXX_STANDARD 20)
 
-find_package(Doxygen)
-
-if(DOXYGEN_FOUND)
-    set(DOXYFILE_IN ${CMAKE_SOURCE_DIR}/docs/Doxyfile)
-    set(DOXYFILE_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
-
-    configure_file(${DOXYFILE_IN} ${DOXYFILE_OUT} @ONLY)
-
-    add_custom_target(doc_doxygen ALL
-        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE_OUT}
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        COMMENT "Generating API documentation with Doxygen"
-        VERBATIM)
-else(DOXYGEN_FOUND)
-    message(STATUS "Doxygen not found, not building docs")
-endif(DOXYGEN_FOUND)
-
 include(FetchContent)
 
 FetchContent_Declare(
@@ -140,4 +123,21 @@ target_include_directories(opengl-3d-engine PRIVATE
     ${CMAKE_SOURCE_DIR}/demo/include
 )
 
-add_dependencies(opengl-3d-engine doc_doxygen)
+find_package(Doxygen)
+
+if(DOXYGEN_FOUND)
+    set(DOXYFILE_IN ${CMAKE_SOURCE_DIR}/docs/Doxyfile)
+    set(DOXYFILE_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+    configure_file(${DOXYFILE_IN} ${DOXYFILE_OUT} @ONLY)
+
+    add_custom_target(doc_doxygen ALL
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE_OUT}
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM)
+
+    add_dependencies(opengl-3d-engine doc_doxygen)
+else(DOXYGEN_FOUND)
+    message(STATUS "Doxygen not found, not building docs")
+endif(DOXYGEN_FOUND)
